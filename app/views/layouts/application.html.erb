@@ -15,7 +15,7 @@
 	<!-- RENDER BODY -->
 	<div class="container">	
 		<% flash.each do |name,msg| %>
-			<%= content_tag(:div, msg, class: "alert alert-info") %>
+			<%= content_tag(:div, msg, class: "alert alert-#{name}") %>
 			<button type="button" class="close" data-dismiss="alert" style="margin: -57px 20px 0 0;">
 				<span aria-hidden="true">&times;</span>
 				<span class="sr-only">Close</span>
