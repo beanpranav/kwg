@@ -1,29 +1,82 @@
-<h2>Edit <%= resource_name.to_s.humanize %></h2>
+<div class="col-xs-12 col-sm-8 col-sm-offset-2">
+  
+  <div class="secondary-nav secondary-nav-invert">
+    
+    <h2 class="font-invert pull-right"><b><%= current_user.games.count %></b></h2>
 
-<%= form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :method => :put }) do |f| %>
-  <%= devise_error_messages! %>
+    <h2 class="font-invert"><b>Profile Settings</b></h2>
+    <h3 class="font-invert"><%= current_user.first_name %>'s Profile</h3>
+  </div>
+  
+  <div class="content-container">
+    
+    <div class="panel-primary">
+      <div class="panel-title">
+       Edit My Profile
+      </div>
+    </div>
 
-  <div><%= f.label :email %><br />
-  <%= f.email_field :email, :autofocus => true %></div>
+    <div class="panel-body form-container">
 
-  <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
-    <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
-  <% end %>
+      <%= form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :method => :put }) do |f| %>
+        <%= devise_error_messages! %>
 
-  <div><%= f.label :password %> <i>(leave blank if you don't want to change it)</i><br />
-  <%= f.password_field :password, :autocomplete => "off" %></div>
+        <div class="row">
+          <div class="col-xs-12 col-sm-3">
+            <div class="form-label">Name</div>
+            <div class="form-label">Email</div>
+            <div class="form-label">Role</div>
+            <div class="form-label">New Password</div>
+            <br>
+            <div class="form-label">Current Password</div>
+          </div>
+          <div class="col-xs-12 col-sm-9">
+            <%= f.text_field :name, placeholder: "full name", class: "form-control" %> 
+            <%= f.email_field :email, placeholder: "email", disabled: "disabled", class: "form-control" %> 
+            
+            <% if current_user.name == "Pranav Gupta" %>
+              <%= f.text_field :user_type, placeholder: "role", class: "form-control" %>  
+            <% else %>
+              <%= f.text_field :user_type, placeholder: "role", disabled: "disabled", class: "form-control" %>  
+            <% end %>
 
-  <div><%= f.label :password_confirmation %><br />
-  <%= f.password_field :password_confirmation %></div>
+            <%= f.password_field :password, placeholder: "leave blank if you don't want to change it", :autocomplete => "off", class: "form-control" %>  
+            <br>
+            <%= f.password_field :current_password, placeholder: "* we need this to confirm your changes", class: "form-control" %>  
+            
+            <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+              <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
+            <% end %>
 
-  <div><%= f.label :current_password %> <i>(we need your current password to confirm your changes)</i><br />
-  <%= f.password_field :current_password %></div>
+            <%= f.submit "SAVE CHANGES", class: "btn btn-block btn-green" %> 
+          </div>
+        </div>
 
-  <div><%= f.submit "Update" %></div>
-<% end %>
+      <% end %>
+    </div>
+  </div>
 
-<h3>Cancel my account</h3>
+  <div class="content-container">
+    
+    <div class="panel-primary">
+      <div class="panel-title">
+       Delete My Profile
+      </div>
+    </div>
 
-<p>Unhappy? <%= button_to "Cancel my account", registration_path(resource_name), :data => { :confirm => "Are you sure?" }, :method => :delete %></p>
+    <div class="panel-body form-container">
 
-<%= link_to "Back", :back %>
+      <div class="row">
+        <div class="col-xs-12 col-sm-3">
+          <div class="form-label">Unhappy?</div>
+        </div>
+        <div class="col-xs-12 col-sm-9">
+          <%= link_to "DELETE MY PROFILE", registration_path(resource_name), :data => { :confirm => "Are you sure? All your progress will be lost. And this step cannot be reversed." }, :method => :delete, class: "btn btn-block btn-red" %>
+          <p class="form-radio"><em>* I understand that this step cannot be reversed and all my progress will be lost.</em></p>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</div>

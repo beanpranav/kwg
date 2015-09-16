@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  player_id: 1
+  salary_generated: 1
+  skill_points_generated: 
+
+two:
+  player_id: 1
+  salary_generated: 1
+  skill_points_generated: 

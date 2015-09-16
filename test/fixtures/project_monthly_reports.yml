@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  project_id: 1
+  profit_generated: 
+  stats_generated: 
+  rd_generated: 
+  users_generated: 1
+
+two:
+  project_id: 1
+  profit_generated: 
+  stats_generated: 
+  rd_generated: 
+  users_generated: 1

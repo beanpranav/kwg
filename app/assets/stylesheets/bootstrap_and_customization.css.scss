@@ -1,10 +1,10 @@
 @import url(https://fonts.googleapis.com/css?family=Open+Sans:400,700,300);
 
 $font-family-sans-serif: 			'Open Sans', Helvetica, sans-serif;
-$body-bg:											#f5f5f5;
+$body-bg:											rgba(0,0,0,0);
 $body-border:									#ccc;
 $secondary-bg:								#fafafa;
-$brand-primary: 							rgba(0,0,0,0.8); //black
+$brand-primary: 							rgba(0,0,0,0.8); //black //#614126;
 $brand-font:									rgba(0,0,0,0.8); //#333333;
 $brand-font-gray:							rgba(0,0,0,0.4); //#999999;
 $brand-green:									#62CB43;
@@ -16,9 +16,9 @@ $navbar-default-brand-color: 	rgba(0,0,0,0.8); //black
 
 @import 'bootstrap';
 
-// html {
-// 	background-image: url("/images/study-pattern.jpg");
-// }
+html {
+	background-image: url("/images/gplaypattern.png");
+}
 
 h1 {
 	font-size: 29px;
@@ -43,3 +43,123 @@ h3 {
 }
 
 p { line-height: 1.65; font-weight: normal; }
+
+.font-primary { color: $brand-font!important; font-weight: lighter; }
+.font-invert { color: white!important; font-weight: lighter; }
+.font-green { color: $brand-green; font-weight: lighter; }
+.font-orange { color: $brand-orange; font-weight: lighter; }
+.font-red { color: $brand-red; font-weight: lighter; }
+
+.center { text-align: center; }
+.left { text-align: left; }
+.supress-a { color: $brand-font; text-decoration: none; }
+.supress-a:hover, .supress-a:focus { color: $brand-font; text-decoration: none; }
+.one-line-cell { white-space: nowrap; }
+.unrow { margin: 0; }
+
+
+
+.content-container {
+	min-height: 74px;
+	margin: 0 0 10px 0;
+	padding: 2px;
+	background-color: $navbar-default-bg;
+	border: 1px solid $body-border;
+	box-shadow: 0 2px 15px $body-border;
+}
+.secondary-nav {
+	min-height: 74px;
+	margin: 0 0 10px 0;
+	padding: 10px 20px;
+	background-color: $navbar-default-bg;
+	border: 1px solid $body-border;
+	box-shadow: 0 2px 15px $body-border;
+}
+.secondary-nav-button:hover { 
+	outline: 2px solid white; 
+	outline-offset: -3px; 
+	border: 0;
+	box-shadow: 0 5px 30px $body-border;
+}
+.secondary-nav-icon { padding: 12px 5px 12px 0px; min-width: 20px; }
+.secondary-nav-invert { 
+	background-color: $brand-primary; 
+	outline: 2px solid white; 
+	outline-offset: -3px; 
+	border: 1px solid $body-border;
+	padding: 10px; 
+}
+.secondary-nav-actions { margin: -41px 10px; }
+
+
+
+// Gameplay Display
+.panel-group { margin-bottom: 0; }
+.panel-group .panel + .panel { margin-top: 2px; }
+.panel {
+	border: 0;
+	box-shadow: none;
+}
+.panel-group .panel { border-radius: 0; }
+// .panel-default > .panel-heading { border-radius: 0; border-color: $navbar-default-bg; background-color: transparent; }
+.panel-secondary, .panel-primary, .panel-green, .panel-orange, .panel-red { padding: 10px 15px; }
+.panel-secondary { background-color: $brand-font-gray; }
+.panel-primary { background-color: $brand-primary;}
+.panel-green { background-color: $brand-green; }
+.panel-orange { background-color: $brand-orange; }
+.panel-red { background-color: $brand-red; }
+.panel-title { 
+	font-size: 14px;
+	font-weight: bold;
+	color: white;
+}
+.panel-right { float: right; font-weight: normal; }
+
+.btn { 
+	padding: 5px 12px; 
+	border-radius: 0;
+	font-weight: bold; 
+	background-color: white;
+}
+.btn-primary { color: $brand-primary; border: 2px solid $brand-primary; }
+.btn-primary:hover, .btn-primary:focus { background-color: $brand-primary; color: white; border: 2px solid $brand-primary; }
+.btn-green { color: $brand-green; border: 2px solid $brand-green; }
+.btn-green:hover, .btn-green:focus, .btn-green.active { background-color: $brand-green; color: white; color: white; box-shadow: none; }
+.btn-orange { color: $brand-orange; border: 2px solid $brand-orange; }
+.btn-orange:hover, .btn-orange:focus, .btn-orange.active { background-color: $brand-orange; color: white; box-shadow: none; }
+.btn-red { color: $brand-red; border: 2px solid $brand-red; }
+.btn-red:hover, .btn-red:focus, .btn-red.active { background-color: $brand-red; color: white; box-shadow: none; }
+.btn-disabled { color: $body-border; border: 2px solid $body-bg; }
+.btn-secondary { color: white; background-color: $brand-font-gray; }
+.btn-secondary:hover, .btn-secondary:focus, .btn-secondary.active { background-color: $brand-primary; color: white; }
+
+.btn-sm { padding: 4px 9px; }
+
+
+
+// FORMS
+.form-container {	padding: 30px 40px; }
+.form-label { text-align: right;  padding: 10px 0 4px; margin-bottom: 10px; }
+.form-radio { text-align: left; padding: 7px 0 3px; margin-bottom: 10px;  }
+.form-remove-icon { margin: 13px 5px; color: $brand-font-gray; }
+.form-remove-icon:hover { color: $brand-red; }
+.form-control { 
+	border-radius: 0px; 
+	border: 0; 
+	box-shadow: inset 0px 0px 50px $body-border;
+	text-align: left;
+	margin-bottom: 10px; 
+}
+.form-control:focus { box-shadow: inset 0px 0px 2px $body-border; }
+.form-control-label {	background-color: $body-border; margin-bottom: 10px; }
+
+select { 
+	width: 100%;
+	border-radius: 0px; 
+	border: 0; 
+	height: 34px;
+	box-shadow: inset 0px 0px 50px $body-border;
+	background-color: white;
+	color: $brand-primary;
+}
+select:focus { box-shadow: inset 0px 0px 2px $body-border; outline: 0; }

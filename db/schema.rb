@@ -11,7 +11,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150911005003) do
+ActiveRecord::Schema.define(version: 20150916183026) do
+
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
 
   create_table "games", force: true do |t|
     t.integer  "user_id"
@@ -23,12 +26,73 @@ ActiveRecord::Schema.define(version: 20150911005003) do
     t.datetime "updated_at"
   end
 
+  create_table "player_monthly_reports", force: true do |t|
+    t.integer  "player_id"
+    t.integer  "salary_generated"
+    t.integer  "skill_points_generated", array: true
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "players", force: true do |t|
     t.integer  "user_id"
     t.integer  "game_id"
     t.integer  "salary_total"
-    t.integer  "skill_level",        default: 0
-    t.integer  "skill_total_points", default: 0
+    t.integer  "skill_level",        array: true
+    t.integer  "skill_total_points", array: true
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "project_goals", force: true do |t|
+    t.integer  "project_id"
+    t.integer  "player_id"
+    t.string   "goal_statement"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "project_monthly_reports", force: true do |t|
+    t.integer  "project_id"
+    t.integer  "profit_generated", array: true
+    t.integer  "stats_generated",  array: true
+    t.integer  "rd_generated",     array: true
+    t.integer  "users_generated"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "projects", force: true do |t|
+    t.integer  "team_id"
+    t.integer  "game_id"
+    t.integer  "stats_total",      array: true
+    t.integer  "rnd_stage",        array: true
+    t.integer  "rnd_total_points", array: true
+    t.integer  "profit_total",     array: true
+    t.integer  "users_total"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "team_memberships", force: true do |t|
+    t.integer  "team_id"
+    t.integer  "player_id"
+    t.integer  "member_no"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "team_strategies", force: true do |t|
+    t.integer  "team_id"
+    t.integer  "player_id"
+    t.string   "strategy_statement"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "teams", force: true do |t|
+    t.string   "team_name"
+    t.integer  "game_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -51,7 +115,16 @@ ActiveRecord::Schema.define(version: 20150911005003) do
     t.datetime "updated_at"
   end
 
-  add_index "users", ["email"], name: "index_users_on_email", unique: true
-  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+  add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
+  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
+
+  create_table "work_schedules", force: true do |t|
+    t.integer  "player_monthly_report_id"
+    t.integer  "project_monthly_report_id"
+    t.integer  "rank"
+    t.string   "skill_use"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
 end

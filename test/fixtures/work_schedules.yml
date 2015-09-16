@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  player_monthly_report_id: 1
+  project_monthly_report_id: 1
+  rank: 1
+  skill_use: MyString
+
+two:
+  player_monthly_report_id: 1
+  project_monthly_report_id: 1
+  rank: 1
+  skill_use: MyString
