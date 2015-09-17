@@ -10,6 +10,7 @@ $brand-font-gray:							rgba(0,0,0,0.4); //#999999;
 $brand-green:									#62CB43;
 $brand-orange:								#F8BC32;
 $brand-red:										#EE5C55;
+$brand-blue:									#3369e8;
 $navbar-height:								55px;
 $navbar-default-bg: 					white;
 $navbar-default-brand-color: 	rgba(0,0,0,0.8); //black
@@ -43,6 +44,9 @@ h3 {
 }
 
 p { line-height: 1.65; font-weight: normal; }
+
+// Formatting
+a, a:hover { color: $brand-blue; }
 
 .font-primary { color: $brand-font!important; font-weight: lighter; }
 .font-invert { color: white!important; font-weight: lighter; }
@@ -90,6 +94,99 @@ p { line-height: 1.65; font-weight: normal; }
 	padding: 10px; 
 }
 .secondary-nav-actions { margin: -41px 10px; }
+
+
+.content-list { list-style-type: none; padding-left: 0; border-bottom: 1px solid $body-border; }
+.content-list-item { padding: 10px; border-top: 1px solid $body-border; }
+.content-list-item:hover { background-color: $body-bg; cursor: pointer; }
+.content-list-item-lock {
+	padding: 10px;
+	border-top: 1px solid darken($body-border,7%);
+	opacity: 0.5;
+	cursor: default;
+}
+.content-list-icon-default, .content-list-icon-primary, .content-list-icon-green, .content-list-icon-orange, .content-list-icon-red, .content-list-icon-lock, .content-list-icon-invert, .content-list-icon-back { 
+	width: 52px; 
+	height:52px; 
+	margin-right: 15px!important; 
+	text-align: center; 
+	color: white; 
+	line-height: 1.85em!important;
+}
+.content-list-icon-default { background-color: $body-border; }
+.content-list-icon-primary { background-color: $brand-primary; color: $brand-orange; outline: 2px solid $brand-orange; outline-offset: -2px; }
+.content-list-icon-green { background-color: $brand-green; }
+.content-list-icon-orange { background-color: $brand-orange; }
+.content-list-icon-red { background-color: $brand-red; }
+.content-list-icon-lock { background-color: $body-bg; color: $brand-primary; }
+.content-list-icon-invert { background-color: transparent; color: white; outline: 2px solid white; outline-offset: -2px; }
+.content-list-icon-back { background-color: transparent; color: white; }
+
+.report-card-icon { margin-top: -10px; }
+.report-card-icon-item { width: 75px; margin: 0 5px; text-align: center; }
+
+// Chapter Display
+.panel-group { margin-bottom: 0; }
+.panel-group .panel + .panel { margin-top: 2px; }
+.panel {
+	border: 0;
+	box-shadow: none;
+}
+.panel-group .panel { border-radius: 0; }
+// .panel-default > .panel-heading { border-radius: 0; border-color: $navbar-default-bg; background-color: transparent; }
+.panel-secondary, .panel-primary, .panel-green, .panel-orange, .panel-red { padding: 10px 15px; }
+.panel-secondary { background-color: $brand-font-gray; }
+.panel-primary { background-color: $brand-primary;}
+.panel-green { background-color: $brand-green; }
+.panel-orange { background-color: $brand-orange; }
+.panel-red { background-color: $brand-red; }
+.panel-title { 
+	font-size: 14px;
+	font-weight: bold;
+	color: white;
+}
+.panel-right { float: right; font-weight: normal; }
+
+.panel-chapter {
+	border-top: 1px solid $body-border;
+	padding: 10px;
+	// margin: 0 10px;
+}
+
+
+// game Display
+
+.game-card {
+	min-height: 150px;
+	margin: 0 0px 0px 0;
+	padding: 20px;
+	background-color: $navbar-default-bg;
+	border: 1px solid $body-border;
+	opacity: 0.8;
+	text-align: center;
+}
+.game-card:hover {
+	outline: 3px solid white; 
+	outline-offset: -2px; 
+	background-color: white;
+	// border: 0;
+	box-shadow: 0 5px 30px $body-border;
+	opacity: 1;
+	filter: grayscale(0);
+  -webkit-filter: grayscale(0);
+}
+.game-card-locked { opacity: 0.5; }
+.game-card-locked:hover {
+	background-color: white;
+	border: 0px;
+}
+.game-icon {
+	font-size: 40px;
+	font-weight: bold;
+	opacity: 0.3;
+	color: $brand-font-gray;
+}
+
 
 
 
