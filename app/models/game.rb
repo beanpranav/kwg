@@ -1,7 +1,6 @@
 class Game < ActiveRecord::Base
 	validates_presence_of :user_id, :game_type, :game_length, :game_status, :access_treatement
 
-	belongs_to :user
 	has_many :players
 	has_many :users, through: :players
 

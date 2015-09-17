@@ -1,2 +1,14 @@
-<h1>Pages#home</h1>
-<p>Find me in app/views/pages/home.html.erb</p>
+
+<%if user_signed_in? %>
+	<% current_user.games.each do |g| %>
+		game ID: <%= g.game_length %><br>
+	<% end %>
+	Game Players: <%= current_user.games.last.players.count %><br>
+	Admin: <% current_user.players.each do |g| %>
+		P ID: <%= g.id %><br>
+	<% end %>
+	admin games: <%= current_user.games.count %><br>
+	..........<br>
+	<% @rg = Game.where(user_id: current_user.id) %>
+	<%= @rg.count %>
+<% end %>
