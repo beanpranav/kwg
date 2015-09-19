@@ -6,13 +6,13 @@
 			<div class="secondary-nav secondary-nav-invert">
 				<i class="fa fa-2x fa-rocket content-list-icon-primary pull-left"></i>
 				<h2 class="font-invert"><b>Hi <%= current_user.first_name %>!</b></h2>
-				<h3 class="font-invert">You have a researcher account.</h3>
+				<h3 class="font-invert">As a researcher you have hosted <%= pluralize( @games_created.count, 'game' ) %>.</h3>
 			</div>
-	
+
 			<div class="content-container">
 				<div class="panel-primary">
 	  		  <div class="panel-title">
-	  			  Hosted: &nbsp;&nbsp;<%= pluralize( @games_created.count, 'Game' ) %>
+	  			  Current: <%= pluralize( @games_in_progress.count, 'Game' ) %>
 	  		  </div>
 	  		</div>
 
@@ -21,26 +21,24 @@
 	  			<table class="table table-condensed table-hover">
 	  			  <thead>
 	  			    <tr>
-	  			      <th>Name</th>
-	  			      <th>Length</th>
-	  			      <th>Type</th>
-	  			      <th>Status</th>
-	  			      <th colspan="1">Treatment</th>
 	  			      <th>Created on</th>
+	  			      <th>Session Name</th>
+	  			      <th>Codename</th>
+	  			      <th>MTM Type</th>
+	  			      <th colspan="1">Condition</th>
 	  			      <th colspan="1"></th>
 	  			    </tr>
 	  			  </thead>
 
 	  			  <tbody>
-	  			    <% @games_created.sort_by(&:created_at).reverse.each.with_index do |game, i| %>
+	  			    <% @games_in_progress.sort_by(&:created_at).reverse.each.with_index do |game, i| %>
 	  			      <tr>
-	  			        <td class="one-line-cell"><%= game.id %></td>
-	  			        <td><%= game.game_length %></td>
-	  			        <td class="one-line-cell"><%= game.game_type %></td>
-	  			        <td><%= game.game_status %></td>
-	  			        <td><%= game.access_treatement %></td>
 	  			        <td><%= game.created_at.strftime("%b %d, %Y") %></td>
-	  			        <td><a href="<%= game_path(game) %>"><i class="fa fa-arrow-right"></a></td>
+	  			        <td class="one-line-cell"><%= game.session_name %></td>
+	  			        <td><%= game.game_codename %></td>
+	  			        <td><%= $GAME_TYPES_LOOKUP[game.game_type] %></td>
+	  			        <td><%= if game.access_treatement then "Treatment" else "Control" end %></td>
+	  			        <td class="center <%= if game.game_status > 0 then "panel-green" end %>"><a href="<%= game_path(game) %>"><i class="fa fa-arrow-right"></a></td>
 	  			      </tr>
 	  			    <% end %>
 	  			  </tbody>
@@ -51,6 +49,44 @@
 		          <button type="button" class="btn btn-block btn-green">+ ADD GAME</button>
 		        </div>
 					<% end %>
+
+	  		</div>
+			</div>
+
+			<div class="content-container">
+				<div class="panel-primary">
+	  		  <div class="panel-title">
+	  			  Completed: <%= pluralize( @games_completed.count, 'Game' ) %>
+	  		  </div>
+	  		</div>
+
+	  		<div class="panel-body">
+
+	  			<table class="table table-condensed table-hover">
+	  			  <thead>
+	  			    <tr>
+	  			      <th>Created on</th>
+	  			      <th>Session Name</th>
+	  			      <th>Codename</th>
+	  			      <th>MTM Type</th>
+	  			      <th colspan="1">Condition</th>
+	  			      <th colspan="1"></th>
+	  			    </tr>
+	  			  </thead>
+
+	  			  <tbody>
+	  			    <% @games_completed.sort_by(&:created_at).reverse.each.with_index do |game, i| %>
+	  			      <tr>
+	  			        <td><%= game.created_at.strftime("%b %d, %Y") %></td>
+	  			        <td class="one-line-cell"><%= game.session_name %></td>
+	  			        <td><%= game.game_codename %></td>
+	  			        <td><%= game.game_type %></td>
+	  			        <td><%= if game.access_treatement then "Treatment" else "Control" end %></td>
+	  			        <td><a href="<%= game_path(game) %>"><i class="fa fa-arrow-right"></a></td>
+	  			      </tr>
+	  			    <% end %>
+	  			  </tbody>
+	  			</table>
 
 	  		</div>
 			</div>

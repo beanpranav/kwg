@@ -60,6 +60,7 @@ a, a:hover { color: $brand-blue; }
 .supress-a:hover, .supress-a:focus { color: $brand-font; text-decoration: none; }
 .one-line-cell { white-space: nowrap; }
 .unrow { margin: 0; }
+.button-padding { padding-top: 25px;}
 
 
 
@@ -202,7 +203,7 @@ a, a:hover { color: $brand-blue; }
 .panel-secondary, .panel-primary, .panel-green, .panel-orange, .panel-red { padding: 10px 15px; }
 .panel-secondary { background-color: $brand-font-gray; }
 .panel-primary { background-color: $brand-primary;}
-.panel-green { background-color: $brand-green; }
+.panel-green { background-color: $brand-green!important; a {color:white!important;} }
 .panel-orange { background-color: $brand-orange; }
 .panel-red { background-color: $brand-red; }
 .panel-title { 
@@ -252,7 +253,8 @@ a, a:hover { color: $brand-blue; }
 
 select { 
 	width: 100%;
-	border-radius: 0px; 
+	border-radius: 0px!important;
+	margin-bottom: 10px; 
 	border: 0; 
 	height: 34px;
 	box-shadow: inset 0px 0px 50px $body-border;

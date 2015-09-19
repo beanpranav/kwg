@@ -3,7 +3,7 @@
 <table>
   <thead>
     <tr>
-      <th>User</th>
+      <th>Session</th>
       <th>Game type</th>
       <th>Game length</th>
       <th>Game status</th>
@@ -15,7 +15,7 @@
   <tbody>
     <% @games.each do |game| %>
       <tr>
-        <td><%= game.user_id %></td>
+        <td><%= game.session_name %></td>
         <td><%= game.game_type %></td>
         <td><%= game.game_length %></td>
         <td><%= game.game_status %></td>
@@ -30,4 +30,3 @@
 
 <br>
 
-<%= link_to 'New Game', new_game_path %>
