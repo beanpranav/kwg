@@ -34,7 +34,7 @@
         <% else %>
 
           <li><%= link_to "Login", new_user_session_path %></li>
-          <li><%= link_to "Sign up", new_user_registration_path %></li>
+          <li><%= link_to "<b>Sign up</b>".html_safe, new_user_registration_path %></li>
           
         <% end %>
 

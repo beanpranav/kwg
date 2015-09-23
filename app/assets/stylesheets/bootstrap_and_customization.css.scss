@@ -56,13 +56,21 @@ a, a:hover { color: $brand-blue; }
 
 .center { text-align: center; }
 .left { text-align: left; }
+.right { text-align: right; }
 .supress-a { color: $brand-font; text-decoration: none; }
 .supress-a:hover, .supress-a:focus { color: $brand-font; text-decoration: none; }
 .one-line-cell { white-space: nowrap; }
 .unrow { margin: 0; }
-.button-padding { padding-top: 25px;}
-
-
+.button-padding { padding-top: 20px;}
+.button-padding-sm { padding-top: 5px; }
+.h-primary, .h-secondary {
+	font-size: 20px;
+	font-weight: bold;
+	margin: 10px 0 5px;
+	text-align: center;
+}
+.h-primary {color:$brand-primary;} 
+.h-secondary {color:$brand-font-gray;}
 
 .content-container {
 	min-height: 74px;
@@ -86,7 +94,7 @@ a, a:hover { color: $brand-blue; }
 	border: 0;
 	box-shadow: 0 5px 30px $body-border;
 }
-.secondary-nav-icon { padding: 12px 5px 12px 0px; min-width: 20px; }
+.secondary-nav-icon { padding: 12px 10px 12px 0px; min-width: 20px; }
 .secondary-nav-invert { 
 	background-color: $brand-primary; 
 	outline: 2px solid white; 

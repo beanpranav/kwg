@@ -1,5 +1,5 @@
 class Player < ActiveRecord::Base
-	validates_presence_of :user_id, :game_id
+	validates_presence_of :user_id, :game_id, :member_no
 
 	belongs_to :user
 	belongs_to :game

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150919053756) do
+ActiveRecord::Schema.define(version: 20150923045531) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -44,6 +44,7 @@ ActiveRecord::Schema.define(version: 20150919053756) do
     t.integer  "skill_total_points", array: true
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "member_no"
   end
 
   create_table "project_goals", force: true do |t|
@@ -74,12 +75,12 @@ ActiveRecord::Schema.define(version: 20150919053756) do
     t.integer  "users_total"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "project_name"
   end
 
   create_table "team_memberships", force: true do |t|
     t.integer  "team_id"
     t.integer  "player_id"
-    t.integer  "member_no"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

@@ -1,7 +1,11 @@
 Rails.application.routes.draw do
   resources :players
 
-  resources :games
+  resources :games do
+    member do
+      post :assign_players
+    end
+  end
 
   devise_for :users, :path => '', :path_names => {:sign_in => 'login', :sign_out => 'logout', :sign_up => 'create_account'}
   root 'pages#home'

@@ -10,9 +10,6 @@ class ApplicationController < ActionController::Base
                           :csp => false
 
   before_filter :configure_permitted_parameters, if: :devise_controller?
-
-  helper_method
-
   
   protected
   

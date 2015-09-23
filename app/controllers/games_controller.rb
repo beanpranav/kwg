@@ -1,15 +1,21 @@
 class GamesController < ApplicationController
   before_action :set_game, only: [:show, :edit, :update, :destroy]
+  include GamesHelper
 
   def index
     @games = Game.all
   end
 
   def show
+    if @game.game_status == -1
+      @active_users = User.where(user_status: "active")
+    else
+      @player_project_totals = [0,0,0,0,0,0,0,0]
+    end
   end
 
   def new
-    @game = Game.new(user_id: params[:user_id], access_treatement: false, game_status: 0)
+    @game = Game.new(user_id: params[:user_id], access_treatement: false, game_status: -1)
   end
 
   def edit
@@ -43,6 +49,47 @@ class GamesController < ApplicationController
       format.html { redirect_to games_url, notice: 'Game was successfully destroyed.' }
       format.json { head :no_content }
     end
+  end
+
+  def assign_players
+    # create players
+    active_users = User.where(user_status: "active").order("RANDOM()").limit(params[:n])
+    active_users.each.with_index(1) do |user, index|
+      user.user_status = "playing"
+      user.save
+      p = Player.new(user_id: user.id, game_id: params[:game_id], member_no: index, salary_total: 0, skill_level: [0,0,0,0], skill_total_points: [0,0,0,0])
+      p.save
+    end
+    
+    # change game status
+    @game = Game.find_by(id: params[:game_id])
+    @game.game_status = 0
+    @game.save
+
+    # create teams
+    teams = generate_team_names($GAME_TYPES_LOOKUP[@game.game_type][:teams])
+    @players = Player.where(game_id: @game.id).pluck(:id, :member_no)
+
+    teams.each.with_index do |team, i|
+      @t = Team.new(game_id: @game.id, team_name: team)
+      @t.save
+
+      # create projects
+      $GAME_TYPES_LOOKUP[@game.game_type][:project_split][i].times do
+        pj = Project.new(team_id: @t.id, game_id: @game.id, project_name: generate_project_name, stats_total: [0,0,0], rnd_stage: [0,0,0], rnd_total_points: [0,0,0], profit_total: [0], users_total: 0)
+        pj.save
+      end
+
+      # assign membership
+      $GAME_TYPES_LOOKUP[@game.game_type][:membership_split][i].each do |member_no|
+        tm = TeamMembership.new(team_id: @t.id, player_id: @players.select{|p| p[1] == member_no}[0][0])
+        tm.save
+      end
+    end
+    
+    # return
+    flash[:notice] = "#{params[:n]} Players are successfully assigned to this game."
+    redirect_to request.referrer
   end
 
   private

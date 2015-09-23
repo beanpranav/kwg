@@ -34,7 +34,7 @@
         <%= label_tag(:access_treatement_false, "Control") %>
       </p>
       <%= f.hidden_field :game_status %>
-      <% if params[:game_status] == 0 || @game.game_status == 0 %>
+      <% if params[:game_status] == -1 || @game.game_status == -1 %>
         <%= f.text_field :game_status, value: "Not Started", disabled: "disabled", class: "form-control" %>
       <% else %>
         <%= f.text_field :game_status, value: "In Progress", disabled: "disabled", class: "form-control" %>

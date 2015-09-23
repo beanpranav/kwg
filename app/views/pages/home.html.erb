@@ -10,7 +10,7 @@
 			</div>
 
 			<div class="content-container">
-				<div class="panel-primary">
+				<div class="panel-secondary">
 	  		  <div class="panel-title">
 	  			  Current: <%= pluralize( @games_in_progress.count, 'Game' ) %>
 	  		  </div>
@@ -36,7 +36,7 @@
 	  			        <td><%= game.created_at.strftime("%b %d, %Y") %></td>
 	  			        <td class="one-line-cell"><%= game.session_name %></td>
 	  			        <td><%= game.game_codename %></td>
-	  			        <td><%= $GAME_TYPES_LOOKUP[game.game_type] %></td>
+	  			        <td><%= $GAME_TYPES_LOOKUP[game.game_type][:name] %></td>
 	  			        <td><%= if game.access_treatement then "Treatment" else "Control" end %></td>
 	  			        <td class="center <%= if game.game_status > 0 then "panel-green" end %>"><a href="<%= game_path(game) %>"><i class="fa fa-arrow-right"></a></td>
 	  			      </tr>
@@ -54,7 +54,7 @@
 			</div>
 
 			<div class="content-container">
-				<div class="panel-primary">
+				<div class="panel-secondary">
 	  		  <div class="panel-title">
 	  			  Completed: <%= pluralize( @games_completed.count, 'Game' ) %>
 	  		  </div>
