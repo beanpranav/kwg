@@ -38,7 +38,7 @@
 	  			        <td><%= game.game_codename %></td>
 	  			        <td><%= $GAME_TYPES_LOOKUP[game.game_type][:name] %></td>
 	  			        <td><%= if game.access_treatement then "Treatment" else "Control" end %></td>
-	  			        <td class="center <%= if game.game_status > 0 then "panel-green" end %>"><a href="<%= game_path(game) %>"><i class="fa fa-arrow-right"></a></td>
+	  			        <td class="center <%= if game.game_status > 0 then "panel-green" elsif game.game_status == 0 then "panel-orange" end %>"><a href="<%= game_path(game) %>"><i class="fa fa-arrow-right"></a></td>
 	  			      </tr>
 	  			    <% end %>
 	  			  </tbody>

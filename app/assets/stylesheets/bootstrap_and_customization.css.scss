@@ -134,35 +134,6 @@ a, a:hover { color: $brand-blue; }
 .report-card-icon { margin-top: -10px; }
 .report-card-icon-item { width: 75px; margin: 0 5px; text-align: center; }
 
-// Chapter Display
-.panel-group { margin-bottom: 0; }
-.panel-group .panel + .panel { margin-top: 2px; }
-.panel {
-	border: 0;
-	box-shadow: none;
-}
-.panel-group .panel { border-radius: 0; }
-// .panel-default > .panel-heading { border-radius: 0; border-color: $navbar-default-bg; background-color: transparent; }
-.panel-secondary, .panel-primary, .panel-green, .panel-orange, .panel-red { padding: 10px 15px; }
-.panel-secondary { background-color: $brand-font-gray; }
-.panel-primary { background-color: $brand-primary;}
-.panel-green { background-color: $brand-green; }
-.panel-orange { background-color: $brand-orange; }
-.panel-red { background-color: $brand-red; }
-.panel-title { 
-	font-size: 14px;
-	font-weight: bold;
-	color: white;
-}
-.panel-right { float: right; font-weight: normal; }
-
-.panel-chapter {
-	border-top: 1px solid $body-border;
-	padding: 10px;
-	// margin: 0 10px;
-}
-
-
 // game Display
 
 .game-card {
@@ -208,11 +179,11 @@ a, a:hover { color: $brand-blue; }
 }
 .panel-group .panel { border-radius: 0; }
 // .panel-default > .panel-heading { border-radius: 0; border-color: $navbar-default-bg; background-color: transparent; }
-.panel-secondary, .panel-primary, .panel-green, .panel-orange, .panel-red { padding: 10px 15px; }
+.panel-secondary, .panel-primary, .panel-green, .panel-orange, .panel-red { padding: 10px 15px; a {color:white!important;} }
 .panel-secondary { background-color: $brand-font-gray; }
 .panel-primary { background-color: $brand-primary;}
-.panel-green { background-color: $brand-green!important; a {color:white!important;} }
-.panel-orange { background-color: $brand-orange; }
+.panel-green { background-color: $brand-green!important; }
+.panel-orange { background-color: $brand-orange!important; }
 .panel-red { background-color: $brand-red; }
 .panel-title { 
 	font-size: 14px;

@@ -1,5 +1,5 @@
 class GamesController < ApplicationController
-  before_action :set_game, only: [:show, :edit, :update, :destroy]
+  before_action :set_game, only: [:show, :edit, :update, :destroy, :continue_game]
   include GamesHelper
 
   def index
@@ -89,6 +89,38 @@ class GamesController < ApplicationController
     
     # return
     flash[:notice] = "#{params[:n]} Players are successfully assigned to this game."
+    redirect_to request.referrer
+  end
+
+  def continue_game
+    # THIS MONTH ACTIONS
+    # Do caluclations for current month and update all reports
+    
+    # NEXT MONTH ACTIONS
+    # create each player's monthly reports
+    @game.players.pluck(:id).each do |player_id|
+      @pr = PlayerMonthlyReport.new(player_id: player_id, salary_generated: 0, skill_points_generated: [0,0,0,0])
+      @pr.save
+      
+      # create 8 work schedules for each report
+      8.times do |i|
+        ws = WorkSchedule.new(player_monthly_report_id: @pr.id, rank: i+1)
+        ws.save
+      end
+    end
+
+    # create each project's monthly report
+     @game.projects.pluck(:id).each do |project_id|
+      pjr = ProjectMonthlyReport.new(project_id: project_id, profit_generated: [0,0,0], stats_generated: [0,0,0], rd_generated: [0,0,0], users_generated: 0,)
+      pjr.save
+    end
+
+    # set game status to next month
+    @game.game_status += 1
+    @game.save
+
+    # return
+    flash[:notice] = "Calculations updated. Game progresses to Month #{@game.game_status}."
     redirect_to request.referrer
   end
 

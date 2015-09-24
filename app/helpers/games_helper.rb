@@ -45,7 +45,7 @@ module GamesHelper
   def colors
     [
       "White", "Blue", "Green", "Red", "Purple", "Black", "Crimson", 
-      "Ivory", "Orange", "Silver", "Pink", "Gray", "Yellow", "Silver"
+      "Ivory", "Orange", "Silver", "Pink", "Gray", "Yellow"
     ]
   end
   
