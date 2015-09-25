@@ -1,7 +1,11 @@
 Rails.application.routes.draw do
   
-  resources :players
-
+  resources :players do
+    member do
+      post :update_work_schedule
+    end
+  end
+  
   resources :games do
     member do
       post :assign_players

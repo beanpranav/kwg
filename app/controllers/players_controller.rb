@@ -6,6 +6,20 @@ class PlayersController < ApplicationController
   end
 
   def show
+    @current_month = @player.game.game_status
+    @current_quarter = (@current_month/3)+1
+
+    quarters_count = @player.game.game_length/3
+    @quarter_reports = Array.new(quarters_count){Array.new(3,0)}
+    reports = @player.player_monthly_reports.sort_by(&:month_no) 
+    quarters_count.times do |q|
+      3.times do |m|
+        if reports.detect {|r| r.month_no == q*3+m+1}
+          @quarter_reports[q][m] = reports.select {|r| r.month_no == q*3+m+1}
+        end
+      end
+    end
+
   end
 
   def new
@@ -42,6 +56,16 @@ class PlayersController < ApplicationController
     respond_to do |format|
       format.html { redirect_to players_url, notice: 'Player was successfully destroyed.' }
     end
+  end
+
+  def update_work_schedule
+    player_monthly_report = PlayerMonthlyReport.find(params[:monthly_report_id])
+    player_monthly_report.work_schedules.sort_by(&:rank).each.with_index do |work_item, i|
+      work_item.project_monthly_report_id = params[:project_monthly_report_ids][i]
+      work_item.skill_use = params[:skill_uses][i]
+      work_item.save
+    end 
+    redirect_to request.referrer
   end
 
   private

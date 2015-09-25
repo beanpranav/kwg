@@ -104,6 +104,14 @@ a, a:hover { color: $brand-blue; }
 }
 .secondary-nav-actions { margin: -41px 10px; }
 
+.work-container-form { 
+	width: 80%;
+	border: 2px solid $body-border;
+	margin: -2px auto 0;
+	padding: 3px 4px;
+}
+
+
 
 .content-list { list-style-type: none; padding-left: 0; border-bottom: 1px solid $body-border; }
 .content-list-item { padding: 10px; border-top: 1px solid $body-border; }
@@ -229,8 +237,8 @@ a, a:hover { color: $brand-blue; }
 }
 .form-control:focus { box-shadow: inset 0px 0px 2px $body-border; }
 .form-control-label {	background-color: $body-border; margin-bottom: 10px; }
-
-select { 
+.form-control-select {
+	select { 
 	width: 100%;
 	border-radius: 0px!important;
 	margin-bottom: 10px; 
@@ -238,6 +246,19 @@ select {
 	height: 34px;
 	box-shadow: inset 0px 0px 50px $body-border;
 	background-color: white;
+	color: $brand-primary;
+	}
+	select:focus { box-shadow: inset 0px 0px 2px $body-border; outline: 0; }
+}
+
+select { 
+	width: 100%;
+	border-radius: 0px!important;
+	margin: 1px 0; 
+	border: 0; 
+	// height: 34px;
+	box-shadow: inset 0px 0px 50px #eeeeee;
+	background-color: #eeeeee;
 	color: $brand-primary;
 }
 select:focus { box-shadow: inset 0px 0px 2px $body-border; outline: 0; }

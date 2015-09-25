@@ -97,22 +97,24 @@ class GamesController < ApplicationController
     # Do caluclations for current month and update all reports
     
     # NEXT MONTH ACTIONS
-    # create each player's monthly reports
-    @game.players.pluck(:id).each do |player_id|
-      @pr = PlayerMonthlyReport.new(player_id: player_id, salary_generated: 0, skill_points_generated: [0,0,0,0])
-      @pr.save
-      
-      # create 8 work schedules for each report
-      8.times do |i|
-        ws = WorkSchedule.new(player_monthly_report_id: @pr.id, rank: i+1)
-        ws.save
+    if @game.game_status < @game.game_length
+      # create each player's monthly reports
+      @game.players.pluck(:id).each do |player_id|
+        @pr = PlayerMonthlyReport.new(player_id: player_id, month_no: @game.game_status+1, salary_generated: 0, skill_points_generated: [0,0,0,0])
+        @pr.save
+        
+        # create 8 work schedules for each report
+        8.times do |i|
+          ws = WorkSchedule.new(player_monthly_report_id: @pr.id, rank: i+1)
+          ws.save
+        end
       end
-    end
 
-    # create each project's monthly report
-     @game.projects.pluck(:id).each do |project_id|
-      pjr = ProjectMonthlyReport.new(project_id: project_id, profit_generated: [0,0,0], stats_generated: [0,0,0], rd_generated: [0,0,0], users_generated: 0,)
-      pjr.save
+      # create each project's monthly report
+       @game.projects.pluck(:id).each do |project_id|
+        pjr = ProjectMonthlyReport.new(project_id: project_id, profit_generated: [0,0,0], stats_generated: [0,0,0], rd_generated: [0,0,0], users_generated: 0,)
+        pjr.save
+      end
     end
 
     # set game status to next month
@@ -120,7 +122,13 @@ class GamesController < ApplicationController
     @game.save
 
     # return
-    flash[:notice] = "Calculations updated. Game progresses to Month #{@game.game_status}."
+    if @game.game_status == 0
+      flash[:notice] = "Game is intiated. Starting with Month #{@game.game_status}."
+    elsif @game.game_status < @game.game_length
+      flash[:notice] = "Calculations updated. Game progresses to Month #{@game.game_status}."
+    else
+      flash[:notice] = "Calculations updated. Game is completed."
+    end
     redirect_to request.referrer
   end
 

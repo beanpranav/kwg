@@ -1,29 +1,136 @@
-<p id="notice"><%= notice %></p>
+<!-- SIDEBAR -->
+<div class="col-xs-12 col-sm-3" style="padding:0px;">
 
-<p>
-  <strong>User:</strong>
-  <%= @player.user_id %>
-</p>
+  <!-- NAME -->
+  <div class="content-container" style="min-height:46px;">
+    <div class="panel-primary">
+      <div class="panel-title">
+        <%= @player.user.name %>
+      </div>
+    </div>
+  </div>
 
-<p>
-  <strong>Game:</strong>
-  <%= @player.game_id %>
-</p>
+  <!-- SALARY -->
+  <div class="content-container">  
+    <div class="panel-secondary">
+      <div class="panel-title">
+        My Performance
+      </div>
+    </div>
 
-<p>
-  <strong>Salary total:</strong>
-  <%= @player.salary_total %>
-</p>
+    <div class="panel-body">
+      <%= @player.salary_total %>
+    </div>
+  </div>
 
-<p>
-  <strong>Skill level:</strong>
-  <%= @player.skill_level %>
-</p>
+  <!-- SKILLS -->
+  <div class="content-container">
+    <div class="panel-secondary">
+      <div class="panel-title">
+        My Skills
+      </div>
+    </div>
 
-<p>
-  <strong>Skill total points:</strong>
-  <%= @player.skill_total_points %>
-</p>
+    <div class="panel-body">
+      <%= @player.skill_level %><br>
+      <%= @player.skill_total_points %>
+    </div>
+  </div>
 
-<%= link_to 'Edit', edit_player_path(@player) %> |
-<%= link_to 'Back', players_path %>
+</div>
+
+<!-- MAIN CONTAINER: TABS -->
+<div class="col-xs-12 col-sm-9" style="padding-right:0px;">
+  
+  <!-- TABS -->
+
+  <!-- TAB 1: WORK SCHEDULE -->
+  <div class="content-container" style="min-height:46px;">
+    <!-- TAB NAME -->
+    <div class="panel-primary">
+      <div class="panel-title">
+        My Work Schedule
+      </div>
+    </div>
+
+    <!-- LINKS -->
+
+  </div>
+
+  <div class="content-container">
+
+    <%=  %>
+    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+      
+      <% @quarter_reports.each.with_index(1) do |quarter,quarter_no| %>
+        
+        <div class="panel panel-default">
+          <a class="collapsed supress-a" data-toggle="collapse" data-parent="#accordion" href="#quarter-<%= quarter_no %>" aria-expanded="true" aria-controls="collapseOne">
+            <div class="panel-secondary" role="tab" >
+              <div class="panel-title">
+                Quarter <%= quarter_no %>
+                <i class="fa fa-fw fa-sort pull-right" style="margin: 3px -5px 0 0;"></i>
+              </div>
+            </div>
+          </a>
+
+          <div id="quarter-<%= quarter_no %>" class="panel-collapse <%= if @current_quarter != quarter_no then "collapse" end %>" role="tabpanel">
+            <div class="panel-body row">
+              <% quarter.each do |monthly_report| %>
+                
+                <div class="col-sm-4 center">
+                  <% if monthly_report == 0 %>
+                  
+                  <% else %>
+                    <% monthly_report = monthly_report.first %>
+                    <% if monthly_report.month_no == @current_month %>
+                      
+                      Form for month <%= monthly_report.month_no %><br>
+                      
+                      <%= form_tag "/players/#{@player.id}/update_work_schedule" do %>
+                        <%= hidden_field_tag :monthly_report_id, monthly_report.id %>
+                        <% monthly_report.work_schedules.sort_by(&:rank).each do |work_item| %>
+                          
+                          <%= hidden_field_tag "work_schedule_ids[]", work_item.id %>
+                          
+                          <div class="work-container-form">
+                            <% if work_item.project_monthly_report_id == nil %> 
+                              <%= select_tag "project_monthly_report_ids[]", options_for_select([1,2,3]), prompt: "--- work on ---", class: "" %>
+                            <% else %>
+                              <%= select_tag "project_monthly_report_ids[]", options_for_select([1,2,3], "#{work_item.project_monthly_report_id}"), class: "" %>
+                            <% end %>
+                            
+                            <% if work_item.project_monthly_report_id == nil %>
+                              <%= select_tag "skill_uses[]", options_for_select(["a","b","c"]), prompt: "--- using skill ---", class: "" %>
+                            <% else %>
+                              <%= select_tag "skill_uses[]", options_for_select(["a","b","c"], "#{work_item.skill_use}"), class: "" %>
+                            <% end %>
+                          </div>
+                        <% end %>
+
+                        <div class="button-padding">
+                          <%= button_tag(type: 'submit', class: "btn btn-sm btn-primary") do %>UPDATE SCHEDULE<% end %>
+                        </div>
+
+                      <% end %>
+                      
+
+                    <% else %>                
+                      <%= monthly_report.month_no %>  with <%= monthly_report.work_schedules.count %>         
+                    <% end %>
+                  <% end %>
+
+                </div>
+
+              <% end %>
+            </div>
+          </div>
+        </div>
+
+      <% end %>
+  </div>
+
+  <!-- TAB 2-N: PROJECTS -->
+
+</div>
+
