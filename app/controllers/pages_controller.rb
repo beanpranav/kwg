@@ -10,4 +10,8 @@ class PagesController < ApplicationController
 		end
 
   end
+
+ 	def demo_screenshots
+ 	end
+ 	
 end
