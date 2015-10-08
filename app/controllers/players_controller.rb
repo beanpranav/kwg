@@ -1,5 +1,6 @@
 class PlayersController < ApplicationController
   before_action :set_player, only: [:show, :edit, :update, :destroy]
+  include PlayersHelper
 
   def index
     @players = Player.all
@@ -7,7 +8,7 @@ class PlayersController < ApplicationController
 
   def show
     @current_month = @player.game.game_status
-    @current_quarter = (@current_month/3)+1
+    @current_quarter = ((@current_month-1)/3)+1
 
     quarters_count = @player.game.game_length/3
     @quarter_reports = Array.new(quarters_count){Array.new(3,0)}
@@ -19,6 +20,24 @@ class PlayersController < ApplicationController
         end
       end
     end
+
+    @player_projects = []
+    @work_on_options = []
+    @using_skill_options = [["Product Dev","Product Dev"],["Marketing","Marketing"],["Support","Support"]]
+
+    @player.teams.each do |team|
+      team.projects.each do |project|
+        @player_projects << project
+        @work_on_options << [project.project_name,project.project_monthly_reports.sort_by(&:created_at).last.id]
+      end
+      team.players.each do |player|
+        @using_skill_options << ["Research with #{player.user.first_name}","#{player.id}"]
+      end
+    end
+    @work_on_options = [['PROJECT ------',@work_on_options],['SKILL --------',[["study",0]]],['NOTHING ------',[["do nothing",-1]]]]
+
+    @using_skill_options = @using_skill_options.uniq{|x| x[1]}
+    @using_skill_options = [['DO ------',@using_skill_options],['STUDY ------',["Product Dev", "Marketing", "Support", "Research"]],['NOTHING ------',["do nothing"]]]
 
   end
 

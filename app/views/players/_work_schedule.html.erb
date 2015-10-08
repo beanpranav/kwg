@@ -1,0 +1,101 @@
+<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+  
+  <% @quarter_reports.each.with_index(1) do |quarter,quarter_no| %>
+    
+    <div class="panel panel-default">
+      <a class="collapsed supress-a" data-toggle="collapse" data-parent="#accordion" href="#quarter-<%= quarter_no %>" aria-expanded="true" aria-controls="collapseOne">
+        <div class="panel-secondary" role="tab" >
+          <div class="panel-title">
+            Quarter <%= quarter_no %>
+            <i class="fa fa-fw fa-sort pull-right" style="margin: 3px -5px 0 0;"></i>
+          </div>
+        </div>
+      </a>
+
+      <div id="quarter-<%= quarter_no %>" class="panel-collapse <%= if @current_quarter != quarter_no then "collapse" end %>" role="tabpanel">
+        <div class="panel-body">
+          <% quarter.each.with_index(1) do |monthly_report, q_month_no| %>
+            
+            <div class="col-sm-4 center">
+              <% if monthly_report == 0 %>
+              <!-- FUTURE MONTHS: SHOW PLACEHOLDER -->
+                <div class="h-secondary"><%= get_month_name((quarter_no-1)*3+q_month_no) %></div>
+                <% 4.times do |week_no| %>
+                  <div class="work-container-dummy-week work-bg-secondary">
+                    <div class="work-container-dummy-week-text">WEEK <%= week_no+1 %></div>
+                  </div>
+                <% end %>
+
+              <% else %>
+                <% monthly_report = monthly_report.first %>
+
+                <% if monthly_report.month_no == @current_month %>
+                <!-- CURRENT MONTH: SHOW FORM -->
+                  <div class="h-primary"><%= get_month_name(monthly_report.month_no) %></div>
+                  
+                  <%= form_tag "/players/#{@player.id}/update_work_schedule" do %>
+                    <%= hidden_field_tag :monthly_report_id, monthly_report.id %>
+                    <% monthly_report.work_schedules.sort_by(&:rank).each do |work_item| %>
+                      
+                      <%= hidden_field_tag "work_schedule_ids[]", work_item.id %>
+                      
+                      <div class="work-container-form work-bg-secondary">
+                        <% if work_item.project_monthly_report_id == nil %> 
+                          <%= select_tag "project_monthly_report_ids[]", grouped_options_for_select(@work_on_options), prompt: "--- work on ---" %>
+                        <% else %>
+                          <div class="value-chosen-form"><%= select_tag "project_monthly_report_ids[]", grouped_options_for_select(@work_on_options, "#{work_item.project_monthly_report_id}") %></div>
+                        <% end %>
+                        
+                        <% if work_item.skill_use == nil or work_item.skill_use == '' %>
+                          <%= select_tag "skill_uses[]", grouped_options_for_select(@using_skill_options), prompt: "--- using skill ---", class: "" %>
+                        <% else %>
+                          <div class="value-chosen-form"><%= select_tag "skill_uses[]", grouped_options_for_select(@using_skill_options, "#{work_item.skill_use}") %></div>
+                        <% end %>
+                      </div>
+                    <% end %>
+
+                    <div class="button-padding">
+                      <%= button_tag(type: 'submit', class: "btn btn-sm btn-primary") do %>UPDATE SCHEDULE<% end %>
+                    </div>
+
+                  <% end %>
+                  
+                <% else %>
+                <!-- COMPLETED MONTHS: SHOW DATA -->
+                  <div class="h-secondary"><%= get_month_name(monthly_report.month_no) %></div>
+                  <% monthly_report.work_schedules.sort_by(&:rank).each do |work_item| %>
+                    <div class="work-container 
+                      <%= if work_item.skill_use == "Product Dev" then "work-bg-blue" 
+                          elsif work_item.skill_use == "Marketing" then "work-bg-red" 
+                          elsif work_item.skill_use == "Support" then "work-bg-orange" 
+                          elsif work_item.skill_use == "do nothing" or work_item.skill_use == nil then "work-bg-secondary"
+                          else "work-bg-green" 
+                          end %>">
+                      <div class="work-container-text">
+                        <% if work_item.project_monthly_report_id == 0 %>
+                          Studied <%= work_item.skill_use %>
+                        <% else %>
+                          <%= if work_item.project_monthly_report then work_item.project_monthly_report.project.project_name end %>
+                        <% end %>
+                      </div> 
+                    </div>
+                  <% end %>
+
+                  <div class="button-padding">
+                    <button class="btn btn-link btn-sm" disabled="disabled">
+                      EARNED:&nbsp;&nbsp; <i class="fa fa-usd"></i> <%= monthly_report.salary_generated %>
+                    </button>
+                  </div>
+
+                <% end %>
+              <% end %>
+
+            </div>
+
+          <% end %>
+        </div>
+      </div>
+    </div>
+
+  <% end %>
+</div>

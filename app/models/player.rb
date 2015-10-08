@@ -6,8 +6,6 @@ class Player < ActiveRecord::Base
 	has_many :team_memberships, dependent: :destroy
 	has_many :teams, through: :team_memberships
 	has_many :team_strategies, dependent: :destroy
-	has_many :teams, through: :team_strategies
 	has_many :project_goals, dependent: :destroy
-	has_many :projects, through: :project_goals
 	has_many :player_monthly_reports
 end
