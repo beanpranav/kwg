@@ -1,127 +1,151 @@
-<!-- SIDEBAR -->
-<div class="col-xs-12 col-sm-3" style="padding:0px;">
 
-  <!-- NAME -->
-  <div class="content-container" style="min-height:46px;">
-    <div class="panel-primary">
-      <div class="panel-title">
-        <%= @player.user.name %>
+<!-- SETUP GAME -->
+<% if @player.game.game_status == -1 %>
+
+
+
+<% else %> 
+
+  <!-- SIDEBAR -->
+  <div class="col-xs-12 col-sm-3" style="padding:0px;">
+
+    <!-- NAME -->
+    <div class="content-container" style="min-height:46px;">
+      <div class="panel-primary">
+        <div class="panel-title">
+          <%= @player.user.name %>
+        </div>
       </div>
     </div>
-  </div>
 
-  
-  <div class="content-container">
-
-    <div class="panel-group" id="accordion-info" role="tablist" aria-multiselectable="true">
-      
-      <!-- LINKS -->
-      <div class="panel panel-default">
-        <a class="collapsed supress-a" data-toggle="collapse" data-parent="#accordion-info" href="#links" aria-expanded="false" aria-controls="collapseTwo">
-          <div class="panel-secondary" role="tab" >
-            <div class="panel-title">
-              Projects
-            </div>
-          </div>
-        </a>
-        
-        <div id="links" class="panel-collapse" role="tabpanel">
-          <div class="panel-body">
-            <% @player_projects.each do |project| %>
-              <i class="fa fa-angle-double-right"></i>&nbsp;&nbsp;
-              <a href="#<%= project.project_name %>" aria-controls="<%= project.project_name %>" role="tab" data-toggle="tab" class="primary-a"><%= project.project_name %></a><br>
-            <% end %>
-            <br>
-            <a href="#my_schedule" aria-controls="my_schedule" role="tab" data-toggle="tab" class="primary-a">Work Schedule</a>
-          </div>
-        </div>
-      </div>
-
-      <!-- SALARY -->
-      <div class="panel panel-default">
-        <a class="collapsed supress-a" data-toggle="collapse" data-parent="#accordion-info" href="#performance" aria-expanded="true" aria-controls="collapseTwo">
-          <div class="panel-secondary" role="tab" >
-            <div class="panel-title">
-              Performance
-              <i class="fa fa-fw fa-sort pull-right" style="margin: 3px -5px 0 0;"></i>
-            </div>
-          </div>
-        </a>
-        
-        <div id="performance" class="panel-collapse collapse" role="tabpanel">
-          <div class="panel-body">
-            <div class="h-primary"><i class="fa fa-usd"></i> <%= @player.salary_total %></div>
-            <h3 class="center">Total Salary Earned</h3>
-          </div>
-        </div>
-      </div>
-
-      <!-- SKILLS -->
-      <div class="panel panel-default">
-        <a class="collapsed supress-a" data-toggle="collapse" data-parent="#accordion-info" href="#skills" aria-expanded="true" aria-controls="collapseTwo">
-          <div class="panel-secondary" role="tab" >
-            <div class="panel-title">
-              Skills
-              <i class="fa fa-fw fa-sort pull-right" style="margin: 3px -5px 0 0;"></i>
-            </div>
-          </div>
-        </a>
-        
-        <div id="skills" class="panel-collapse collapse" role="tabpanel">
-          <div class="panel-body">
-            <%= @player.skill_level %><br>
-            <%= @player.skill_total_points %>
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </div>
-
-</div>
-
-<!-- MAIN CONTAINER: TABS -->
-<div class="col-xs-12 col-sm-9" style="padding-right:0px;">
-  
-  <!-- TABS -->
-  <div class="tab-content">
     
-    <!-- TAB 1: WORK SCHEDULE -->
-    <div role="tabpanel" class="tab-pane active" id="my_schedule">
-      
-      <div class="content-container" style="min-height:46px;">
-        <!-- TAB NAME -->
-        <div class="panel-primary">
-          <div class="panel-title">Work Schedule</div>
+    <div class="content-container">
+
+      <div class="panel-group" id="accordion-info" role="tablist" aria-multiselectable="true">
+        
+        <!-- LINKS -->
+        <div class="panel panel-default">
+          <a class="collapsed supress-a" data-toggle="collapse" data-parent="#accordion-info" href="#links" aria-expanded="false" aria-controls="collapseTwo">
+            <div class="panel-secondary" role="tab" >
+              <div class="panel-title">
+                Projects
+              </div>
+            </div>
+          </a>
+          
+          <div id="links" class="panel-collapse" role="tabpanel">
+            <div class="panel-body">
+              <% @player_projects.each do |project| %>
+                <i class="fa fa-angle-double-right"></i>&nbsp;&nbsp;
+                <a href="#<%= project.project_name %>" aria-controls="<%= project.project_name %>" role="tab" data-toggle="tab" class="primary-a"><%= project.project_name %></a><br>
+              <% end %>
+              <br>
+              <a href="#my_schedule" aria-controls="my_schedule" role="tab" data-toggle="tab" class="primary-a">Work Schedule</a>
+            </div>
+          </div>
         </div>
-      </div>
 
-      <div class="content-container">
-        <%= render "players/work_schedule" %>
-      </div>
+        <!-- SALARY -->
+        <div class="panel panel-default">
+          <a class="collapsed supress-a" data-toggle="collapse" data-parent="#accordion-info" href="#performance" aria-expanded="true" aria-controls="collapseTwo">
+            <div class="panel-secondary" role="tab" >
+              <div class="panel-title">
+                Performance
+                <i class="fa fa-fw fa-sort pull-right" style="margin: 3px -5px 0 0;"></i>
+              </div>
+            </div>
+          </a>
+          
+          <div id="performance" class="panel-collapse collapse" role="tabpanel">
+            <div class="panel-body">
+              <div class="h-primary"><i class="fa fa-usd"></i> <%= @player.salary_total %></div>
+              <h3 class="center">Total Salary Earned</h3>
+            </div>
+          </div>
+        </div>
 
+        <!-- SKILLS -->
+        <div class="panel panel-default">
+          <a class="collapsed supress-a" data-toggle="collapse" data-parent="#accordion-info" href="#skills" aria-expanded="true" aria-controls="collapseTwo">
+            <div class="panel-secondary" role="tab" >
+              <div class="panel-title">
+                Skills
+                <i class="fa fa-fw fa-sort pull-right" style="margin: 3px -5px 0 0;"></i>
+              </div>
+            </div>
+          </a>
+          
+          <div id="skills" class="panel-collapse collapse" role="tabpanel">
+            <div class="panel-body">
+              <%= @player.skill_level %><br>
+              <%= @player.skill_total_points %>
+            </div>
+          </div>
+        </div>
+
+      </div>
     </div>
 
-    <!-- TAB 2-N: PROJECTS -->
+  </div>
 
-    <% @player_projects.each do |project| %>
-      <div role="tabpanel" class="tab-pane" id="<%= project.project_name %>">
+  <!-- MAIN CONTAINER: TABS -->
+  <div class="col-xs-12 col-sm-9" style="padding-right:0px;">
+    
+    <!-- TABS -->
+    <div class="tab-content">
+      
+      <!-- TAB 1: WORK SCHEDULE -->
+      <div role="tabpanel" class="tab-pane active" id="my_schedule">
         
         <div class="content-container" style="min-height:46px;">
           <!-- TAB NAME -->
           <div class="panel-primary">
-            <div class="panel-title"><%= project.project_name %></div>
+            <div class="panel-title">Work Schedule</div>
           </div>
         </div>
 
         <div class="content-container">
-          <%= project %>
+          <%= render "players/work_schedule" %>
         </div>
 
       </div>
-    <% end %>
+
+      <!-- TAB 2-N: PROJECTS -->
+
+      <% @player_projects.each do |project| %>
+        <div role="tabpanel" class="tab-pane" id="<%= project.project_name %>">
+          
+          <div class="content-container" style="min-height:46px;">
+            <!-- TAB NAME -->
+            <div class="panel-primary">
+              <div class="panel-title"><%= project.team.team_name %> > <%= project.project_name %></div>
+            </div>
+          </div>
+
+          <div class="content-container">
+            <div class="panel-secondary">
+              <div class="panel-title">
+                Status
+                <i class="fa fa-fw fa-sort pull-right" style="margin: 3px -5px 0 0;"></i>
+              </div>
+            </div>
+
+            <div class="panel-body">
+              stats_total <%= project.stats_total %><br>
+              rnd_stage <%= project.rnd_stage %><br>
+              rnd_total_points <%= project.rnd_total_points %><br>
+              profit_total <%= project.profit_total %><br>
+              users_total <%= project.users_total %><br>
+            </div>
+
+            
+          </div>
+
+        </div>
+      <% end %>
+
+    </div>
 
   </div>
 
-</div>
-
+<% end %>

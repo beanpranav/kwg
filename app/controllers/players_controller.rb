@@ -28,7 +28,7 @@ class PlayersController < ApplicationController
     @player.teams.each do |team|
       team.projects.each do |project|
         @player_projects << project
-        @work_on_options << [project.project_name,project.project_monthly_reports.sort_by(&:created_at).last.id]
+        @work_on_options << [project.project_name,project.project_monthly_reports.sort_by(&:created_at).last.id] if @player.game.game_status > 0
       end
       team.players.each do |player|
         @using_skill_options << ["Research with #{player.user.first_name}","#{player.id}"]
