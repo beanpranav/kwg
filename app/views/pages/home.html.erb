@@ -98,7 +98,7 @@
 			<div class="secondary-nav secondary-nav-invert">
 				<i class="fa fa-2x fa-rocket content-list-icon-primary pull-left"></i>
 				<h2 class="font-invert"><b>Hi <%= current_user.first_name %>!</b></h2>
-				<h3 class="font-invert">As a participant, you have a played <%= pluralize( current_user.games.count, 'game' ) %>.</h3>
+				<h3 class="font-invert">As a participant, you have played <%= pluralize( current_user.games.count, 'game' ) %>.</h3>
 			</div>
 		
 			<%= link_to controller: "games", action: "new", user_id: current_user.id do %>

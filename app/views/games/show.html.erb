@@ -167,41 +167,50 @@
       </div>
     </div>
 
-  <% if @game.game_status > 1 %>
-    <div class="content-container">
-      <div class="panel-secondary">
-        <div class="panel-title">
-          Summaries
+    <% if @game.game_status > 1 %>
+      <div class="content-container">
+        <div class="panel-secondary">
+          <div class="panel-title">
+            Summaries
+          </div>
+        </div>
+
+        <div class="panel-body">
+          <table class="table table-condensed table-hover">
+            <thead>
+              <th></th>
+              <th>Total Salary</th>
+              <th>Cum. Project Profit</th>
+            </thead>
+            <tbody>
+              <% @players.each_with_index do |player,i| %>
+                <tr>
+                  <td><%= player.user.name %></td>  
+                  <td><%= player.salary_total %></td>
+                  <td><%= @player_project_profit[i] %></td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
         </div>
       </div>
 
-      <div class="panel-body">
-        <table class="table table-condensed table-hover">
-          <thead>
-            <th></th>
-            <th>Total Salary</th>
-            <th>Cum. Project Profit</th>
-          </thead>
-          <tbody>
-            <% @players.each_with_index do |player,i| %>
-              <tr>
-                <td><%= player.user.name %></td>  
-                <td><%= player.salary_total %></td>
-                <td><%= @player_project_profit[i] %></td>
-              </tr>
-            <% end %>
-          </tbody>
-        </table>
-      </div>
-    </div>
-  <% else %>
-    <div class="content-container">
-      <% @players.each do |player| %>
-        <%= player.user.name %>: /<%= player.id %><br>
-      <% end %>
-    </div>
-  <% end %>
+    <% else %>
+      <div class="content-container">
+        <div class="panel-secondary">
+          <div class="panel-title">
+            Troubleshooting
+          </div>
+        </div>
 
+        <div class="panel-body">
+          <% @players.each do |player| %>
+            <%= player.user.name %> -->  /players/<%= player.id %><br>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  
   <% end %>
 
 </div>
