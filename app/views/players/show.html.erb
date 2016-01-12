@@ -151,10 +151,7 @@
                 <div class="h-secondary" style="margin-bottom:27px;">PERFORMANCE</div>
 
                 <table class="table table-condensed table-hover">
-                  <tr>
-                    <td class="left"><b>Active Users (Q<%= @current_quarter-1 %>)</b></td>
-                    <td class="right"><b><%= project.users_total[-1][2] %></b></td>
-                  </tr>
+                  
                   <% performance = 0 %>
                   <% project.profit_total.each_with_index do |q_profits,i| %>
                     <tr>
@@ -165,7 +162,7 @@
                       <td class="left">Q<%= i+1 %> Expenses</td>
                       <td class="right"><%= number_to_currency(-q_profits[1], negative_format: "(%u%n)") %></td>
                     </tr>
-                    <% performance += q_profits[2] %>
+                    <% performance += q_profits[0]-q_profits[1] %>
                   <% end %>
                   <tr>
                     <td class="left"><b>Net Profit</b></td>
@@ -179,7 +176,10 @@
                 <div class="h-secondary" style="margin-bottom:27px;">Q<%= @current_quarter %> STATS</div>
                 
                 <table class="table table-condensed table-hover">
-                  
+                  <tr>
+                    <td class="left"><b>Active Users (Q<%= @current_quarter-1 %> - Q<%= @current_quarter %>)</b></td>
+                    <td class="right"><b><%= project.users_total[-1][2] %></b></td>
+                  </tr>
                   <tr>
                     <td class="left">Max User Capacity</td>
                     <td class="right"><%= project.stats_total[0] %></td>
