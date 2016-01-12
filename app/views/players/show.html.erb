@@ -25,13 +25,13 @@
         
         <!-- LINKS -->
         <div class="panel panel-default">
-          <a class="collapsed supress-a" data-toggle="collapse" data-parent="#accordion-info" href="#links" aria-expanded="false" aria-controls="collapseTwo">
+          <!-- <a class="collapsed supress-a" data-toggle="collapse" data-parent="#accordion-info" href="#links" aria-expanded="false" aria-controls="collapseTwo"> -->
             <div class="panel-secondary" role="tab" >
               <div class="panel-title">
-                Projects
+                Products
               </div>
             </div>
-          </a>
+          <!-- </a> -->
           
           <div id="links" class="panel-collapse" role="tabpanel">
             <div class="panel-body">
@@ -47,16 +47,16 @@
 
         <!-- SALARY -->
         <div class="panel panel-default">
-          <a class="collapsed supress-a" data-toggle="collapse" data-parent="#accordion-info" href="#performance" aria-expanded="true" aria-controls="collapseTwo">
+          <!-- <a class="collapsed supress-a" data-toggle="collapse" data-parent="#accordion-info" href="#performance" aria-expanded="true" aria-controls="collapseTwo"> -->
             <div class="panel-secondary" role="tab" >
               <div class="panel-title">
                 Performance
-                <i class="fa fa-fw fa-sort pull-right" style="margin: 3px -5px 0 0;"></i>
+                <!-- <i class="fa fa-fw fa-sort pull-right" style="margin: 3px -5px 0 0;"></i> -->
               </div>
             </div>
-          </a>
+          <!-- </a> -->
           
-          <div id="performance" class="panel-collapse collapse" role="tabpanel">
+          <div id="performance" class="panel-collapse" role="tabpanel">
             <div class="panel-body">
               <div class="h-primary"><i class="fa fa-usd"></i> <%= @player.salary_total %></div>
               <h3 class="center">Total Salary Earned</h3>
@@ -66,19 +66,32 @@
 
         <!-- SKILLS -->
         <div class="panel panel-default">
-          <a class="collapsed supress-a" data-toggle="collapse" data-parent="#accordion-info" href="#skills" aria-expanded="true" aria-controls="collapseTwo">
+          <!-- <a class="collapsed supress-a" data-toggle="collapse" data-parent="#accordion-info" href="#skills" aria-expanded="true" aria-controls="collapseTwo"> -->
             <div class="panel-secondary" role="tab" >
               <div class="panel-title">
                 Skills
-                <i class="fa fa-fw fa-sort pull-right" style="margin: 3px -5px 0 0;"></i>
+                <!-- <i class="fa fa-fw fa-sort pull-right" style="margin: 3px -5px 0 0;"></i> -->
               </div>
             </div>
-          </a>
+          <!-- </a> -->
           
-          <div id="skills" class="panel-collapse collapse" role="tabpanel">
+          <div id="skills" class="panel-collapse" role="tabpanel">
             <div class="panel-body">
-              <%= @player.skill_level %><br>
-              <%= @player.skill_total_points %>
+              
+              <% 4.times do |i| %>
+                <% level_range = $SKILL_LEVELS.detect { |points,level| level === @player.skill_level[i] }.first %>
+                <% skill_progress_ratio = (@player.skill_total_points[i]-level_range.begin)*100/(level_range.end-level_range.begin) %>
+                <div class="cpi-goal">  
+                  <div class="pull-left"><%= $SKILL_NAMES[i] %></div>
+                  <div class="pull-right">Level <%= @player.skill_level[i]+1 %></div>
+                  <div class="progress">
+                    <div class="progress-bar progress-bar-<%= i+1 %>" role="progressbar" aria-valuenow="<%= skill_progress_ratio %>" aria-valuemin="0" aria-valuemax="100" style="width: <%= skill_progress_ratio %>%">
+                      <span class="sr-only"><%= skill_progress_ratio %>%</span>
+                    </div>
+                  </div>
+                </div>
+              <% end %>
+
             </div>
           </div>
         </div>
@@ -118,28 +131,160 @@
           <div class="content-container" style="min-height:46px;">
             <!-- TAB NAME -->
             <div class="panel-primary">
-              <div class="panel-title"><%= project.team.team_name %> > <%= project.project_name %></div>
+              <div class="panel-title"><%= project.team.team_name %> > Product <%= project.project_name %></div>
             </div>
           </div>
+
+          
 
           <div class="content-container">
             <div class="panel-secondary">
               <div class="panel-title">
-                Status
-                <i class="fa fa-fw fa-sort pull-right" style="margin: 3px -5px 0 0;"></i>
+                Product <%= project.project_name %>: Status as of <%= get_month_name(@current_month) %>
+                <!-- <i class="fa fa-fw fa-sort pull-right" style="margin: 3px -5px 0 0;"></i> -->
               </div>
             </div>
 
-            <div class="panel-body">
-              stats_total <%= project.stats_total %><br>
-              rnd_stage <%= project.rnd_stage %><br>
-              rnd_total_points <%= project.rnd_total_points %><br>
-              profit_total <%= project.profit_total %><br>
-              users_total <%= project.users_total %><br>
+            <div class="panel-body" style="padding-bottom:25px;">
+
+              <div class="col-sm-4 center">
+                <div class="h-secondary" style="margin-bottom:27px;">PERFORMANCE</div>
+
+                <table class="table table-condensed table-hover">
+                  <tr>
+                    <td class="left"><b>Active Users (Q<%= @current_quarter-1 %>)</b></td>
+                    <td class="right"><b><%= project.users_total[-1][2] %></b></td>
+                  </tr>
+                  <% performance = 0 %>
+                  <% project.profit_total.each_with_index do |q_profits,i| %>
+                    <tr>
+                      <td class="left">Q<%= i+1 %> Revenue</td>
+                      <td class="right"><%= number_to_currency(q_profits[0], negative_format: "(%u%n)") %></td>
+                    </tr>
+                    <tr>
+                      <td class="left">Q<%= i+1 %> Expenses</td>
+                      <td class="right"><%= number_to_currency(-q_profits[1], negative_format: "(%u%n)") %></td>
+                    </tr>
+                    <% performance += q_profits[2] %>
+                  <% end %>
+                  <tr>
+                    <td class="left"><b>Net Profit</b></td>
+                    <td class="right"><b><%= number_to_currency(performance, negative_format: "(%u%n)") %></b></td>
+                  </tr>
+                </table>
+
+              </div>
+
+              <div class="col-sm-4 center">
+                <div class="h-secondary" style="margin-bottom:27px;">Q<%= @current_quarter %> STATS</div>
+                
+                <table class="table table-condensed table-hover">
+                  
+                  <tr>
+                    <td class="left">Max User Capacity</td>
+                    <td class="right"><%= project.stats_total[0] %></td>
+                  </tr>
+                  <tr>
+                    <td class="left">Demanded Generated</td>
+                    <td class="right"><%= project.stats_total[1] %></td>
+                  </tr>
+                  <tr>
+                    <td class="left">Users Supported</td>
+                    <td class="right"><%= project.stats_total[2] %></td>
+                  </tr>
+                </table>
+              </div>
+
+              <div class="col-sm-4 center">
+                <div class="h-secondary" style="margin-bottom:-9px;">R&D CENTER</div>
+                
+                <% 3.times do |i| %>
+                <% stage_no = $RND_STAGES.detect { |points,stage| points === project.rnd_total_points[i] }.last[:stage_no] %>
+                  <% stage_range = $RND_STAGES.detect { |points,k| k[:stage_no] === stage_no }.first %>
+                  <% rnd_progress_ratio = (project.rnd_total_points[i]-stage_range.begin)*100/(stage_range.end-stage_range.begin) %>
+                  <div class="cpi-goal" style="margin-top:30px;">  
+                    <div class="pull-left"><%= $SKILL_NAMES[i] %></div>
+                    <div class="pull-right">Stage <%= stage_no %></div>
+                    <div class="progress" style="margin-bottom:2px;">
+                      <div class="progress-bar progress-bar-4" role="progressbar" aria-valuenow="<%= rnd_progress_ratio %>" aria-valuemin="0" aria-valuemax="100" style="width: <%= rnd_progress_ratio %>%">
+                        <span class="sr-only"><%= rnd_progress_ratio %>%</span>
+                      </div>
+                    </div>
+                    <div class="pull-left" style="font-weight: lighter; color:#999;"><em>
+                      <%= $RND_BENEFITS[i] %>: 
+                      <% case i %>
+                      <% when 0 %>
+                      <%= (($RND_STAGES.detect { |points,stage| points === project.rnd_total_points[i] }.last[:multiplier_1])*100).to_i %>%
+                      <% when 1 %>
+                      <%= (($RND_STAGES.detect { |points,stage| points === project.rnd_total_points[i] }.last[:multiplier_2])*100).to_i %>%
+                      <% when 2 %>
+                      <%= (($RND_STAGES.detect { |points,stage| points === project.rnd_total_points[i] }.last[:multiplier_3])*100).to_i %>%
+                      <% end %>
+                    </em></div>
+                  </div>
+                <% end %>
+
+              </div>
             </div>
+          
+          </div>
+
+          <!-- MEMBERS DETAILS -->
+          <% if @player.game.access_treatement %>
+            <div class="content-container">
+              <div class="panel-secondary">
+                <div class="panel-title">
+                  <%= project.team.team_name %>: Members
+                  <!-- <i class="fa fa-fw fa-sort pull-right" style="margin: 3px -5px 0 0;"></i> -->
+                </div>
+              </div>
+
+              <div class="panel-body">
+
+                <table class="table table-condensed" style="margin:10px 0;">
+                  <thead>
+                    <tr>
+                      <th></th>
+                      <% 4.times do |i| %>
+                        <th class="center"><%= $SKILL_NAMES[i] %></th>
+                      <% end %>
+                    </tr>
+                  </thead>
+
+                  <tbody>
+                    <% project.team.players.each do |p| %>
+                      <tr>
+                        <td style="padding:15px;">
+                          <b><%= p.user.first_name %></b>
+                        </td>
+                        <% 4.times do |i| %>
+                          <% level_range = $SKILL_LEVELS.detect { |points,level| level === p.skill_level[i] }.first %>
+                          <% skill_progress_ratio = (p.skill_total_points[i]-level_range.begin)*100/(level_range.end-level_range.begin) %>
+                          <td class="col-md-3 center" style="padding:15px;">
+                            
+                            <div class="progress" style="margin:0; height:20px; opacity:0.7;">
+                              <div class="progress-bar progress-bar-<%= i+1 %>" role="progressbar" aria-valuenow="<%= skill_progress_ratio %>" aria-valuemin="0" aria-valuemax="100" style="width: <%= skill_progress_ratio %>%">
+                                <span class="sr-only"><%= skill_progress_ratio %>%</span>
+                              </div>
+                            </div>
+
+                            <div class="cpi" style="margin-top:-20px;">
+                                <b>Level <%= p.skill_level[i]+1 %></b>
+                            </div>
+
+                          </td>
+                        <% end %>
+                    <% end %>
+                  </tbody>
+                </table>
+
+              </div>
+
+            </div>
+          <% end %>
 
             
-          </div>
+          
 
         </div>
       <% end %>

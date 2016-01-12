@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150924225927) do
+ActiveRecord::Schema.define(version: 20160112104732) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -32,10 +32,13 @@ ActiveRecord::Schema.define(version: 20150924225927) do
   create_table "player_monthly_reports", force: true do |t|
     t.integer  "player_id"
     t.integer  "salary_generated"
-    t.integer  "skill_points_generated", array: true
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "month_no"
+    t.integer  "skill_points_generated_1", default: 0
+    t.integer  "skill_points_generated_2", default: 0
+    t.integer  "skill_points_generated_3", default: 0
+    t.integer  "skill_points_generated_4", default: 0
   end
 
   create_table "players", force: true do |t|
@@ -59,25 +62,29 @@ ActiveRecord::Schema.define(version: 20150924225927) do
 
   create_table "project_monthly_reports", force: true do |t|
     t.integer  "project_id"
-    t.integer  "profit_generated", array: true
-    t.integer  "stats_generated",  array: true
-    t.integer  "rd_generated",     array: true
-    t.integer  "users_generated"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "expense_generated",         default: 0
+    t.integer  "skill_1_stats_generated",   default: 0
+    t.integer  "skill_2_stats_generated",   default: 0
+    t.integer  "skill_3_stats_generated",   default: 0
+    t.integer  "skill_4_stats_1_generated", default: 0
+    t.integer  "skill_4_stats_2_generated", default: 0
+    t.integer  "skill_4_stats_3_generated", default: 0
+    t.integer  "month_no"
   end
 
   create_table "projects", force: true do |t|
     t.integer  "team_id"
     t.integer  "game_id"
-    t.integer  "stats_total",      array: true
-    t.integer  "rnd_stage",        array: true
-    t.integer  "rnd_total_points", array: true
-    t.integer  "profit_total",     array: true
-    t.integer  "users_total"
+    t.integer  "stats_total",                            array: true
+    t.integer  "rnd_stage",                              array: true
+    t.integer  "rnd_total_points",                       array: true
+    t.integer  "profit_total",                           array: true
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "project_name"
+    t.integer  "users_total",      default: [[0, 0, 0]], array: true
   end
 
   create_table "team_memberships", force: true do |t|

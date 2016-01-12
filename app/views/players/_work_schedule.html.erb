@@ -40,17 +40,18 @@
                       <%= hidden_field_tag "work_schedule_ids[]", work_item.id %>
                       
                       <div class="work-container-form work-bg-secondary">
+                        <% if work_item.skill_use == nil or work_item.skill_use == '' %>
+                          <%= select_tag "skill_uses[]", grouped_options_for_select(@using_skill_options), prompt: "--- do activity ---", class: "" %>
+                        <% else %>
+                          <div class="value-chosen-form"><%= select_tag "skill_uses[]", grouped_options_for_select(@using_skill_options, "#{work_item.skill_use}") %></div>
+                        <% end %>
+
                         <% if work_item.project_monthly_report_id == nil %> 
-                          <%= select_tag "project_monthly_report_ids[]", grouped_options_for_select(@work_on_options), prompt: "--- work on ---" %>
+                          <%= select_tag "project_monthly_report_ids[]", grouped_options_for_select(@work_on_options), prompt: "--- under project ---" %>
                         <% else %>
                           <div class="value-chosen-form"><%= select_tag "project_monthly_report_ids[]", grouped_options_for_select(@work_on_options, "#{work_item.project_monthly_report_id}") %></div>
                         <% end %>
                         
-                        <% if work_item.skill_use == nil or work_item.skill_use == '' %>
-                          <%= select_tag "skill_uses[]", grouped_options_for_select(@using_skill_options), prompt: "--- using skill ---", class: "" %>
-                        <% else %>
-                          <div class="value-chosen-form"><%= select_tag "skill_uses[]", grouped_options_for_select(@using_skill_options, "#{work_item.skill_use}") %></div>
-                        <% end %>
                       </div>
                     <% end %>
 
@@ -65,15 +66,15 @@
                   <div class="h-secondary"><%= get_month_name(monthly_report.month_no) %></div>
                   <% monthly_report.work_schedules.sort_by(&:rank).each do |work_item| %>
                     <div class="work-container 
-                      <%= if work_item.skill_use == "Product Dev" then "work-bg-blue" 
-                          elsif work_item.skill_use == "Marketing" then "work-bg-red" 
-                          elsif work_item.skill_use == "Support" then "work-bg-orange" 
-                          elsif work_item.skill_use == "do nothing" or work_item.skill_use == nil then "work-bg-secondary"
+                      <%= if work_item.skill_use == "1" or work_item.skill_use == "11" then "work-bg-blue" 
+                          elsif work_item.skill_use == "2" or work_item.skill_use == "12" then "work-bg-red" 
+                          elsif work_item.skill_use == "3" or work_item.skill_use == "13" then "work-bg-orange"
+                          elsif work_item.skill_use.to_i <= 0 then "work-bg-secondary"
                           else "work-bg-green" 
                           end %>">
                       <div class="work-container-text">
-                        <% if work_item.project_monthly_report_id == 0 %>
-                          Studied <%= work_item.skill_use %>
+                        <% if work_item.skill_use.to_i > 10 %>
+                          skill @<%= work_item.project_monthly_report.project.project_name %>
                         <% else %>
                           <%= if work_item.project_monthly_report then work_item.project_monthly_report.project.project_name end %>
                         <% end %>

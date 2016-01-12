@@ -12,6 +12,18 @@ class GamesController < ApplicationController
     else
       @player_project_totals = [0,0,0,0,0,0,0,0]
     end
+
+    @players = @game.players.sort_by(&:id)
+
+    @player_project_profit = [0,0,0,0,0,0,0,0]
+    @players.each_with_index do |p,i|
+      p.teams.each do |t|
+        t.projects.each do |prj|
+          @player_project_profit[i] += prj.profit_total[-1][2] 
+        end
+      end
+    end
+
   end
 
   def new
@@ -76,7 +88,7 @@ class GamesController < ApplicationController
 
       # create projects
       $GAME_TYPES_LOOKUP[@game.game_type][:project_split][i].times do
-        pj = Project.new(team_id: @t.id, game_id: @game.id, project_name: generate_project_name, stats_total: [0,0,0], rnd_stage: [0,0,0], rnd_total_points: [0,0,0], profit_total: [0], users_total: 0)
+        pj = Project.new(team_id: @t.id, game_id: @game.id, project_name: generate_project_name, stats_total: [0,0,0], rnd_stage: [0,0,0], rnd_total_points: [0,0,0], profit_total: [])
         pj.save
       end
 
@@ -94,13 +106,157 @@ class GamesController < ApplicationController
 
   def continue_game
     # THIS MONTH ACTIONS
+    players = @game.players.sort_by(&:id)
+    projects = @game.projects.sort_by(&:id)
+
     # Do caluclations for current month and update all reports
+    unless @game.game_status == 0
+      
+      # convert work schedule to player: salary, skills and project: expense, stats
+      players.each do |player|
+
+        player_report = PlayerMonthlyReport.find_by(player_id: player.id, month_no: @game.game_status)
+
+        player_report.work_schedules.each do |ws|
+          unless ws.skill_use.to_i <= 0 or ws.project_monthly_report_id <= 0
+            # if research interdependence then
+            # if ws.skill_use.to_i > 15 then skill_no = 4 else skill_no = ws.skill_use.to_i end
+            # else only research
+            if ws.skill_use.to_i > 4 and ws.skill_use.to_i < 8 then skill_no = 4 else skill_no = ws.skill_use.to_i end
+            
+            # player salary
+            player_report.salary_generated += $SKILL_SALARY[skill_no][player.skill_level[skill_no-1].to_i]
+
+            # player skill points
+            case skill_no 
+            when 1
+              player_report.skill_points_generated_1 += $SKILL_POINTS[1][player.skill_level[skill_no-1].to_i]
+            when 2
+              player_report.skill_points_generated_2 += $SKILL_POINTS[2][player.skill_level[skill_no-1].to_i]
+            when 3
+              player_report.skill_points_generated_3 += $SKILL_POINTS[3][player.skill_level[skill_no-1].to_i]
+            when 4
+              player_report.skill_points_generated_4 += $SKILL_POINTS[4][player.skill_level[skill_no-1].to_i]
+            when 11
+              player_report.skill_points_generated_1 += $SKILL_POINTS[11][player.skill_level[skill_no-11].to_i]
+            when 12
+              player_report.skill_points_generated_2 += $SKILL_POINTS[12][player.skill_level[skill_no-11].to_i]
+            when 13
+              player_report.skill_points_generated_3 += $SKILL_POINTS[13][player.skill_level[skill_no-11].to_i]
+            when 14
+              player_report.skill_points_generated_4 += $SKILL_POINTS[14][player.skill_level[skill_no-11].to_i]
+            end
+
+            # project expense
+            project_report = ws.project_monthly_report
+            project_report.expense_generated += $SKILL_SALARY[skill_no][player.skill_level[skill_no-1].to_i]
+
+            # project stats
+            case ws.skill_use.to_i
+            when 1
+              project_report.skill_1_stats_generated += $SKILL_PRODUCTIVITY[1][player.skill_level[skill_no-1].to_i]
+            when 2
+              project_report.skill_2_stats_generated += $SKILL_PRODUCTIVITY[2][player.skill_level[skill_no-1].to_i]
+            when 3
+              project_report.skill_3_stats_generated += $SKILL_PRODUCTIVITY[3][player.skill_level[skill_no-1].to_i]
+            when 5
+              project_report.skill_4_stats_1_generated += $SKILL_PRODUCTIVITY[5][player.skill_level[skill_no-1].to_i]
+            when 6
+              project_report.skill_4_stats_2_generated += $SKILL_PRODUCTIVITY[6][player.skill_level[skill_no-1].to_i]
+            when 7
+              project_report.skill_4_stats_3_generated += $SKILL_PRODUCTIVITY[7][player.skill_level[skill_no-1].to_i]
+            end
+
+            project_report.save
+
+          end
+        end
+        player_report.save
+        
+        # update Player salary, skill points and levels
+        player.salary_total += player_report.salary_generated
+        player.skill_total_points = [
+          player.skill_total_points[0]+player_report.skill_points_generated_1,
+          player.skill_total_points[1]+player_report.skill_points_generated_2,
+          player.skill_total_points[2]+player_report.skill_points_generated_3,
+          player.skill_total_points[3]+player_report.skill_points_generated_4
+        ]
+        player.skill_total_points_will_change!
+        player.skill_level = [
+          $SKILL_LEVELS.detect { |points,level| points === player.skill_total_points[0] }.last,
+          $SKILL_LEVELS.detect { |points,level| points === player.skill_total_points[1] }.last,
+          $SKILL_LEVELS.detect { |points,level| points === player.skill_total_points[2] }.last,
+          $SKILL_LEVELS.detect { |points,level| points === player.skill_total_points[3] }.last,
+        ]
+        player.skill_level_will_change!
+        player.save
+
+        
+      end
+
+      # update project 
+      projects.each do |project|
+
+        # update expense, stats, rnd points and stages
+        project_report = ProjectMonthlyReport.find_by(project_id: project.id, month_no: @game.game_status)
+
+        if @game.game_status % 3 == 1
+          project.profit_total << [0,project_report.expense_generated,0]
+        else
+          project.profit_total[-1] = [0,project.profit_total[-1][1]+project_report.expense_generated,0]
+        end
+        project.profit_total_will_change!
+        project.rnd_total_points = [
+          project.rnd_total_points[0]+project_report.skill_4_stats_1_generated,
+          project.rnd_total_points[1]+project_report.skill_4_stats_2_generated,
+          project.rnd_total_points[2]+project_report.skill_4_stats_3_generated
+        ]
+        project.rnd_total_points_will_change!
+        project.rnd_stage = [
+          $RND_STAGES.detect { |points,stage| points === project.rnd_total_points[0] }.last[:stage_no],
+          $RND_STAGES.detect { |points,stage| points === project.rnd_total_points[1] }.last[:stage_no],
+          $RND_STAGES.detect { |points,stage| points === project.rnd_total_points[2] }.last[:stage_no]
+        ]
+        project.rnd_stage_will_change!
+        project.stats_total = [
+          (project.stats_total[0]+project_report.skill_1_stats_generated*$RND_STAGES.detect { |points,stage| points === project.rnd_total_points[0] }.last[:multiplier_1]).to_i,
+          (project.stats_total[1]+project_report.skill_2_stats_generated*$RND_STAGES.detect { |points,stage| points === project.rnd_total_points[1] }.last[:multiplier_2]).to_i,
+          (project.stats_total[2]+project_report.skill_3_stats_generated*$RND_STAGES.detect { |points,stage| points === project.rnd_total_points[0] }.last[:multiplier_3]).to_i
+        ]
+        project.stats_total_will_change!
+  
+        project.save
+  
+        # Quaterly actions
+        if @game.game_status % 3 == 0
+          # Calculate users, revenue and profits
+          old_users = project.stats_total[2]*$SUPPORTED_CONVERSION + (project.users_total[-1][2]-project.stats_total[2])*$UNSUPPORTED_CONVERSION
+          new_users = project.stats_total[1]*$MARKET_CONVERSION
+          active_users = if project.stats_total[0] < old_users+new_users then project.stats_total[0] else old_users+new_users end
+          
+          project.users_total << [old_users, new_users, active_users]
+          project.users_total_will_change!
+
+          q_revenue = active_users*$PRODUCT_UNIT_COST
+      
+          project.profit_total[-1] = [q_revenue, project.profit_total[-1][1], q_revenue-project.profit_total[-1][1]]
+          project.profit_total_will_change!
+
+          # reset quaterly project stats
+          project.stats_total = [project.stats_total[0],0,0]
+          project.stats_total_will_change! 
+        
+          project.save  
+        end
+      end
+
+    end
     
     # NEXT MONTH ACTIONS
     if @game.game_status < @game.game_length
       # create each player's monthly reports
-      @game.players.pluck(:id).each do |player_id|
-        @pr = PlayerMonthlyReport.new(player_id: player_id, month_no: @game.game_status+1, salary_generated: 0, skill_points_generated: [0,0,0,0])
+      players.each do |player|
+        @pr = PlayerMonthlyReport.new(player_id: player.id, month_no: @game.game_status+1, salary_generated: 0)
         @pr.save
         
         # create 8 work schedules for each report
@@ -111,8 +267,8 @@ class GamesController < ApplicationController
       end
 
       # create each project's monthly report
-       @game.projects.pluck(:id).each do |project_id|
-        pjr = ProjectMonthlyReport.new(project_id: project_id, profit_generated: [0,0,0], stats_generated: [0,0,0], rd_generated: [0,0,0], users_generated: 0,)
+      projects.each do |project|
+        pjr = ProjectMonthlyReport.new(project_id: project.id, month_no: @game.game_status+1)
         pjr.save
       end
     end
@@ -127,7 +283,7 @@ class GamesController < ApplicationController
     elsif @game.game_status < @game.game_length
       flash[:notice] = "Calculations updated. Game progresses to Month #{@game.game_status}."
     else
-      flash[:notice] = "Calculations updated. Game is completed."
+      flash[:notice] = "Calculations updated. Game completed."
     end
     redirect_to request.referrer
   end

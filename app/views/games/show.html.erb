@@ -87,11 +87,11 @@
         <% end %>
       
       <!-- CONTINUE GAME -->
-      <% else %> 
+      <% elsif @game.game_status <= @game.game_length %> 
         <div class="h-primary">GAME IN PLAY: MONTH <%= @game.game_status %></div>
         
         <h3 class="center">Help text here.</h3>
-
+        
         <%= form_tag "/games/#{@game.id}/continue_game" do %>
           <div class="center col-sm-6 col-sm-offset-3 button-padding">
             <%= button_tag(type: 'submit', class: "btn btn-block btn-green") do %>
@@ -99,6 +99,14 @@
             <% end %>
           </div>
         <% end %>
+      
+      <!-- GAME COMPLETED -->
+      <% else %>
+        <div class="h-primary">GAME COMPLETED</div>
+        
+        <h3 class="center">Forms and other data.</h3>
+        <!-- button for next steps -->
+
       <% end %>
 
     </div>
@@ -115,7 +123,6 @@
 
       <div class="panel-body">
         
-        <% @player_project_totals = [0,0,0,0,0,0,0,0] %>
         <table class="table table-condensed table-hover table-bordered">
           <thead>
             <tr>
@@ -159,6 +166,41 @@
 
       </div>
     </div>
+
+  <% if @game.game_status > 1 %>
+    <div class="content-container">
+      <div class="panel-secondary">
+        <div class="panel-title">
+          Summaries
+        </div>
+      </div>
+
+      <div class="panel-body">
+        <table class="table table-condensed table-hover">
+          <thead>
+            <th></th>
+            <th>Total Salary</th>
+            <th>Cum. Project Profit</th>
+          </thead>
+          <tbody>
+            <% @players.each_with_index do |player,i| %>
+              <tr>
+                <td><%= player.user.name %></td>  
+                <td><%= player.salary_total %></td>
+                <td><%= @player_project_profit[i] %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  <% else %>
+    <div class="content-container">
+      <% @players.each do |player| %>
+        <%= player.user.name %>: /<%= player.id %><br>
+      <% end %>
+    </div>
+  <% end %>
 
   <% end %>
 

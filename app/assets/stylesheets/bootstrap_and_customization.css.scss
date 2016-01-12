@@ -10,7 +10,7 @@ $brand-font-gray:							rgba(0,0,0,0.4); //#999999;
 $brand-green:									#62CB43;
 $brand-orange:								#F8BC32;
 $brand-red:										#EE5C55;
-$brand-blue:									#3369e8;
+$brand-blue:									#46b8da; //#3369e8;
 $navbar-height:								55px;
 $navbar-default-bg: 					white;
 $navbar-default-brand-color: 	rgba(0,0,0,0.8); //black
@@ -53,6 +53,12 @@ a, a:hover { color: $brand-blue; }
 .font-green { color: $brand-green; font-weight: lighter; }
 .font-orange { color: $brand-orange; font-weight: lighter; }
 .font-red { color: $brand-red; font-weight: lighter; }
+.font-blue { color: $brand-blue; font-weight: lighter; }
+
+.font-1 { color: $brand-blue; font-weight: lighter; }
+.font-2 { color: $brand-red; font-weight: lighter; }
+.font-3 { color: $brand-orange; font-weight: lighter; }
+.font-4 { color: $brand-green; font-weight: lighter; }
 
 .center { text-align: center; }
 .left { text-align: left; }
@@ -290,3 +296,30 @@ select:focus { box-shadow: inset 0px 0px 2px $body-border; outline: 0; }
 	}
 	select:focus { box-shadow: inset 0px 0px 2px $body-border; outline: 0; }
 }
+
+.cpi-goal {
+	font-size: 12px;
+	font-weight: bold;
+	margin: 10px -14px;
+  padding: 1px 15px;
+  height: 36px;
+  // width: 230px;
+}
+.progress, .progress-spi {
+	height: 15px;
+	border-radius: 0;
+	box-shadow: none;
+	margin-top: 18px;
+}
+.progress-spi {
+	height:22px; 
+	margin:7px 0 0 4px;
+	background-color: $body-border;
+}
+// .progress-bar { box-shadow: none; }
+.progress-bar-0 { background-color: $brand-primary; }
+.progress-bar-secondary { background-color: $brand-font-gray; }
+.progress-bar-1 { background-color: $brand-blue; }
+.progress-bar-2 { background-color: $brand-red; }
+.progress-bar-3 { background-color: $brand-orange; }
+.progress-bar-4 { background-color: $brand-green; }
