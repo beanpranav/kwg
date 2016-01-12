@@ -107,11 +107,11 @@
 				</div>
 			<% end %>
 
-			<% current_user.games.sort_by(&:created_at).reverse.each do |game| %>
-				<a href="<%= game_path(game) %>" class="">
+			<% current_user.players.sort_by(&:created_at).reverse.each do |player| %>
+				<a href="<%= player_path(player) %>" class="">
 					<div class="game-card supress-a col-sm-4 row">
-						game ID: <%= game.id %><br>
-						game length: <%= game.game_length %><br>
+						Player ID: <%= player.id %><br>
+						Game length: <%= player.game.game_length %><br>
 					</div>
 				</a>
 			<% end %>
