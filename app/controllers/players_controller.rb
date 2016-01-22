@@ -22,11 +22,13 @@ class PlayersController < ApplicationController
     end
 
     @player_projects = []
+    @player_project_profit = 0
     @work_on_options = []
     @using_skill_options = [["Product Dev",1],["Marketing",2],["Support",3]]
 
     @player.teams.each do |team|
       team.projects.each do |project|
+        @player_project_profit += project.profit_total[-1][2]
         @player_projects << project
         @work_on_options << [project.project_name,project.project_monthly_reports.sort_by(&:created_at).last.id] if @player.game.game_status > 0
       end
