@@ -81,6 +81,7 @@ class GamesController < ApplicationController
     @game.save
 
     # create teams
+    project_counter = 0
     teams = generate_team_names($GAME_TYPES_LOOKUP[@game.game_type][:teams])
     @players = Player.where(game_id: @game.id).pluck(:id, :member_no)
 
@@ -90,8 +91,9 @@ class GamesController < ApplicationController
 
       # create projects
       $GAME_TYPES_LOOKUP[@game.game_type][:project_split][i].times do
-        pj = Project.new(team_id: @t.id, game_id: @game.id, project_name: generate_project_name, stats_total: [0,0,0], rnd_stage: [0,0,0], rnd_total_points: [0,0,0], profit_total: [])
+        pj = Project.new(team_id: @t.id, game_id: @game.id, project_name: generate_project_name(project_counter), stats_total: [0,0,0], rnd_stage: [0,0,0], rnd_total_points: [0,0,0], profit_total: [])
         pj.save
+        project_counter += 1
       end
 
       # assign membership

@@ -1,11 +1,12 @@
 module GamesHelper
 
-	def generate_project_name
-    rnd1 = Random.rand(51)
-    rnd2 = Random.rand(60)
-    rnd3 = Random.rand(4)
+	def generate_project_name(index)
+    # rnd1 = Random.rand(51)
+    # rnd2 = Random.rand(60)
+    # rnd3 = Random.rand(4)
 
-    "#{adjectives[rnd1+rnd3]}_#{nouns[rnd2+rnd3]}"
+    # "#{adjectives[rnd1+rnd3]}_#{nouns[rnd2+rnd3]}"
+    project_names[index]
   end
 
   def generate_team_names(number)
@@ -13,6 +14,14 @@ module GamesHelper
   end
 
   private
+
+  def project_names
+    [
+      "Candy_Clash", "Crush_the_Clans", "Flappy_Parrot", "4096",
+      "summer", "icy", "delicate", "quiet",  
+      "cool", "spring", "winter", "Yo"
+    ]
+  end
 
   def adjectives
     [
