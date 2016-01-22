@@ -35,13 +35,18 @@
           
           <div id="links" class="panel-collapse" role="tabpanel">
             <div class="panel-body">
-              <% @player_projects.each do |project| %>
-                <i class="fa fa-angle-double-right"></i>&nbsp;&nbsp;
-                <a href="#<%= project.project_name %>" aria-controls="<%= project.project_name %>" role="tab" data-toggle="tab" class="primary-a"><%= project.project_name %></a><br>
+              <% @player.teams.each do |team| %>
+                <b><%= team.team_name %></b>
+                  <% team.projects.each do |project| %>
+                    <br>&nbsp;&nbsp;
+                    <i class="fa fa-angle-double-right"></i>&nbsp;&nbsp;
+                    <a href="#<%= project.project_name %>" aria-controls="<%= project.project_name %>" role="tab" data-toggle="tab" class="primary-a"><%= project.project_name %></a>
+                  <% end %>
+                <br>
               <% end %>
               <br>
              <!--  <a href="#my_schedule" aria-controls="my_schedule" role="tab" data-toggle="tab" class="primary-a">Work Schedule</a> -->
-              <%= link_to "Work Schedule", player_path(@player), class: "primary-a" %>
+              <b><%= link_to "Work Schedule", player_path(@player), class: "primary-a" %></b>
             </div>
           </div>
         </div>
