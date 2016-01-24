@@ -20,7 +20,9 @@ class GamesController < ApplicationController
       @players.each_with_index do |p,i|
         p.teams.each do |t|
           t.projects.each do |prj|
-            @player_project_profit[i] += prj.profit_total[-1][2] 
+            prj.profit_total.each do |q|
+              @player_project_profit[i] += q[2]
+            end
           end
         end
       end
@@ -71,7 +73,7 @@ class GamesController < ApplicationController
     active_users.each.with_index(1) do |user, index|
       user.user_status = "playing"
       user.save
-      p = Player.new(user_id: user.id, game_id: params[:game_id], member_no: index, salary_total: 0, skill_level: [0,0,0,0], skill_total_points: [0,0,0,0])
+      p = Player.new(user_id: user.id, game_id: params[:game_id], member_no: index, salary_total: 0, skill_level: [1,1,1,1], skill_total_points: [1,1,1,1])
       p.save
     end
     
@@ -91,7 +93,7 @@ class GamesController < ApplicationController
 
       # create projects
       $GAME_TYPES_LOOKUP[@game.game_type][:project_split][i].times do
-        pj = Project.new(team_id: @t.id, game_id: @game.id, project_name: generate_project_name(project_counter), stats_total: [0,0,0], rnd_stage: [0,0,0], rnd_total_points: [0,0,0], profit_total: [])
+        pj = Project.new(team_id: @t.id, game_id: @game.id, project_name: generate_project_name(project_counter), stats_total: [0,0,0], rnd_stage: [1,1,1], rnd_total_points: [1,1,1], profit_total: [])
         pj.save
         project_counter += 1
       end

@@ -1,12 +1,14 @@
 $GAME_TYPES = 
 [
 	# ['[MTM = 6,1] Each player has 6 projects & belongs to 1 team', 1],
-	['[MTM = 6,2] Each player has 6 projects & belongs to 2 teams', 2],
+	# ['[MTM = 6,2] Each player has 6 projects & belongs to 2 teams', 2],
 	# ['[MTM = 6,3] Each player has 6 projects & belongs to 3 teams', 3],
 	# ['[MTM = 6,4] Each player has 6 projects & belongs to 4 teams', 4],
 	# ['[MTM = 6,5] Each player has 6 projects & belongs to 5 teams', 5],
-	['[MTM = 6,6] Each player has 6 projects & belongs to 6 teams', 6],
-	['[MTM = 3,3] Each player has 3 projects & belongs to 3 teams', 7]
+	# ['[MTM = 6,6] Each player has 6 projects & belongs to 6 teams', 6],
+	# ['[MTM = 3,3] Each player has 3 projects & belongs to 3 teams', 7],
+	['[MTM = 3,1] Each player has 3 projects & belongs to 1 team', 8],
+	['[MTM = 3,3] Each player has 3 projects & belongs to 3 teams', 9]
 ]
 
 $GAME_TYPES_LOOKUP = 
@@ -47,10 +49,23 @@ $GAME_TYPES_LOOKUP =
 				project_split: [1,1,1,1,1,1,1,1,1,1,1,1],
 				membership_split: [[2,3,6,7],[1,2,3,4],[5,6,7,8],[1,4,6,7],[2,3,5,8],[1,2,7,8],[1,4,5,8],[1,2,5,6],[3,4,7,8],[1,3,5,7],[2,4,6,8],[3,4,5,6]]},
 	7 => {
-				name: 'MTM(n,v) = 3,3', 
+				name: 'MTM(n,v) = 3,3 @3', 
 				teams: 4,
 				project_split: [1,1,1,1],
-				membership_split: [[1,2,3],[1,2,4],[1,3,4],[2,3,4]]}
+				membership_split: [[1,2,3],[1,2,4],[1,3,4],[2,3,4]]
+				},
+	8 => {
+				name: 'MTM(n,v) = 3,1',
+				teams: 2, 
+				project_split: [3,3], 
+				membership_split: [[1,2,3,4],[5,6,7,8]]
+				},
+	9 => {
+				name: 'MTM(n,v) = 3,3', 
+				teams: 6, 
+				project_split: [1,1,1,1,1,1], 
+				membership_split: [[1,2,3,4],[5,6,7,8],[1,2,5,6],[3,4,7,8],[1,4,5,8],[2,3,6,7]]
+				}
 }
 
 $SKILL_NAMES = ["Product Dev", "Marketing", "Support", "R&D"]
@@ -85,11 +100,11 @@ $SKILL_POINTS =
 
 $SKILL_LEVELS = 
 {
-	0..200 => 0,
-	201..500 => 1,
-	501..1000 => 2,
-	1001..2000 => 3,
-	2001..10000 => 4
+	1..200 => 1,
+	201..500 => 2,
+	501..1000 => 3,
+	1001..2000 => 4,
+	2001..10000 => 5
 }
 
 $SKILL_PRODUCTIVITY = 
@@ -106,7 +121,7 @@ $SKILL_PRODUCTIVITY =
 
 $RND_STAGES = 
 {
-	0..400 => { stage_no: 1, multiplier_1: 0.30, multiplier_2: 0.20, multiplier_3: 0.50 },
+	1..400 => { stage_no: 1, multiplier_1: 0.30, multiplier_2: 0.20, multiplier_3: 0.50 },
 	401..1600 => { stage_no: 2, multiplier_1: 0.60, multiplier_2: 0.50, multiplier_3: 0.80 },
 	1601..4000 => { stage_no: 3, multiplier_1: 0.90, multiplier_2: 0.90, multiplier_3: 0.95 }
 }

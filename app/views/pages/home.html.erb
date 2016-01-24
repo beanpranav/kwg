@@ -101,11 +101,11 @@
 				<h3 class="font-invert">As a participant, you have played <%= pluralize( current_user.games.count, 'game' ) %>.</h3>
 			</div>
 		
-			<%= link_to controller: "games", action: "new", user_id: current_user.id do %>
+<!-- 			= link_to controller: "games", action: "new", user_id: current_user.id do %>
 				<div class="game-card supress-a col-sm-4 row">
 					Ready to Play
 				</div>
-			<% end %>
+			 end %> -->
 
 			<% current_user.players.sort_by(&:created_at).reverse.each do |player| %>
 				<a href="<%= player_path(player) %>" class="">

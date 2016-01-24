@@ -46,7 +46,7 @@
               <% end %>
               <br>
              <!--  <a href="#my_schedule" aria-controls="my_schedule" role="tab" data-toggle="tab" class="primary-a">Work Schedule</a> -->
-              <b><%= link_to "Work Schedule", player_path(@player), class: "primary-a" %></b>
+              <b><%= link_to "Work Calender", player_path(@player), class: "primary-a" %></b>
             </div>
           </div>
         </div>
@@ -96,8 +96,11 @@
                 <% level_range = $SKILL_LEVELS.detect { |points,level| level === @player.skill_level[i] }.first %>
                 <% skill_progress_ratio = (@player.skill_total_points[i]-level_range.begin)*100/(level_range.end-level_range.begin) %>
                 <div class="cpi-goal">  
-                  <div class="pull-left"><%= $SKILL_NAMES[i] %></div>
-                  <div class="pull-right">Level <%= @player.skill_level[i]+1 %></div>
+                  <div class="pull-left" style="margin-left:36px;"><%= $SKILL_NAMES[i] %></div>
+                  <div class="pull-right"><%= @player.skill_total_points[i]-level_range.begin %>
+                    <span class="font-secondary">/<%= level_range.end-level_range.begin+1 %></span>
+                  </div>
+                  <div class="progress-level progress-bar-<%= i+1 %> center"><%= @player.skill_level[i] %></div>
                   <div class="progress">
                     <div class="progress-bar progress-bar-<%= i+1 %>" role="progressbar" aria-valuenow="<%= skill_progress_ratio %>" aria-valuemin="0" aria-valuemax="100" style="width: <%= skill_progress_ratio %>%">
                       <span class="sr-only"><%= skill_progress_ratio %>%</span>
@@ -127,7 +130,7 @@
         <div class="content-container" style="min-height:46px;">
           <!-- TAB NAME -->
           <div class="panel-primary">
-            <div class="panel-title">Work Schedule</div>
+            <div class="panel-title">Work Calender</div>
           </div>
         </div>
 
@@ -154,7 +157,7 @@
           <div class="content-container">
             <div class="panel-secondary">
               <div class="panel-title">
-                <%= project.project_name %>: Status as of <%= get_month_name(@current_month) %>
+                <%= project.project_name %> >> Status as of <%= get_month_name(@current_month) %>
                 <!-- <i class="fa fa-fw fa-sort pull-right" style="margin: 3px -5px 0 0;"></i> -->
               </div>
             </div>
@@ -169,13 +172,15 @@
                   <% performance = 0 %>
                   <% project.profit_total.each_with_index do |q_profits,i| %>
                     <tr>
-                      <td class="left">Q<%= i+1 %> Revenue</td>
-                      <td class="right"><%= number_to_currency(q_profits[0], negative_format: "(%u%n)") %></td>
-                    </tr>
-                    <tr>
                       <td class="left">Q<%= i+1 %> Expenses</td>
                       <td class="right"><%= number_to_currency(-q_profits[1], negative_format: "(%u%n)") %></td>
                     </tr>
+
+                    <tr>
+                      <td class="left">Q<%= i+1 %> Revenue</td>
+                      <td class="right"><%= number_to_currency(q_profits[0], negative_format: "(%u%n)") %></td>
+                    </tr>
+                    
                     <% performance += q_profits[0]-q_profits[1] %>
                   <% end %>
                   <tr>
@@ -218,8 +223,11 @@
                   <% stage_range = $RND_STAGES.detect { |points,k| k[:stage_no] === stage_no }.first %>
                   <% rnd_progress_ratio = (project.rnd_total_points[i]-stage_range.begin)*100/(stage_range.end-stage_range.begin) %>
                   <div class="cpi-goal" style="margin-top:30px;">  
-                    <div class="pull-left"><%= $SKILL_NAMES[i] %></div>
-                    <div class="pull-right">Stage <%= stage_no %></div>
+                    <div class="pull-left" style="margin-left:36px;"><%= $SKILL_NAMES[i] %></div>
+                    <div class="pull-right"><%= project.rnd_total_points[i]-stage_range.begin %>
+                      <span class="font-secondary">/<%= stage_range.end-stage_range.begin+1 %></span>
+                    </div>
+                    <div class="progress-level progress-bar-secondary center"><%= stage_no %></div>
                     <div class="progress" style="margin-bottom:2px;">
                       <div class="progress-bar progress-bar-4" role="progressbar" aria-valuenow="<%= rnd_progress_ratio %>" aria-valuemin="0" aria-valuemax="100" style="width: <%= rnd_progress_ratio %>%">
                         <span class="sr-only"><%= rnd_progress_ratio %>%</span>
@@ -249,14 +257,14 @@
             <div class="content-container">
               <div class="panel-secondary">
                 <div class="panel-title">
-                  <%= project.team.team_name %>: Members
+                  <%= project.team.team_name %> >> Member's skills
                   <!-- <i class="fa fa-fw fa-sort pull-right" style="margin: 3px -5px 0 0;"></i> -->
                 </div>
               </div>
 
               <div class="panel-body">
 
-                <table class="table table-condensed" style="margin:10px 0;">
+                <table class="table table-condensed table-hover" style="margin:10px 0;">
                   <thead>
                     <tr>
                       <th></th>
@@ -275,18 +283,8 @@
                         <% 4.times do |i| %>
                           <% level_range = $SKILL_LEVELS.detect { |points,level| level === p.skill_level[i] }.first %>
                           <% skill_progress_ratio = (p.skill_total_points[i]-level_range.begin)*100/(level_range.end-level_range.begin) %>
-                          <td class="col-md-3 center" style="padding:15px;">
-                            
-                            <div class="progress" style="margin:0; height:20px; opacity:0.7;">
-                              <div class="progress-bar progress-bar-<%= i+1 %>" role="progressbar" aria-valuenow="<%= skill_progress_ratio %>" aria-valuemin="0" aria-valuemax="100" style="width: <%= skill_progress_ratio %>%">
-                                <span class="sr-only"><%= skill_progress_ratio %>%</span>
-                              </div>
-                            </div>
-
-                            <div class="cpi" style="margin-top:-20px;">
-                                <b>Level <%= p.skill_level[i]+1 %></b>
-                            </div>
-
+                          <td class="col-md-3" style="padding:9px;">
+                            <div class="progress-level progress-bar-<%= i+1 %> center" style="line-height: 2; margin: 0 auto;"><%= p.skill_level[i] %></div>
                           </td>
                         <% end %>
                     <% end %>

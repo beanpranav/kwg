@@ -28,7 +28,11 @@ class PlayersController < ApplicationController
 
     @player.teams.each do |team|
       team.projects.each do |project|
-        @player_project_profit += project.profit_total[-1][2] if @player.game.game_status > 1
+        if @player.game.game_status > 1
+          project.profit_total.each do |q_stats|
+            @player_project_profit += q_stats[2]
+          end 
+        end      
         @player_projects << project
         @work_on_options << [project.project_name,project.project_monthly_reports.sort_by(&:created_at).last.id] if @player.game.game_status > 0
       end
@@ -41,13 +45,13 @@ class PlayersController < ApplicationController
 
     # if research interdependence then
     # @using_skill_options = @using_skill_options.uniq{|x| x[1]}
-    # else only research
-    @using_skill_options << ["R&D on Product",5]
-    @using_skill_options << ["R&D on Marketing",6]
-    @using_skill_options << ["R&D on Support",7]
+    # # else only research
+    # @using_skill_options << ["R&D on Product",5]
+    # @using_skill_options << ["R&D on Marketing",6]
+    # @using_skill_options << ["R&D on Support",7]
 
     # compiling all skill options
-    @using_skill_options = [['DO ------',@using_skill_options],['IMPROVE ------',[["Product Dev skills",11], ["Marketing skills",12], ["Support skills",13], ["Research skills",14]]],['NOTHING ------',[["do nothing",-1]]]]
+    @using_skill_options = [['DO ------',@using_skill_options],['DO R&D ------',[["R&D on Product",5],["R&D on Marketing",6],["R&D on Support",7]]],['IMPROVE ------',[["Product Dev skills",11], ["Marketing skills",12], ["Support skills",13], ["Research skills",14]]],['NOTHING ------',[["do nothing",-1]]]]
 
   end
 

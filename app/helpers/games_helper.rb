@@ -17,39 +17,39 @@ module GamesHelper
 
   def project_names
     [
-      "Candy_Clash", "Crush_the_Clans", "Flappy_Parrot", "4096",
-      "summer", "icy", "delicate", "quiet",  
-      "cool", "spring", "winter", "Yo"
+      "vChat", "vGames", "vMaps", "vPhotos",
+      "vWeather", "vTunes", "vSocial", "vNews",  
+      "vMoney", "vBrowser", "vDriver", "vYo"
     ]
   end
 
-  def adjectives
-    [
-      "autumn", "hidden", "bitter", "misty", "silent", "empty", "dry", "dark",
-      "summer", "icy", "delicate", "quiet",  "cool", "spring", "winter",
-      "patient", "twilight", "dawn", "wispy", "weathered", 
-      "billowing", "broken", "cold", "damp", "falling", "frosty", 
-      "long", "late", "bold", "little", "morning", "muddy",
-      "rough", "still", "small", "sparkling", "shy",
-      "wandering", "withered", "wild", "young", "holy", "solitary",
-      "fragrant", "aged", "snowy", "proud", "floral", "restless",
-      "polished", "lively", "nameless", "olive", "indigo", "chocolate"
-    ]
-  end
+  # def adjectives
+  #   [
+  #     "autumn", "hidden", "bitter", "misty", "silent", "empty", "dry", "dark",
+  #     "summer", "icy", "delicate", "quiet",  "cool", "spring", "winter",
+  #     "patient", "twilight", "dawn", "wispy", "weathered", 
+  #     "billowing", "broken", "cold", "damp", "falling", "frosty", 
+  #     "long", "late", "bold", "little", "morning", "muddy",
+  #     "rough", "still", "small", "sparkling", "shy",
+  #     "wandering", "withered", "wild", "young", "holy", "solitary",
+  #     "fragrant", "aged", "snowy", "proud", "floral", "restless",
+  #     "polished", "lively", "nameless", "olive", "indigo", "chocolate"
+  #   ]
+  # end
 
-  def nouns
-    [
-      "waterfall", "river", "breeze", "moon", "rain", "wind", "sea", "morning",
-      "snow", "lake", "sunset", "pine", "shadow", "leaf", "dawn", "glitter",
-      "forest", "hill", "cloud", "meadow", "sun", "glade", "bird", "brook",
-      "butterfly", "bush", "dew", "dust", "field", "fire", "flower", "firefly",
-      "feather", "grass", "haze", "mountain", "night", "pond", "darkness",
-      "snowflake", "silence", "sound", "sky", "shape", "surf", "thunder",
-      "violet", "water", "wildflower", "wave", "water", "resonance", "sun",
-      "wood", "dream", "cherry", "tree", "fog", "frost", "voice", "paper",
-      "frog", "smoke", "star"
-    ]
-  end
+  # def nouns
+  #   [
+  #     "waterfall", "river", "breeze", "moon", "rain", "wind", "sea", "morning",
+  #     "snow", "lake", "sunset", "pine", "shadow", "leaf", "dawn", "glitter",
+  #     "forest", "hill", "cloud", "meadow", "sun", "glade", "bird", "brook",
+  #     "butterfly", "bush", "dew", "dust", "field", "fire", "flower", "firefly",
+  #     "feather", "grass", "haze", "mountain", "night", "pond", "darkness",
+  #     "snowflake", "silence", "sound", "sky", "shape", "surf", "thunder",
+  #     "violet", "water", "wildflower", "wave", "water", "resonance", "sun",
+  #     "wood", "dream", "cherry", "tree", "fog", "frost", "voice", "paper",
+  #     "frog", "smoke", "star"
+  #   ]
+  # end
 
   def colors
     [
