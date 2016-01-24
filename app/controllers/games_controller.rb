@@ -128,10 +128,12 @@ class GamesController < ApplicationController
 
         player_report.work_schedules.each do |ws|
           unless ws.skill_use.to_i <= 0 or ws.project_monthly_report_id <= 0
-            # if research interdependence then
-            # if ws.skill_use.to_i > 15 then skill_no = 4 else skill_no = ws.skill_use.to_i end
-            # else only research
-            if ws.skill_use.to_i > 4 and ws.skill_use.to_i < 8 then skill_no = 4 else skill_no = ws.skill_use.to_i end
+            # set skill no used
+            if ws.skill_use.to_i > 4 and ws.skill_use.to_i < 8 
+              skill_no = 4 
+            else 
+              skill_no = ws.skill_use.to_i 
+            end
             
             # player salary
             if skill_no < 5
@@ -162,7 +164,11 @@ class GamesController < ApplicationController
 
             # project expense
             project_report = ws.project_monthly_report
-            project_report.expense_generated += $SKILL_SALARY[skill_no][player.skill_level[skill_no-1].to_i]
+            if skill_no < 5
+              project_report.expense_generated += $SKILL_SALARY[skill_no][player.skill_level[skill_no-1].to_i]
+            else
+              project_report.expense_generated += $SKILL_SALARY[skill_no][player.skill_level[skill_no-11].to_i]
+            end
 
             # project stats
             case ws.skill_use.to_i
