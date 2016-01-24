@@ -51,7 +51,12 @@ class PlayersController < ApplicationController
     # @using_skill_options << ["R&D on Support",7]
 
     # compiling all skill options
-    @using_skill_options = [['DO ------',@using_skill_options],['DO R&D ------',[["R&D on Product",5],["R&D on Marketing",6],["R&D on Support",7]]],['IMPROVE ------',[["Product Dev skills",11], ["Marketing skills",12], ["Support skills",13], ["Research skills",14]]],['NOTHING ------',[["do nothing",-1]]]]
+    @using_skill_options = [
+                            ['DO ------',@using_skill_options],
+                            ['DO R&D ------',[["R&D on Product",5],["R&D on Marketing",6],["R&D on Support",7]]],
+                            ['IMPROVE ------',[["Product Dev skills",11], ["Marketing skills",12], ["Support skills",13], ["Research skills",14]]],
+                            ['NOTHING ------',[["do nothing",-1]]]
+                          ]
 
   end
 
