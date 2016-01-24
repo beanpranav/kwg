@@ -151,7 +151,7 @@ class GamesController < ApplicationController
             when 3
               player_report.skill_points_generated_3 += $SKILL_POINTS[3][player.skill_level[2].to_i]
             when 4
-              puts player.skill_level[3].to_i
+              puts ("##############")
               player_report.skill_points_generated_4 += $SKILL_POINTS[4][player.skill_level[3].to_i]
             when 11
               player_report.skill_points_generated_1 += $SKILL_POINTS[11][player.skill_level[0].to_i]
