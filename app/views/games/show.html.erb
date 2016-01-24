@@ -150,6 +150,12 @@
                   <b><%= team.team_name %></b>
                   <% team.projects.each do |project| %>
                     <br>&nbsp;&nbsp;&nbsp;<%= project.project_name %>
+                    <% if @game.game_status >1 %>
+                      <% project.profit_total.each do |q| %>
+                         <!-- @project_profit += q[2] --> 
+                      <% end %>
+                      (<%= @projet_profit %>)
+                    <% end %>
                   <% end %>
                 </td>
                 <% @game.players.sort_by(&:member_no).each_with_index do |player,i| %>

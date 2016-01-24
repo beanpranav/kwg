@@ -26,6 +26,9 @@ class GamesController < ApplicationController
           end
         end
       end
+
+      @project_profits = 0
+
     end
 
   end
@@ -134,7 +137,7 @@ class GamesController < ApplicationController
             player_report.salary_generated += $SKILL_SALARY[skill_no][player.skill_level[skill_no-1].to_i]
 
             # player skill points
-            case skill_no 
+            case skill_no.to_i
             when 1
               player_report.skill_points_generated_1 += $SKILL_POINTS[1][player.skill_level[skill_no-1].to_i]
             when 2
