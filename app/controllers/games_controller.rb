@@ -240,7 +240,7 @@ class GamesController < ApplicationController
         project.stats_total = [
           (project.stats_total[0]+project_report.skill_1_stats_generated*$RND_STAGES.detect { |points,stage| points === project.rnd_total_points[0] }.last[:multiplier_1]).to_i,
           (project.stats_total[1]+project_report.skill_2_stats_generated*$RND_STAGES.detect { |points,stage| points === project.rnd_total_points[1] }.last[:multiplier_2]).to_i,
-          (project.stats_total[2]+project_report.skill_3_stats_generated*$RND_STAGES.detect { |points,stage| points === project.rnd_total_points[0] }.last[:multiplier_3]).to_i
+          (project.stats_total[2]+project_report.skill_3_stats_generated*$RND_STAGES.detect { |points,stage| points === project.rnd_total_points[2] }.last[:multiplier_3]).to_i
         ]
         project.stats_total_will_change!
   
