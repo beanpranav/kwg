@@ -145,21 +145,22 @@ class GamesController < ApplicationController
             # player skill points
             case skill_no
             when 1
-              player_report.skill_points_generated_1 += $SKILL_POINTS[1][player.skill_level[skill_no-1].to_i]
+              player_report.skill_points_generated_1 += $SKILL_POINTS[1][player.skill_level[0].to_i]
             when 2
-              player_report.skill_points_generated_2 += $SKILL_POINTS[2][player.skill_level[skill_no-1].to_i]
+              player_report.skill_points_generated_2 += $SKILL_POINTS[2][player.skill_level[1].to_i]
             when 3
-              player_report.skill_points_generated_3 += $SKILL_POINTS[3][player.skill_level[skill_no-1].to_i]
+              player_report.skill_points_generated_3 += $SKILL_POINTS[3][player.skill_level[2].to_i]
             when 4
-              player_report.skill_points_generated_4 += $SKILL_POINTS[4][player.skill_level[skill_no-1].to_i]
+              puts player.skill_level[3].to_i
+              player_report.skill_points_generated_4 += $SKILL_POINTS[4][player.skill_level[3].to_i]
             when 11
-              player_report.skill_points_generated_1 += $SKILL_POINTS[11][player.skill_level[skill_no-11].to_i]
+              player_report.skill_points_generated_1 += $SKILL_POINTS[11][player.skill_level[0].to_i]
             when 12
-              player_report.skill_points_generated_2 += $SKILL_POINTS[12][player.skill_level[skill_no-11].to_i]
+              player_report.skill_points_generated_2 += $SKILL_POINTS[12][player.skill_level[1].to_i]
             when 13
-              player_report.skill_points_generated_3 += $SKILL_POINTS[13][player.skill_level[skill_no-11].to_i]
+              player_report.skill_points_generated_3 += $SKILL_POINTS[13][player.skill_level[2].to_i]
             when 14
-              player_report.skill_points_generated_4 += $SKILL_POINTS[14][player.skill_level[skill_no-11].to_i]
+              player_report.skill_points_generated_4 += $SKILL_POINTS[14][player.skill_level[3].to_i]
             end
 
             # project expense
