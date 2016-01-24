@@ -134,7 +134,11 @@ class GamesController < ApplicationController
             if ws.skill_use.to_i > 4 and ws.skill_use.to_i < 8 then skill_no = 4 else skill_no = ws.skill_use.to_i end
             
             # player salary
-            player_report.salary_generated += $SKILL_SALARY[skill_no][player.skill_level[skill_no-1].to_i]
+            if skill_no < 5
+              player_report.salary_generated += $SKILL_SALARY[skill_no][player.skill_level[skill_no-1].to_i]
+            else
+              player_report.salary_generated += $SKILL_SALARY[skill_no][player.skill_level[skill_no-11].to_i]
+            end
 
             # player skill points
             case skill_no
