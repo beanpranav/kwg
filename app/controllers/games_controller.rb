@@ -17,6 +17,7 @@ class GamesController < ApplicationController
 
     if @game.game_status > 1
       @player_project_profit = [0,0,0,0,0,0,0,0]
+
       @players.each_with_index do |p,i|
         p.teams.each do |t|
           t.projects.each do |prj|
@@ -27,8 +28,15 @@ class GamesController < ApplicationController
         end
       end
 
-      @project_profits = 0
-
+      @project_profits = Array.new(@game.teams.count,[])
+      # @game.teams.sort_by(&:id).each_with_index do |team,i|
+      #   team.projects.each_with_index do |project,j|
+      #     @project_profits[i] << 0
+      #     project.profit_total.each do |q|
+      #       @project_profits[i][j] += q[2]
+      #     end
+      #   end
+      # end
     end
 
   end

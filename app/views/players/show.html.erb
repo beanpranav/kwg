@@ -65,7 +65,7 @@
           <div id="performance" class="panel-collapse" role="tabpanel">
             <div class="panel-body">
               <div class="h-primary"><%= number_to_currency(@player_project_profit/@player_projects.count, negative_format: "(%u%n)", precision: 0) %></div>
-              <h3 class="center">Avg Apps Profit</h3>
+              <h3 class="center">Avg Apps Profit (Q<%= @current_quarter-1 %>)</h3>
             </div>
           </div>
 

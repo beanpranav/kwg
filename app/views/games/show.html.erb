@@ -150,12 +150,7 @@
                   <b><%= team.team_name %></b>
                   <% team.projects.each do |project| %>
                     <br>&nbsp;&nbsp;&nbsp;<%= project.project_name %>
-                    <% if @game.game_status >1 %>
-                      <% project.profit_total.each do |q| %>
-                         <!-- @project_profit += q[2] --> 
-                      <% end %>
-                      (<%= @projet_profit %>)
-                    <% end %>
+                    (<% @project_profits if @game.game_status >1 %>)
                   <% end %>
                 </td>
                 <% @game.players.sort_by(&:member_no).each_with_index do |player,i| %>
@@ -195,15 +190,17 @@
           <table class="table table-condensed table-hover">
             <thead>
               <th></th>
+              <th>Skill Level</th>
               <th>Total Salary</th>
-              <th>Cum. Project Profit</th>
+              <th>Avg Project Profit</th>
             </thead>
             <tbody>
-              <% @players.each_with_index do |player,i| %>
+              <% @players.sort_by(&:member_no).each_with_index do |player,i| %>
                 <tr>
-                  <td><%= player.user.name %></td>  
+                  <td><%= link_to player.user.name, player_path(player) %></td>  
+                  <td><%= player.skill_level %></td>
                   <td><%= player.salary_total %></td>
-                  <td><%= @player_project_profit[i] %></td>
+                  <td><%= @player_project_profit[i]/@player_project_totals[i] %></td>
                 </tr>
               <% end %>
             </tbody>
