@@ -284,7 +284,7 @@
                           <% level_range = $SKILL_LEVELS.detect { |points,level| level === p.skill_level[i] }.first %>
                           <% skill_progress_ratio = (p.skill_total_points[i]-level_range.begin)*100/(level_range.end-level_range.begin) %>
                           <td class="col-md-3" style="padding:9px;">
-                            <div class="progress-level progress-bar-<%= i+1 %> center" style="line-height: 2; margin: 0 auto;"><%= p.skill_level[i] %></div>
+                            <div class="progress-level progress-bar-<%= i+1 %> center" style="line-height: 2; margin: 0 auto; opacity: <%= 0.1 + 0.15*p.skill_level[i] %>"><%= p.skill_level[i] %></div>
                           </td>
                         <% end %>
                     <% end %>

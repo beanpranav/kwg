@@ -183,7 +183,7 @@
       <div class="content-container">
         <div class="panel-secondary">
           <div class="panel-title">
-            Summaries
+            Player Summaries
           </div>
         </div>
 
@@ -223,24 +223,17 @@
           <table class="table table-condensed table-hover">
             <thead>
               <th></th>
-              <th>R&D Level</th>
-              <th>Total Stats</th>
-              <th>Project Profit</th>
+              <th>R&D Points</th>
+              <th>Active Users</th>
+              <th>Total Profit</th>
             </thead>
             <tbody>
               <% @game.projects.sort_by(&:id).each_with_index do |project,i| %>
                 <tr>
                   <td><%= project.project_name %></td>  
-                  <td><%= project.rnd_stage %></td>
-                  <td><%= project.stats_total %></td>
-                  <td>
-                    <%= project.profit_total %>
-                    <% @project_profits = 0 %>
-                    <% project.profit_total.each do |q| %>
-                      <% @project_profits << q[2] %>
-                    <% end %>
-                    <% @project_profits %>
-                  </td>
+                  <td><%= project.rnd_total_points.sum %></td>
+                  <td><%= project.users_total[-1][2] %></td>
+                  <td><%= @project_profits[i] %></td>
                 </tr>
               <% end %>
             </tbody>

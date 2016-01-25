@@ -28,16 +28,10 @@ class GamesController < ApplicationController
         end
       end
 
-      @project_profits = 0
-      # p
-      # @game.teams.sort_by(&:id).each do |team|
-      #   team.projects.each do |project|
-          
-      #     project.profit_total.each do |q|
-      #       @project_profits << q[2]
-      #     end
-      #   end
-      # end
+      @project_profits = []
+      @game.projects.sort_by(&:id).each do |p|
+        @project_profits << p.profit_total.map {|r,e,p| p}.sum
+      end
     end
 
   end
@@ -174,8 +168,12 @@ class GamesController < ApplicationController
               project_report.skill_2_stats_generated += $SKILL_PRODUCTIVITY[2][player.skill_level[1].to_i]
             when 3
               project_report.skill_3_stats_generated += $SKILL_PRODUCTIVITY[3][player.skill_level[2].to_i]
-            when 5,6,7
-              project_report.skill_4_stats_1_generated += $SKILL_PRODUCTIVITY[ws.skill_use.to_i][player.skill_level[3].to_i]
+            when 5
+              project_report.skill_4_stats_1_generated += $SKILL_PRODUCTIVITY[5][player.skill_level[3].to_i]
+            when 6
+              project_report.skill_4_stats_2_generated += $SKILL_PRODUCTIVITY[6][player.skill_level[3].to_i]
+            when 7
+              project_report.skill_4_stats_3_generated += $SKILL_PRODUCTIVITY[7][player.skill_level[3].to_i]
             end
 
             project_report.save

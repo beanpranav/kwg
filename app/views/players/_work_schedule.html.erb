@@ -47,7 +47,7 @@
                         <% end %>
 
                         <% if work_item.project_monthly_report_id == nil %> 
-                          <%= select_tag "project_monthly_report_ids[]", grouped_options_for_select(@work_on_options), prompt: "--- under project ---" %>
+                          <%= select_tag "project_monthly_report_ids[]", grouped_options_for_select(@work_on_options), prompt: "--- under app ---" %>
                         <% else %>
                           <div class="value-chosen-form"><%= select_tag "project_monthly_report_ids[]", grouped_options_for_select(@work_on_options, "#{work_item.project_monthly_report_id}") %></div>
                         <% end %>
