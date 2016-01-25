@@ -28,12 +28,13 @@ class GamesController < ApplicationController
         end
       end
 
-      @project_profits = Array.new(@game.teams.count,[])
-      # @game.teams.sort_by(&:id).each_with_index do |team,i|
-      #   team.projects.each_with_index do |project,j|
-      #     @project_profits[i] << 0
+      @project_profits = 0
+      # p
+      # @game.teams.sort_by(&:id).each do |team|
+      #   team.projects.each do |project|
+          
       #     project.profit_total.each do |q|
-      #       @project_profits[i][j] += q[2]
+      #       @project_profits << q[2]
       #     end
       #   end
       # end

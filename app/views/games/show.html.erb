@@ -150,7 +150,6 @@
                   <b><%= team.team_name %></b>
                   <% team.projects.each do |project| %>
                     <br>&nbsp;&nbsp;&nbsp;<%= project.project_name %>
-                    (<% @project_profits if @game.game_status >1 %>)
                   <% end %>
                 </td>
                 <% @game.players.sort_by(&:member_no).each_with_index do |player,i| %>
@@ -179,6 +178,8 @@
     </div>
 
     <% if @game.game_status > 1 %>
+      
+      <!-- PLAYER SUMMARY -->
       <div class="content-container">
         <div class="panel-secondary">
           <div class="panel-title">
@@ -191,6 +192,7 @@
             <thead>
               <th></th>
               <th>Skill Level</th>
+              <th>Skill Points</th>
               <th>Total Salary</th>
               <th>Avg Project Profit</th>
             </thead>
@@ -199,8 +201,46 @@
                 <tr>
                   <td><%= link_to player.user.name, player_path(player) %></td>  
                   <td><%= player.skill_level %></td>
+                  <td><%= player.skill_total_points.sum %></td>
                   <td><%= player.salary_total %></td>
                   <td><%= @player_project_profit[i]/@player_project_totals[i] %></td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- PROJECT SUMMARY -->
+      <div class="content-container">
+        <div class="panel-secondary">
+          <div class="panel-title">
+            Project Summaries
+          </div>
+        </div>
+
+        <div class="panel-body">
+          <table class="table table-condensed table-hover">
+            <thead>
+              <th></th>
+              <th>R&D Level</th>
+              <th>Total Stats</th>
+              <th>Project Profit</th>
+            </thead>
+            <tbody>
+              <% @game.projects.sort_by(&:id).each_with_index do |project,i| %>
+                <tr>
+                  <td><%= project.project_name %></td>  
+                  <td><%= project.rnd_stage %></td>
+                  <td><%= project.stats_total %></td>
+                  <td>
+                    <%= project.profit_total %>
+                    <% @project_profits = 0 %>
+                    <% project.profit_total.each do |q| %>
+                      <% @project_profits << q[2] %>
+                    <% end %>
+                    <% @project_profits %>
+                  </td>
                 </tr>
               <% end %>
             </tbody>
