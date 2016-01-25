@@ -121,7 +121,7 @@ class GamesController < ApplicationController
     # Do caluclations for current month and update all reports
     unless @game.game_status == 0
       
-      # convert work schedule to player: salary, skills and project: expense, stats
+      # convert work schedule to player: salary, skills and project: expense, productivity
       players.each do |player|
 
         player_report = PlayerMonthlyReport.find_by(player_id: player.id, month_no: @game.game_status)
@@ -135,56 +135,38 @@ class GamesController < ApplicationController
               skill_no = ws.skill_use.to_i 
             end
             
-            # player salary
+            # player salary and project expense
+            project_report = ws.project_monthly_report
             if skill_no < 5
               player_report.salary_generated += $SKILL_SALARY[skill_no][player.skill_level[skill_no-1].to_i]
+              project_report.expense_generated += $SKILL_SALARY[skill_no][player.skill_level[skill_no-1].to_i]
             else
-              player_report.salary_generated += $SKILL_SALARY[skill_no][player.skill_level[skill_no-11].to_i]
+              player_report.salary_generated += $SKILL_SALARY[skill_no-10][player.skill_level[skill_no-11].to_i]
+              project_report.expense_generated += $SKILL_SALARY[skill_no-10][player.skill_level[skill_no-11].to_i]
             end
 
             # player skill points
             case skill_no
-            when 1
-              player_report.skill_points_generated_1 += $SKILL_POINTS[1][player.skill_level[0].to_i]
-            when 2
-              player_report.skill_points_generated_2 += $SKILL_POINTS[2][player.skill_level[1].to_i]
-            when 3
-              player_report.skill_points_generated_3 += $SKILL_POINTS[3][player.skill_level[2].to_i]
-            when 4
-              puts ("##############")
-              player_report.skill_points_generated_4 += $SKILL_POINTS[4][player.skill_level[3].to_i]
-            when 11
-              player_report.skill_points_generated_1 += $SKILL_POINTS[11][player.skill_level[0].to_i]
-            when 12
-              player_report.skill_points_generated_2 += $SKILL_POINTS[12][player.skill_level[1].to_i]
-            when 13
-              player_report.skill_points_generated_3 += $SKILL_POINTS[13][player.skill_level[2].to_i]
-            when 14
-              player_report.skill_points_generated_4 += $SKILL_POINTS[14][player.skill_level[3].to_i]
+            when 1,11
+              player_report.skill_points_generated_1 += $SKILL_POINTS[skill_no][player.skill_level[0].to_i]
+            when 2,12
+              player_report.skill_points_generated_2 += $SKILL_POINTS[skill_no][player.skill_level[1].to_i]
+            when 3,13
+              player_report.skill_points_generated_3 += $SKILL_POINTS[skill_no][player.skill_level[2].to_i]
+            when 4,14
+              player_report.skill_points_generated_4 += $SKILL_POINTS[skill_no][player.skill_level[3].to_i]
             end
 
-            # project expense
-            project_report = ws.project_monthly_report
-            if skill_no < 5
-              project_report.expense_generated += $SKILL_SALARY[skill_no][player.skill_level[skill_no-1].to_i]
-            else
-              project_report.expense_generated += $SKILL_SALARY[skill_no][player.skill_level[skill_no-11].to_i]
-            end
-
-            # project stats
+            # project productivity
             case ws.skill_use.to_i
             when 1
-              project_report.skill_1_stats_generated += $SKILL_PRODUCTIVITY[1][player.skill_level[skill_no-1].to_i]
+              project_report.skill_1_stats_generated += $SKILL_PRODUCTIVITY[1][player.skill_level[0].to_i]
             when 2
-              project_report.skill_2_stats_generated += $SKILL_PRODUCTIVITY[2][player.skill_level[skill_no-1].to_i]
+              project_report.skill_2_stats_generated += $SKILL_PRODUCTIVITY[2][player.skill_level[1].to_i]
             when 3
-              project_report.skill_3_stats_generated += $SKILL_PRODUCTIVITY[3][player.skill_level[skill_no-1].to_i]
-            when 5
-              project_report.skill_4_stats_1_generated += $SKILL_PRODUCTIVITY[5][player.skill_level[skill_no-1].to_i]
-            when 6
-              project_report.skill_4_stats_2_generated += $SKILL_PRODUCTIVITY[6][player.skill_level[skill_no-1].to_i]
-            when 7
-              project_report.skill_4_stats_3_generated += $SKILL_PRODUCTIVITY[7][player.skill_level[skill_no-1].to_i]
+              project_report.skill_3_stats_generated += $SKILL_PRODUCTIVITY[3][player.skill_level[2].to_i]
+            when 5,6,7
+              project_report.skill_4_stats_1_generated += $SKILL_PRODUCTIVITY[ws.skill_use.to_i][player.skill_level[3].to_i]
             end
 
             project_report.save
