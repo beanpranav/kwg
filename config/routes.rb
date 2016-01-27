@@ -9,6 +9,7 @@ Rails.application.routes.draw do
   resources :games do
     member do
       post :assign_players
+      post :complete_game
       post :continue_game
     end
   end

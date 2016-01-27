@@ -33,31 +33,44 @@
                 <!-- CURRENT MONTH: SHOW FORM -->
                   <div class="h-primary"><%= get_month_name(monthly_report.month_no) %></div>
                   
-                  <%= form_tag "/players/#{@player.id}/update_work_schedule" do %>
-                    <%= hidden_field_tag :monthly_report_id, monthly_report.id %>
-                    <% monthly_report.work_schedules.sort_by(&:rank).each do |work_item| %>
-                      
-                      <%= hidden_field_tag "work_schedule_ids[]", work_item.id %>
-                      
-                      <div class="work-container-form work-bg-secondary">
-                        <% if work_item.skill_use == nil or work_item.skill_use == '' %>
-                          <%= select_tag "skill_uses[]", grouped_options_for_select(@using_skill_options), prompt: "--- do activity ---", class: "" %>
-                        <% else %>
-                          <div class="value-chosen-form"><%= select_tag "skill_uses[]", grouped_options_for_select(@using_skill_options, "#{work_item.skill_use}") %></div>
-                        <% end %>
-
-                        <% if work_item.project_monthly_report_id == nil %> 
-                          <%= select_tag "project_monthly_report_ids[]", grouped_options_for_select(@work_on_options), prompt: "--- under app ---" %>
-                        <% else %>
-                          <div class="value-chosen-form"><%= select_tag "project_monthly_report_ids[]", grouped_options_for_select(@work_on_options, "#{work_item.project_monthly_report_id}") %></div>
-                        <% end %>
-                        
+                  <% if @player.game.is_paused %>
+                    <% 4.times do |week_no| %>
+                      <div class="work-container-dummy-week work-bg-secondary">
+                        <div class="work-container-dummy-week-text">WEEK <%= week_no+1 %></div>
                       </div>
                     <% end %>
-
                     <div class="button-padding">
-                      <%= button_tag(type: 'submit', class: "btn btn-sm btn-primary") do %>UPDATE SCHEDULE<% end %>
+                      <button class="btn btn-sm btn-disabled" disabled="disabled">PAUSED</button>
                     </div>
+
+                  <% else %>
+                    <%= form_tag "/players/#{@player.id}/update_work_schedule" do %>
+                      <%= hidden_field_tag :monthly_report_id, monthly_report.id %>
+                      <% monthly_report.work_schedules.sort_by(&:rank).each do |work_item| %>
+                        
+                        <%= hidden_field_tag "work_schedule_ids[]", work_item.id %>
+                        
+                        <div class="work-container-form work-bg-secondary">
+                          <% if work_item.skill_use == nil or work_item.skill_use == '' %>
+                            <%= select_tag "skill_uses[]", grouped_options_for_select(@using_skill_options), prompt: "--- do activity ---", class: "" %>
+                          <% else %>
+                            <div class="value-chosen-form"><%= select_tag "skill_uses[]", grouped_options_for_select(@using_skill_options, "#{work_item.skill_use}") %></div>
+                          <% end %>
+
+                          <% if work_item.project_monthly_report_id == nil %> 
+                            <%= select_tag "project_monthly_report_ids[]", grouped_options_for_select(@work_on_options), prompt: "--- under app ---" %>
+                          <% else %>
+                            <div class="value-chosen-form"><%= select_tag "project_monthly_report_ids[]", grouped_options_for_select(@work_on_options, "#{work_item.project_monthly_report_id}") %></div>
+                          <% end %>
+                          
+                        </div>
+                      <% end %>
+
+                      <div class="button-padding">
+                        <%= button_tag(type: 'submit', class: "btn btn-sm btn-primary") do %>UPDATE SCHEDULE<% end %>
+                      </div>
+
+                    <% end %>
 
                   <% end %>
                   

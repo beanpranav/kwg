@@ -26,7 +26,7 @@
       <%= f.text_field :session_name, placeholder: "identifier for the researchers", class: "form-control" %>
       <%= f.text_field :game_codename, placeholder: "identifier for players", class: "form-control" %>  
       <div class="form-control-select">
-        <%= f.select :game_type, $GAME_TYPES, include_blank: "--- choose MTM game type ---", class: "form-control" %>
+        <%= f.select :game_type, $GAME_TYPES, include_blank: "--- choose game type ---", class: "form-control" %>
       </div> 
       <%= f.number_field :game_length, placeholder: "no. of months (no. of quarters * 3)", class: "form-control" %> 
       <p class="form-radio">

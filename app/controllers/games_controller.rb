@@ -1,5 +1,5 @@
 class GamesController < ApplicationController
-  before_action :set_game, only: [:show, :edit, :update, :destroy, :continue_game]
+  before_action :set_game, only: [:show, :edit, :update, :destroy, :continue_game, :complete_game]
   include GamesHelper
 
   def index
@@ -37,7 +37,7 @@ class GamesController < ApplicationController
   end
 
   def new
-    @game = Game.new(user_id: params[:user_id], access_treatement: false, game_status: -1)
+    @game = Game.new(user_id: params[:user_id], access_treatement: false, game_status: -1, is_paused: false)
   end
 
   def edit
@@ -116,7 +116,7 @@ class GamesController < ApplicationController
     redirect_to request.referrer
   end
 
-  def continue_game
+  def complete_game
     # THIS MONTH ACTIONS
     players = @game.players.sort_by(&:id)
     projects = @game.projects.sort_by(&:id)
@@ -169,11 +169,11 @@ class GamesController < ApplicationController
             when 3
               project_report.skill_3_stats_generated += $SKILL_PRODUCTIVITY[3][player.skill_level[2].to_i]
             when 5
-              project_report.skill_4_stats_1_generated += $SKILL_PRODUCTIVITY[5][player.skill_level[3].to_i]
+              project_report.skill_4_stats_1_generated += $SKILL_PRODUCTIVITY[4][player.skill_level[3].to_i]
             when 6
-              project_report.skill_4_stats_2_generated += $SKILL_PRODUCTIVITY[6][player.skill_level[3].to_i]
+              project_report.skill_4_stats_2_generated += $SKILL_PRODUCTIVITY[4][player.skill_level[3].to_i]
             when 7
-              project_report.skill_4_stats_3_generated += $SKILL_PRODUCTIVITY[7][player.skill_level[3].to_i]
+              project_report.skill_4_stats_3_generated += $SKILL_PRODUCTIVITY[4][player.skill_level[3].to_i]
             end
 
             project_report.save
@@ -239,14 +239,22 @@ class GamesController < ApplicationController
         # Quaterly actions
         if @game.game_status % 3 == 0
           # Calculate users, revenue and profits
-          old_users = project.stats_total[2]*$SUPPORTED_CONVERSION + (project.users_total[-1][2]-project.stats_total[2])*$UNSUPPORTED_CONVERSION
-          new_users = project.stats_total[1]*$MARKET_CONVERSION
+          if project.users_total[-1][2] > project.stats_total[2] 
+            supported_users = project.stats_total[2]
+            unsupported_users = project.users_total[-1][2]-project.stats_total[2]
+          else 
+            supported_users = project.users_total[-1][2]
+            unsupported_users = 0
+          end
+          
+          old_users = (supported_users*$SUPPORTED_CONVERSION + unsupported_users*$UNSUPPORTED_CONVERSION).to_i
+          new_users = (project.stats_total[1]*$MARKET_CONVERSION).to_i
           active_users = if project.stats_total[0] < old_users+new_users then project.stats_total[0] else old_users+new_users end
           
           project.users_total << [old_users, new_users, active_users]
           project.users_total_will_change!
 
-          q_revenue = active_users*$PRODUCT_UNIT_COST
+          q_revenue = active_users*$PRODUCT_UNIT_COST*(4/$GAME_TYPES_LOOKUP[@game.game_type][:group_size]).to_i
       
           project.profit_total[-1] = [q_revenue, project.profit_total[-1][1], q_revenue-project.profit_total[-1][1]]
           project.profit_total_will_change!
@@ -260,8 +268,26 @@ class GamesController < ApplicationController
       end
 
     end
+
+    # set game status
+    @game.is_paused = true
+    @game.save
+
+    # return
+    if @game.game_status < @game.game_length
+      flash[:notice] = "Calculations updated. Game paused at Month #{@game.game_status}."
+    else
+      flash[:notice] = "Calculations updated. Game completed."
+    end
+    redirect_to request.referrer
+  end
+
+  def continue_game
     
     # NEXT MONTH ACTIONS
+    players = @game.players.sort_by(&:id)
+    projects = @game.projects.sort_by(&:id)
+
     if @game.game_status < @game.game_length
       # create each player's monthly reports
       players.each do |player|
@@ -282,8 +308,9 @@ class GamesController < ApplicationController
       end
     end
 
-    # set game status to next month
+    # continue game to next month
     @game.game_status += 1
+    @game.is_paused = false
     @game.save
 
     # return
@@ -291,8 +318,6 @@ class GamesController < ApplicationController
       flash[:notice] = "Game is intiated. Starting with Month #{@game.game_status}."
     elsif @game.game_status < @game.game_length
       flash[:notice] = "Calculations updated. Game progresses to Month #{@game.game_status}."
-    else
-      flash[:notice] = "Calculations updated. Game completed."
     end
     redirect_to request.referrer
   end
@@ -305,6 +330,6 @@ class GamesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def game_params
-      params.require(:game).permit(:user_id, :game_type, :game_length, :game_status, :access_treatement, :session_name, :game_codename)
+      params.require(:game).permit(:user_id, :game_type, :game_length, :game_status, :access_treatement, :session_name, :game_codename, :is_paused)
     end
 end

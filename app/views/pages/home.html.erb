@@ -80,7 +80,7 @@
 	  			        <td><%= game.created_at.strftime("%b %d, %Y") %></td>
 	  			        <td class="one-line-cell"><%= game.session_name %></td>
 	  			        <td><%= game.game_codename %></td>
-	  			        <td><%= game.game_type %></td>
+	  			        <td><%= $GAME_TYPES_LOOKUP[game.game_type][:name] %></td>
 	  			        <td><%= if game.access_treatement then "Treatment" else "Control" end %></td>
 	  			        <td><a href="<%= game_path(game) %>"><i class="fa fa-arrow-right"></a></td>
 	  			      </tr>

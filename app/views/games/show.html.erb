@@ -54,7 +54,7 @@
         
         <h3 class="center"><%= @active_users.count %> participants are ready to play</h3>
         
-        <% if @active_users.count > 3 and @game.game_type == 7 %>
+        <% if @active_users.count > 3 and @game.game_type == 1 %>
           <%= form_tag "/games/#{@game.id}/assign_players" do %>
             <%= hidden_field_tag :n, 4 %>
             <%= hidden_field_tag :game_id, @game.id %>
@@ -97,18 +97,48 @@
         <% end %>
       
       <!-- CONTINUE GAME -->
-      <% elsif @game.game_status <= @game.game_length %> 
-        <div class="h-primary">GAME IN PLAY: MONTH <%= @game.game_status %></div>
-        
-        <h3 class="center">Help text here.</h3>
-        
-        <%= form_tag "/games/#{@game.id}/continue_game" do %>
-          <div class="center col-sm-6 col-sm-offset-3 button-padding">
-            <%= button_tag(type: 'submit', class: "btn btn-block btn-green") do %>
-              <%= if @game.game_status < @game.game_length then "START MONTH #{@game.game_status+1}" else "FINISH GAME" end %>
-            <% end %>
+      <% elsif @game.game_status <= @game.game_length %>
+
+        <% if @game.is_paused %>
+          <div class="h-primary">GAME IS PAUSED: MONTH <%= @game.game_status %></div>
+          
+          <h3 class="center">Help text here.</h3>
+          
+          <%= form_tag "/games/#{@game.id}/continue_game" do %>
+            <div class="center col-sm-4 col-sm-offset-2 button-padding">
+              <%= button_tag(type: 'submit', class: "btn btn-block btn-green") do %>
+                <%= if @game.game_status < @game.game_length then "START MONTH #{@game.game_status+1}" else "FINISH GAME" end %>
+              <% end %>
+            </div>
+          <% end %>
+
+          <div class="center col-sm-4 button-padding">
+            <button class="btn btn-block btn-disabled" disabled="disabled">
+              <%= if @game.game_status < @game.game_length then "COMPLETE MONTH #{@game.game_status+1}" else "FINISH GAME" end %>
+            </button>
           </div>
+
+        <% else %>
+          <div class="h-primary">GAME IN PLAY: MONTH <%= @game.game_status %></div>
+          
+          <h3 class="center">Help text here.</h3>
+          
+          <div class="center col-sm-4 col-sm-offset-2 button-padding">
+            <button class="btn btn-block btn-disabled" disabled="disabled">
+              <%= if @game.game_status < @game.game_length then "START MONTH #{@game.game_status+1}" else "GENERATE FORMS" end %>
+            </button>
+          </div>
+          
+          <%= form_tag "/games/#{@game.id}/complete_game" do %>
+            <div class="center col-sm-4 button-padding">
+              <%= button_tag(type: 'submit', class: "btn btn-block btn-red") do %>
+                <%= if @game.game_status < @game.game_length then "COMPLETE MONTH #{@game.game_status}" else "FINISH GAME" end %>
+              <% end %>
+            </div>
+          <% end %>
+
         <% end %>
+
       
       <!-- GAME COMPLETED -->
       <% else %>
@@ -203,7 +233,7 @@
                   <td><%= player.skill_level %></td>
                   <td><%= player.skill_total_points.sum %></td>
                   <td><%= player.salary_total %></td>
-                  <td><%= @player_project_profit[i]/@player_project_totals[i] %></td>
+                  <td><%= @player_project_profit[i] %></td>
                 </tr>
               <% end %>
             </tbody>
@@ -245,13 +275,13 @@
       <div class="content-container">
         <div class="panel-secondary">
           <div class="panel-title">
-            Troubleshooting
+            Player Pages
           </div>
         </div>
 
         <div class="panel-body">
           <% @players.each do |player| %>
-            <%= player.user.name %> -->  /players/<%= player.id %><br>
+            <%= link_to player.user.name, player_path(player) %><br>
           <% end %>
         </div>
       </div>

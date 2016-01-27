@@ -55,6 +55,7 @@ a, a:hover { color: $brand-blue; }
 .font-orange { color: $brand-orange; font-weight: lighter; }
 .font-red { color: $brand-red; font-weight: lighter; }
 .font-blue { color: $brand-blue; font-weight: lighter; }
+.font-label { font-weight: lighter; color:#999; font-style: italic; }
 
 .font-1 { color: $brand-blue; font-weight: lighter; }
 .font-2 { color: $brand-red; font-weight: lighter; }
@@ -236,7 +237,7 @@ a, a:hover { color: $brand-blue; }
 .btn-orange:hover, .btn-orange:focus, .btn-orange.active { background-color: $brand-orange; color: white; box-shadow: none; }
 .btn-red { color: $brand-red; border: 2px solid $brand-red; }
 .btn-red:hover, .btn-red:focus, .btn-red.active { background-color: $brand-red; color: white; box-shadow: none; }
-.btn-disabled { color: $body-border; border: 2px solid $body-bg; }
+.btn-disabled { color: $body-border; border: 2px solid $body-border; }
 .btn-secondary { color: white; background-color: $brand-font-gray; }
 .btn-secondary:hover, .btn-secondary:focus, .btn-secondary.active { background-color: $brand-primary; color: white; }
 
@@ -338,3 +339,9 @@ select:focus { box-shadow: inset 0px 0px 2px $body-border; outline: 0; }
 .progress-bar-2 { background-color: $brand-red; }
 .progress-bar-3 { background-color: $brand-orange; }
 .progress-bar-4 { background-color: $brand-green; }
+
+.tooltip-inner {
+  max-width: 170px;
+  font-weight: lighter!important;
+  padding: 8px 10px;
+  }
