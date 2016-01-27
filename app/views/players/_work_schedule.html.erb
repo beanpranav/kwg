@@ -34,13 +34,26 @@
                   <div class="h-primary"><%= get_month_name(monthly_report.month_no) %></div>
                   
                   <% if @player.game.is_paused %>
-                    <% 4.times do |week_no| %>
-                      <div class="work-container-dummy-week work-bg-secondary">
-                        <div class="work-container-dummy-week-text">WEEK <%= week_no+1 %></div>
+                    <% monthly_report.work_schedules.sort_by(&:rank).each do |work_item| %>
+                      <div class="work-container 
+                        <%= if work_item.skill_use == "1" or work_item.skill_use == "11" then "work-bg-blue" 
+                            elsif work_item.skill_use == "2" or work_item.skill_use == "12" then "work-bg-red" 
+                            elsif work_item.skill_use == "3" or work_item.skill_use == "13" then "work-bg-orange"
+                            elsif work_item.skill_use.to_i <= 0 then "work-bg-secondary"
+                            else "work-bg-green" 
+                            end %>">
+                        <div class="work-container-text">
+                          <% if work_item.skill_use.to_i > 10 %>
+                            skill @<%= work_item.project_monthly_report.project.project_name %>
+                          <% else %>
+                            <%= if work_item.project_monthly_report then work_item.project_monthly_report.project.project_name end %>
+                          <% end %>
+                        </div> 
                       </div>
                     <% end %>
+
                     <div class="button-padding">
-                      <button class="btn btn-sm btn-disabled" disabled="disabled">PAUSED</button>
+                      <button class="btn btn-sm btn-disabled" disabled="disabled">GAME PAUSED</button>
                     </div>
 
                   <% else %>
