@@ -184,7 +184,7 @@
                       <% performance += q_profits[0]-q_profits[1] %>
                     <% end %>
                     <tr>
-                      <td class="left"><b>Net Profit</b></td>
+                      <td class="left"><b>Net App Profit</b></td>
                       <td class="right"><b><%= number_to_currency(performance, negative_format: "(%u%n)", precision: 0) %></b></td>
                     </tr>
                   </table>
@@ -198,7 +198,7 @@
                   <table class="table table-condensed">
                     <tr>
                       <td class="left">App Unit Price (per Q)</td>
-                      <td class="right"><b><%= number_to_currency($PRODUCT_UNIT_COST*4/$GAME_TYPES_LOOKUP[@player.game.game_type][:group_size], precision: 0) %></b></td>
+                      <td class="right"><b><%= number_to_currency(($PRODUCT_UNIT_COST*4/$GAME_TYPES_LOOKUP[@player.game.game_type][:group_size]).to_i, precision: 0) %></b></td>
                     </tr>
                     <tr class="">
                       <td class="left">
@@ -298,8 +298,8 @@
                   </thead>
 
                   <tbody>
-                    <% project.team.players.each do |p| %>
-                      <tr>
+                    <% project.team.players.sort_by(&:id).each do |p| %>
+                      <tr class="<%= "active" if p.user == current_user %>">
                         <td style="padding:15px;">
                           <b><%= p.user.first_name %></b>
                         </td>

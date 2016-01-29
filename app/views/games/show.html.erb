@@ -104,19 +104,25 @@
           
           <h3 class="center">Help text here.</h3>
           
-          <%= form_tag "/games/#{@game.id}/continue_game" do %>
-            <div class="center col-sm-4 col-sm-offset-2 button-padding">
-              <%= button_tag(type: 'submit', class: "btn btn-block btn-green") do %>
-                <%= if @game.game_status < @game.game_length then "START MONTH #{@game.game_status+1}" else "FINISH GAME" end %>
-              <% end %>
-            </div>
-          <% end %>
+          <% if @game.game_status < @game.game_length %>
 
-          <div class="center col-sm-4 button-padding">
-            <button class="btn btn-block btn-disabled" disabled="disabled">
-              <%= if @game.game_status < @game.game_length then "COMPLETE MONTH #{@game.game_status+1}" else "FINISH GAME" end %>
-            </button>
-          </div>
+            <%= form_tag "/games/#{@game.id}/continue_game" do %>
+              <div class="center col-sm-4 col-sm-offset-2 button-padding">
+                <%= button_tag(type: 'submit', class: "btn btn-block btn-green") do %>
+                  <%= "START MONTH #{@game.game_status+1}" %>
+                <% end %>
+              </div>
+            <% end %>
+
+            <div class="center col-sm-4 button-padding">
+              <button class="btn btn-block btn-disabled" disabled="disabled">
+                <%= "COMPLETE MONTH #{@game.game_status+1}" %>
+              </button>
+            </div>
+
+          <% else %>
+
+          <% end %>
 
         <% else %>
           <div class="h-primary">GAME IN PLAY: MONTH <%= @game.game_status %></div>
@@ -224,7 +230,7 @@
               <th>Skill Level</th>
               <th>Skill Points</th>
               <th>Total Salary</th>
-              <th>Avg Project Profit</th>
+              <th>Net Project Profit</th>
             </thead>
             <tbody>
               <% @players.sort_by(&:member_no).each_with_index do |player,i| %>
@@ -232,8 +238,8 @@
                   <td><%= link_to player.user.name, player_path(player) %></td>  
                   <td><%= player.skill_level %></td>
                   <td><%= player.skill_total_points.sum %></td>
-                  <td><%= player.salary_total %></td>
-                  <td><%= @player_project_profit[i] %></td>
+                  <td><%= number_to_currency(player.salary_total, negative_format: "(%u%n)", precision: 0) %></td>
+                  <td><%= number_to_currency(@player_project_profit[i], negative_format: "(%u%n)", precision: 0) %></td>
                 </tr>
               <% end %>
             </tbody>
@@ -263,7 +269,7 @@
                   <td><%= project.project_name %></td>  
                   <td><%= project.rnd_total_points.sum %></td>
                   <td><%= project.users_total[-1][2] %></td>
-                  <td><%= @project_profits[i] %></td>
+                  <td><%= number_to_currency(@project_profits[i], negative_format: "(%u%n)", precision: 0) %></td>
                 </tr>
               <% end %>
             </tbody>

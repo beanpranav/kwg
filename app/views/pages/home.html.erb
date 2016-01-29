@@ -101,20 +101,91 @@
 				<h3 class="font-invert">As a participant, you have played <%= pluralize( current_user.games.count, 'game' ) %>.</h3>
 			</div>
 		
-<!-- 			= link_to controller: "games", action: "new", user_id: current_user.id do %>
+  		<!-- 			= link_to controller: "games", action: "new", user_id: current_user.id do %>
 				<div class="game-card supress-a col-sm-4 row">
 					Ready to Play
 				</div>
 			 end %> -->
 
-			<% current_user.players.sort_by(&:created_at).reverse.each do |player| %>
-				<a href="<%= player_path(player) %>" class="">
-					<div class="game-card supress-a col-sm-4 row">
-						Player ID: <%= player.id %><br>
-						Game length: <%= player.game.game_length %><br>
-					</div>
-				</a>
+			<div class="content-container">
+				<div class="panel-secondary">
+	  		  <div class="panel-title">
+	  			  Current Status
+	  		  </div>
+	  		</div>
+
+	  		<div class="panel-body">
+
+	  			<div class="h-primary">PLAYER STATUS: <%= current_user.user_status.upcase %></div>
+					
+					<% if current_user.user_status == "offline" %>
+						<h3 class="center">click "join" when you are ready to play</h3>	
+		  			<%= link_to activate_user_path(user_id: current_user.id), method: :post do %>
+							<div class="center col-sm-6 col-sm-offset-3 button-padding">
+			          <button type="button" class="btn btn-block btn-green">JOIN A GAME</button>
+			        </div>
+						<% end %>
+
+					<% elsif current_user.user_status == "active" %>
+						<h3 class="center">please wait to get assigned</h3>	
+						<div class="center col-sm-6 col-sm-offset-3 button-padding">
+		          <button type="button" class="btn btn-block btn-orange active">LOOKING FOR GAME ...</button>
+		        </div>
+
+					<% else %>
+						<h3 class="center">game in session</h3>	
+		  			<%= link_to player_path(@current_game_screen) do %>
+							<div class="center col-sm-6 col-sm-offset-3 button-padding">
+			          <button type="button" class="btn btn-block btn-green">GO TO GAME</button>
+			        </div>
+						<% end %>
+
+					<% end %>
+
+
+			  </div>
+			</div>
+
+			<% if current_user.players.count > 0 %>
+
+			  <div class="content-container">
+			    <div class="panel-secondary">
+			      <div class="panel-title">
+			        Game Listing
+			      </div>
+			    </div>
+
+			    <div class="panel-body">
+					<!-- GAME LISTINGS -->
+		  			<table class="table table-condensed table-hover">
+		  			  <thead>
+		  			    <tr>
+		  			      <th>Played on</th>
+		  			      <th>Codename</th>
+		  			      <th>Game length</th>
+		  			      <th colspan="1">Status</th>
+		  			      <th colspan="1"></th>
+		  			    </tr>
+		  			  </thead>
+
+		  			  <tbody>
+		  			    <% current_user.players.sort_by(&:created_at).reverse.each.with_index do |p| %>
+		  			      <tr>
+		  			        <td><%= p.game.updated_at.strftime("%b %d, %Y") %></td>
+		  			        <td><%= p.game.game_codename %></td>
+		  			        <td><%= p.game.game_length %> months</td>
+		  			        <td><%= if p.game.game_status <= 0 then "Not Started" elsif p.game.game_status > p.game.game_length then "Completed" else "Incomplete" end %></td>
+		  			        <td class="center <%= if p.game.game_status <= 0 then "panel-orange" elsif p.game.game_status > p.game.game_length then "" else "panel-green" end %>"><a href="<%= player_path(p) %>"><i class="fa fa-arrow-right"></a></td>
+		  			      </tr>
+		  			    <% end %>
+		  			  </tbody>
+		  			</table>
+
+		  		</div>
+
+				</div>
 			<% end %>
+
 		</div>
 
 	<% end %>

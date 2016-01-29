@@ -36,17 +36,14 @@ class PlayersController < ApplicationController
         @work_on_options << [project.project_name,project.project_monthly_reports.sort_by(&:created_at).last.id] if @player.game.game_status > 0
       end
     end
+
     @work_on_options = [['APP ------',@work_on_options],['NOTHING ------',[["do nothing",-1]]]]
-
-
-    # compiling all skill options
     @using_skill_options = [
                             ['DO ------',[["Product Dev",1],["Marketing",2],["Support",3]]],
                             ['DO R&D ------',[["R&D on Product",5],["R&D on Marketing",6],["R&D on Support",7]]],
                             ['IMPROVE ------',[["Product Dev skills",11], ["Marketing skills",12], ["Support skills",13], ["Research skills",14]]],
                             ['NOTHING ------',[["do nothing",-1]]]
                           ]
-
   end
 
   def new

@@ -254,7 +254,7 @@ class GamesController < ApplicationController
           project.users_total << [old_users, new_users, active_users]
           project.users_total_will_change!
 
-          q_revenue = active_users*$PRODUCT_UNIT_COST*(4/$GAME_TYPES_LOOKUP[@game.game_type][:group_size]).to_i
+          q_revenue = active_users*($PRODUCT_UNIT_COST*4/$GAME_TYPES_LOOKUP[@game.game_type][:group_size]).to_i
       
           project.profit_total[-1] = [q_revenue, project.profit_total[-1][1], q_revenue-project.profit_total[-1][1]]
           project.profit_total_will_change!
@@ -269,14 +269,21 @@ class GamesController < ApplicationController
 
     end
 
-    # set game status
-    @game.is_paused = true
-    @game.save
-
-    # return
+    # set game status and return
     if @game.game_status < @game.game_length
+      @game.is_paused = true
+      @game.save
       flash[:notice] = "Calculations updated. Game paused at Month #{@game.game_status}."
     else
+      @game.game_status += 1
+      @game.is_paused = true
+      @game.save
+      # set player to offline
+      players.each do |player|
+        u = player.user
+        u.user_status = "offline"
+        u.save
+      end
       flash[:notice] = "Calculations updated. Game completed."
     end
     redirect_to request.referrer
