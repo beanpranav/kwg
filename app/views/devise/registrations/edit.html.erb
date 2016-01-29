@@ -54,27 +54,30 @@
     </div>
   </div>
 
-  <div class="content-container">
-    
-    <div class="panel-secondary">
-      <div class="panel-title">
-       Delete My Profile
-      </div>
-    </div>
-
-    <div class="panel-body form-container">
-
-      <div class="row">
-        <div class="col-xs-12 col-sm-3">
-          <div class="form-label">Unhappy?</div>
-        </div>
-        <div class="col-xs-12 col-sm-9">
-          <%= link_to "DELETE MY PROFILE", registration_path(resource_name), :data => { :confirm => "Are you sure? All your progress will be lost. And this step cannot be reversed." }, :method => :delete, class: "btn btn-block btn-red" %>
-          <p class="form-radio"><em>* I understand that this step cannot be reversed and all my progress will be lost.</em></p>
+  <% if false %>
+    <div class="content-container">
+      
+      <div class="panel-secondary">
+        <div class="panel-title">
+         Delete My Profile
         </div>
       </div>
 
-    </div>
+      <div class="panel-body form-container">
 
-  </div>
+        <div class="row">
+          <div class="col-xs-12 col-sm-3">
+            <div class="form-label">Unhappy?</div>
+          </div>
+          <div class="col-xs-12 col-sm-9">
+            <%= link_to "DELETE MY PROFILE", registration_path(resource_name), :data => { :confirm => "Are you sure? All your progress will be lost. And this step cannot be reversed." }, :method => :delete, class: "btn btn-block btn-red" %>
+            <p class="form-radio"><em>* I understand that this step cannot be reversed and all my progress will be lost.</em></p>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  <% end %>
+
 </div>
