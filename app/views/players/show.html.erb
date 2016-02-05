@@ -44,7 +44,7 @@
               <% end %>
               <br>
              <!--  <a href="#my_schedule" aria-controls="my_schedule" role="tab" data-toggle="tab" class="primary-a">Work Schedule</a> -->
-              <b><%= link_to "Work Calender", player_path(@player), class: "primary-a" %></b>
+              <b><%= link_to "Work Calendar", player_path(@player), class: "primary-a" %></b>
             </div>
           </div>
         </div>
@@ -77,7 +77,7 @@
         <div class="panel panel-default">
             <div class="panel-secondary" role="tab" >
               <div class="panel-title">
-                Skills
+                My Skill Level
               </div>
             </div>
           
@@ -89,13 +89,13 @@
                 <% skill_progress_ratio = (@player.skill_total_points[i]-level_range.begin)*100/(level_range.end-level_range.begin) %>
                 <div class="cpi-goal">  
                   <div class="pull-left" style="margin-left:36px;">
-                    <%= $SKILL_NAMES[i] %>
+                    <%= $SKILL_NAMES[i] %>: <%= $SKILL_LEVELS_NAMES[@player.skill_level[i]] %>
                     <% skill_p = $SKILL_PRODUCTIVITY[i+1][@player.skill_level[i]]*2 %>
                     <% skill_s = $SKILL_SALARY[i+1][@player.skill_level[i]]*2 %>
-                    <i class="fa fa-info-circle font-secondary" data-toggle="tooltip" data-placement="top" title="<%= "--- Level #{@player.skill_level[i]} #{$SKILL_NAMES[i]} ---Productivity: #{skill_p} /wk Salary: $#{skill_s} /wk" %>"></i> 
+                    <i class="fa fa-info-circle font-secondary" data-toggle="tooltip" data-placement="top" title="<%= "--- Level #{@player.skill_level[i]} #{$SKILL_NAMES[i]} --- #{$STATS_NAMES[i]} ++ Productivity: #{skill_p} /wk Salary: $#{skill_s} /wk" %>"></i> 
                   </div>
-                  <div class="pull-right"><%= @player.skill_total_points[i]-level_range.begin %>
-                    <span class="font-secondary">/<%= level_range.end-level_range.begin+1 %></span>
+                  <div class="pull-right">
+                    <%= @player.skill_total_points[i]-level_range.begin %><span class="font-secondary">/<%= level_range.end-level_range.begin+1 %></span>
                   </div>
                   <div class="progress-level progress-bar-<%= i+1 %> center"><%= @player.skill_level[i] %></div>
                   <div class="progress">
@@ -127,7 +127,7 @@
         <div class="content-container" style="min-height:46px;">
           <!-- TAB NAME -->
           <div class="panel-primary">
-            <div class="panel-title">Work Calender</div>
+            <div class="panel-title">Work Calendar</div>
           </div>
         </div>
 
@@ -184,7 +184,7 @@
                       <% performance += q_profits[0]-q_profits[1] %>
                     <% end %>
                     <tr>
-                      <td class="left"><b>Net App Profit</b></td>
+                      <td class="left"><b>Team's Net Profit</b></td>
                       <td class="right"><b><%= number_to_currency(performance, negative_format: "(%u%n)", precision: 0) %></b></td>
                     </tr>
                   </table>
@@ -307,7 +307,14 @@
                           <% level_range = $SKILL_LEVELS.detect { |points,level| level === p.skill_level[i] }.first %>
                           <% skill_progress_ratio = (p.skill_total_points[i]-level_range.begin)*100/(level_range.end-level_range.begin) %>
                           <td class="col-md-3" style="padding:9px;">
-                            <div class="progress-level progress-bar-<%= i+1 %> center" style="line-height: 2; margin: 0 auto; width:<%= 17*p.skill_level[i] %>%"><%= p.skill_level[i] %></div>
+                            <% if p.skill_level[i] < 3 %>
+                              <div class="progress-level progress-bar-secondary center" style="line-height: 2; margin: 0 auto; width:80%; opacity:0.2"><%= $SKILL_LEVELS_NAMES[p.skill_level[i]] %></div>
+                            <% elsif p.skill_level[i] > 4 %>
+                              <div class="progress-level progress-bar-<%= i+1 %> center" style="line-height: 2; margin: 0 auto; width:80%; opacity:1"><%= $SKILL_LEVELS_NAMES[p.skill_level[i]] %></div>
+                            <% else %>
+                              <div class="progress-level progress-bar-<%= i+1 %> center" style="line-height: 2; margin: 0 auto; width:80%; opacity:0.4"><%= $SKILL_LEVELS_NAMES[p.skill_level[i]] %></div>
+                            <% end %>
+                           
                           </td>
                         <% end %>
                     <% end %>

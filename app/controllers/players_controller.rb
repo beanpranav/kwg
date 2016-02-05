@@ -39,9 +39,9 @@ class PlayersController < ApplicationController
 
     @work_on_options = [['APP ------',@work_on_options],['NOTHING ------',[["do nothing",-1]]]]
     @using_skill_options = [
-                            ['DO ------',[["Product Dev",1],["Marketing",2],["Support",3]]],
-                            ['DO R&D ------',[["R&D on Product",5],["R&D on Marketing",6],["R&D on Support",7]]],
-                            ['IMPROVE ------',[["Product Dev skills",11], ["Marketing skills",12], ["Support skills",13], ["Research skills",14]]],
+                            ['DO ------',[["App Dev",1],["Marketing",2],["Support",3]]],
+                            ['DO R&D ------',[["R&D on App Dev",5],["R&D on Marketing",6],["R&D on Support",7]]],
+                            ['IMPROVE ------',[["App Dev skills",11], ["Marketing skills",12], ["Support skills",13], ["R&D skills",14]]],
                             ['NOTHING ------',[["do nothing",-1]]]
                           ]
   end

@@ -46,15 +46,15 @@ $GAME_TYPES_LOOKUP =
 				}
 }
 
-$SKILL_NAMES = ["Product Dev", "Marketing", "Support", "R&D"]
+$SKILL_NAMES = ["App Dev", "Marketing", "Support", "R&D"]
 
 $SKILL_SALARY = 
 {
 	# do work [order: PMSR]
-	1 => { 1 => 100, 2 => 200, 3 => 300, 4 => 400, 5 => 500, 6 => 600},
-	2 => { 1 => 100, 2 => 200, 3 => 300, 4 => 400, 5 => 500, 6 => 600},
-	3 => { 1 => 100, 2 => 200, 3 => 300, 4 => 400, 5 => 500, 6 => 600},
-	4 => { 1 => 100, 2 => 200, 3 => 300, 4 => 400, 5 => 500, 6 => 600}
+	1 => { 1 => 75, 2 => 150, 3 => 225, 4 => 300, 5 => 400, 6 => 500},
+	2 => { 1 => 75, 2 => 150, 3 => 225, 4 => 300, 5 => 400, 6 => 500},
+	3 => { 1 => 75, 2 => 150, 3 => 225, 4 => 300, 5 => 400, 6 => 500},
+	4 => { 1 => 75, 2 => 150, 3 => 225, 4 => 300, 5 => 400, 6 => 500}
 }
 
 $SKILL_POINTS = 
@@ -81,6 +81,16 @@ $SKILL_LEVELS =
 	10001..50000 => 6
 }
 
+$SKILL_LEVELS_NAMES = 
+{
+	1 => "Novice",
+	2 => "Novice",
+	3 => "Advanced",
+	4 => "Advanced",
+	5 => "Expert",
+	6 => "Expert"
+}
+
 $SKILL_PRODUCTIVITY = 
 {
 	# do work [order: PMS]
@@ -103,17 +113,19 @@ $RND_STAGES =
 	12001..30000 => { stage_no: 5, multiplier_1: 1, multiplier_2: 1, multiplier_3: 1 }
 }
 
+$STATS_NAMES = ["Max User Capacity", "Demand Generated", "Users Supported", "Selected R&D Area"]
 $RND_BENEFITS = ["Technical Stability", "App Desireability", "User Satisfaction"]
+
 
 $SUPPORTED_CONVERSION = 0.9
 $UNSUPPORTED_CONVERSION = 0.2
 $MARKET_CONVERSION = 1
-$PRODUCT_UNIT_COST = 4 #12
+$PRODUCT_UNIT_COST = 8 #12
 
 
 $HELP_TEXT = 
 {
-	"max_user_capacity" => "Cumulative number of users your app can serve. Affected by app's product dev and technical stability.",
+	"max_user_capacity" => "Cumulative number of users your app can serve. Affected by app's App Dev and technical stability.",
 	"demand_generated" => "Potential app sales forcasted for this quarter. Affected by app's marketing and desireability.",
 	"users_supported" => "Number of users supported in this quarter. Affected by app's support and user satisfaction.",
 	"active_users" => "Cumulative number of paying users of your app.",
