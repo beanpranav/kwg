@@ -84,9 +84,9 @@ $SKILL_LEVELS =
 $SKILL_LEVELS_NAMES = 
 {
 	1 => "Novice",
-	2 => "Novice",
+	2 => "Advanced",
 	3 => "Advanced",
-	4 => "Advanced",
+	4 => "Expert",
 	5 => "Expert",
 	6 => "Expert"
 }
