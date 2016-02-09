@@ -138,42 +138,44 @@ class GamesController < ApplicationController
               skill_no = ws.skill_use.to_i 
             end
             
+            gs_adjustment_factor = $GAME_TYPES_LOOKUP[@game.game_type][:group_size]
+
             # player salary and project expense
             project_report = ws.project_monthly_report
             if skill_no < 5
-              player_report.salary_generated += $SKILL_SALARY[skill_no][player.skill_level[skill_no-1].to_i]
-              project_report.expense_generated += $SKILL_SALARY[skill_no][player.skill_level[skill_no-1].to_i]
+              player_report.salary_generated += ($SKILL_SALARY[skill_no][player.skill_level[skill_no-1].to_i]/gs_adjustment_factor).to_i
+              project_report.expense_generated += ($SKILL_SALARY[skill_no][player.skill_level[skill_no-1].to_i]/gs_adjustment_factor).to_i
             else
-              player_report.salary_generated += $SKILL_SALARY[skill_no-10][player.skill_level[skill_no-11].to_i]
-              project_report.expense_generated += $SKILL_SALARY[skill_no-10][player.skill_level[skill_no-11].to_i]
+              player_report.salary_generated += ($SKILL_SALARY[skill_no-10][player.skill_level[skill_no-11].to_i]/gs_adjustment_factor).to_i
+              project_report.expense_generated += ($SKILL_SALARY[skill_no-10][player.skill_level[skill_no-11].to_i]/gs_adjustment_factor).to_i
             end
 
             # player skill points
             case skill_no
             when 1,11
-              player_report.skill_points_generated_1 += $SKILL_POINTS[skill_no][player.skill_level[0].to_i]
+              player_report.skill_points_generated_1 += $SKILL_POINTS[skill_no]
             when 2,12
-              player_report.skill_points_generated_2 += $SKILL_POINTS[skill_no][player.skill_level[1].to_i]
+              player_report.skill_points_generated_2 += $SKILL_POINTS[skill_no]
             when 3,13
-              player_report.skill_points_generated_3 += $SKILL_POINTS[skill_no][player.skill_level[2].to_i]
+              player_report.skill_points_generated_3 += $SKILL_POINTS[skill_no]
             when 4,14
-              player_report.skill_points_generated_4 += $SKILL_POINTS[skill_no][player.skill_level[3].to_i]
+              player_report.skill_points_generated_4 += $SKILL_POINTS[skill_no]
             end
 
             # project productivity
             case ws.skill_use.to_i
             when 1
-              project_report.skill_1_stats_generated += $SKILL_PRODUCTIVITY[1][player.skill_level[0].to_i]
+              project_report.skill_1_stats_generated += ($SKILL_PRODUCTIVITY[1][player.skill_level[0].to_i]/gs_adjustment_factor).to_i
             when 2
-              project_report.skill_2_stats_generated += $SKILL_PRODUCTIVITY[2][player.skill_level[1].to_i]
+              project_report.skill_2_stats_generated += ($SKILL_PRODUCTIVITY[2][player.skill_level[1].to_i]/gs_adjustment_factor).to_i
             when 3
-              project_report.skill_3_stats_generated += $SKILL_PRODUCTIVITY[3][player.skill_level[2].to_i]
+              project_report.skill_3_stats_generated += ($SKILL_PRODUCTIVITY[3][player.skill_level[2].to_i]/gs_adjustment_factor).to_i
             when 5
-              project_report.skill_4_stats_1_generated += $SKILL_PRODUCTIVITY[4][player.skill_level[3].to_i]
+              project_report.skill_4_stats_1_generated += ($SKILL_PRODUCTIVITY[4][player.skill_level[3].to_i]/gs_adjustment_factor).to_i
             when 6
-              project_report.skill_4_stats_2_generated += $SKILL_PRODUCTIVITY[4][player.skill_level[3].to_i]
+              project_report.skill_4_stats_2_generated += ($SKILL_PRODUCTIVITY[4][player.skill_level[3].to_i]/gs_adjustment_factor).to_i
             when 7
-              project_report.skill_4_stats_3_generated += $SKILL_PRODUCTIVITY[4][player.skill_level[3].to_i]
+              project_report.skill_4_stats_3_generated += ($SKILL_PRODUCTIVITY[4][player.skill_level[3].to_i]/gs_adjustment_factor).to_i
             end
 
             project_report.save
@@ -254,7 +256,7 @@ class GamesController < ApplicationController
           project.users_total << [old_users, new_users, active_users]
           project.users_total_will_change!
 
-          q_revenue = active_users*($PRODUCT_UNIT_COST*4/$GAME_TYPES_LOOKUP[@game.game_type][:group_size]).to_i
+          q_revenue = active_users*$PRODUCT_UNIT_COST
       
           project.profit_total[-1] = [q_revenue, project.profit_total[-1][1], q_revenue-project.profit_total[-1][1]]
           project.profit_total_will_change!

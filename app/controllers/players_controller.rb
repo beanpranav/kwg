@@ -37,6 +37,7 @@ class PlayersController < ApplicationController
       end
     end
 
+    @gs_adjustment_factor = $GAME_TYPES_LOOKUP[@player.game.game_type][:group_size]
     @work_on_options = [['APP ------',@work_on_options],['NOTHING ------',[["do nothing",-1]]]]
     @using_skill_options = [
                             ['DO ------',[["App Dev",1],["Marketing",2],["Support",3]]],

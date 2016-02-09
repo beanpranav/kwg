@@ -276,8 +276,8 @@
         </div>
 
         <div class="panel-body">
-          <% @players.each do |player| %>
-            <%= link_to player.user.name, player_path(player) %><br>
+          <% @players.sort_by(&:member_no).each do |player| %>
+            <a target="_blank" href="<%= player_path(player) %>"><%= player.user.name %></a><br>
           <% end %>
         </div>
       </div>
