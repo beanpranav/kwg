@@ -1,48 +1,98 @@
 $GAME_TYPES = 
 [
-	['N = 4; GS = 4; MTM(n,v) = 3,1', 1],
-	['N = 8; GS = 4; MTM(n,v) = 3,1', 2],
-	['N = 8; GS = 8; MTM(n,v) = 3,1', 3],
-	# ['N = 8; GS = 4; MTM(n,v) = 3,3', 4],
-	['N = 4; GS = 3; MTM(n,v) = 3,3', 5]
+	['GS = 3; N = 3; MTM(n,v) = 2,1', 31],
+	['GS = 3; N = 6; MTM(n,v) = 2,1', 32],
+	['GS = 3; N = 6; MTM(n,v) = 2,2', 35],
+	# ['GS = 3; N = 4; MTM(n,v) = 3,3', 36],
+	['GS = 4; N = 4; MTM(n,v) = 3,1', 43],
+	# ['GS = 4; N = 8; MTM(n,v) = 3,1', 44],
+	# ['GS = 4; N = 8; MTM(n,v) = 3,3', 46],
+	['GS = 6; N = 6; MTM(n,v) = 2,1', 61]
+	# ['GS = 6; N = 12; MTM(n,v) = 2,1', 62],
+	# ['GS = 8; N = 8; MTM(n,v) = 3,1', 83]
 ]
 
 $GAME_TYPES_LOOKUP = 
 {
-	1 => {
-				name: 'N= 4; GS= 4; MTM(n,v)=3,1', 
+	31 => {
+				name: 'GS= 3; N= 3; MTM(n,v)=2,1', 
+				group_size: 3,
+				n: 3,
 				teams: 1, 
-				project_split: [3],
-				group_size: 4, 
-				membership_split: [[1,2,3,4]]
+				project_split: [2], 
+				membership_split: [[1,2,3]]
 				},
-	2 => {
-				name: 'N= 8; GS= 4; MTM(n,v)=3,1',
+	32 => {
+				name: 'GS= 3; N= 6; MTM(n,v)=2,1', 
+				group_size: 3,
+				n: 6,
 				teams: 2, 
-				project_split: [3,3],
-				group_size: 4, 
-				membership_split: [[1,2,3,4],[5,6,7,8]]
+				project_split: [2,2], 
+				membership_split: [[1,2,3],[4,5,6]]
 				},
-	3 => {
-				name: 'N= 8; GS= 8; MTM(n,v)=3,1',
-				teams: 1, 
-				project_split: [3],
-				group_size: 8, 
-				membership_split: [[1,2,3,4,5,6,7,8]]
-				},
-	4 => {
-				name: 'N= 4; GS= 3; MTM(n,v)=3,3', 
+	35 => {
+				name: 'GS= 3; N= 6; MTM(n,v)=2,2', 
+				group_size: 3,
+				n: 6,
 				teams: 4,
 				project_split: [1,1,1,1],
+				membership_split: [[1,2,6],[1,4,5],[2,3,5],[3,4,6]]
+				},
+	36 => {
+				name: 'GS= 3; N= 4; MTM(n,v)=3,3', 
 				group_size: 3,
+				n: 4,
+				teams: 4,
+				project_split: [1,1,1,1],
 				membership_split: [[1,2,3],[1,2,4],[1,3,4],[2,3,4]]
 				},
-	5 => {
-				name: 'N= 8; GS= 4; MTM(n,v)=3,3', 
+	43 => {
+				name: 'GS= 4; N= 4; MTM(n,v)=3,1', 
+				group_size: 4,
+				n: 4,
+				teams: 1, 
+				project_split: [3], 
+				membership_split: [[1,2,3,4]]
+				},
+	44 => {
+				name: 'GS= 4; N= 8; MTM(n,v)=3,1',
+				group_size: 4,
+				n: 8,
+				teams: 2, 
+				project_split: [3,3], 
+				membership_split: [[1,2,3,4],[5,6,7,8]]
+				},
+	46 => {
+				name: 'GS= 4; N= 8; MTM(n,v)=3,3', 
+				group_size: 4,
+				n: 8,
 				teams: 6, 
 				project_split: [1,1,1,1,1,1],
-				group_size: 4,
 				membership_split: [[1,2,3,4],[5,6,7,8],[1,2,5,6],[3,4,7,8],[1,4,5,8],[2,3,6,7]]
+				},
+	61 => {
+				name: 'GS= 6; N= 6; MTM(n,v)=2,1', 
+				group_size: 6,
+				n: 6,
+				teams: 1, 
+				project_split: [2], 
+				membership_split: [[1,2,3,4,5,6]]
+				},
+	62 => {
+				name: 'GS= 6; N= 12; MTM(n,v)=2,1', 
+				group_size: 6,
+				n: 12,
+				teams: 2, 
+				project_split: [2,2], 
+				membership_split: [[1,2,3,4,5,6],[7,8,9,10,11,12]]
+				},
+	83 => {
+				name: 'GS= 8; N= 8; MTM(n,v)=3,1',
+				group_size: 8,
+				n: 8,
+				teams: 1, 
+				project_split: [3], 
+				membership_split: [[1,2,3,4,5,6,7,8]]
 				}
 }
 
@@ -98,10 +148,6 @@ $SKILL_PRODUCTIVITY =
 	2 => { 1 => 75, 2 => 150, 3 => 250, 4 => 375, 5 => 450, 6 => 500},
 	3 => { 1 => 75, 2 => 150, 3 => 250, 4 => 375, 5 => 450, 6 => 500},
 	4 => { 1 => 75, 2 => 150, 3 => 250, 4 => 375, 5 => 450, 6 => 500}
-	# # do R&D [order: PMS]
-	# 5 => { 1 => 100, 2 => 200, 3 => 300, 4 => 400, 5 => 500, 6 => 600},
-	# 6 => { 1 => 100, 2 => 200, 3 => 300, 4 => 400, 5 => 500, 6 => 600},
-	# 7 => { 1 => 100, 2 => 200, 3 => 300, 4 => 400, 5 => 500, 6 => 600}
 }
 
 $RND_STAGES = 

@@ -240,7 +240,8 @@ a, a:hover { color: $brand-blue; }
 .btn-disabled { color: $body-border; border: 2px solid $body-border; }
 .btn-secondary { color: white; background-color: $brand-font-gray; }
 .btn-secondary:hover, .btn-secondary:focus, .btn-secondary.active { background-color: $brand-primary; color: white; }
-
+.btn-invert { color: white; border: 2px solid white; background-color: transparent; }
+.btn-invert:hover, .btn-invert:focus { background-color: white; color: $brand-primary !important; border: 2px solid $brand-primary; }
 .btn-sm { padding: 4px 9px; }
 
 

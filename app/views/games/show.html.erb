@@ -54,23 +54,13 @@
         
         <h3 class="center"><%= @active_users.count %> participants are ready to play</h3>
         
-        <% if @active_users.count > 3 and @game.game_type == 1 %>
+        <% if @active_users.count >= $GAME_TYPES_LOOKUP[@game.game_type][:n] %>
           <%= form_tag "/games/#{@game.id}/assign_players" do %>
-            <%= hidden_field_tag :n, 4 %>
+            <%= hidden_field_tag :n, $GAME_TYPES_LOOKUP[@game.game_type][:n] %>
             <%= hidden_field_tag :game_id, @game.id %>
             <div class="center col-sm-6 col-sm-offset-3 button-padding">
               <%= button_tag(type: 'submit', class: "btn btn-block btn-green") do %>
-                RANDOMLY ASSIGN PLAYERS (N = 4)
-              <% end %>
-            </div>
-          <% end %>
-        <% elsif @active_users.count > 7 %>
-          <%= form_tag "/games/#{@game.id}/assign_players" do %>
-            <%= hidden_field_tag :n, 8 %>
-            <%= hidden_field_tag :game_id, @game.id %>
-            <div class="center col-sm-6 col-sm-offset-3 button-padding">
-              <%= button_tag(type: 'submit', class: "btn btn-block btn-green") do %>
-                RANDOMLY ASSIGN PLAYERS (N = 8)
+                RANDOMLY ASSIGN PLAYERS (N = <%= $GAME_TYPES_LOOKUP[@game.game_type][:n] %>)
               <% end %>
             </div>
           <% end %>

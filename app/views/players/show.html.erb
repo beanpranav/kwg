@@ -43,8 +43,9 @@
                 <br>
               <% end %>
               <br>
-             <!--  <a href="#my_schedule" aria-controls="my_schedule" role="tab" data-toggle="tab" class="primary-a">Work Schedule</a> -->
-              <b><%= link_to "Work Calendar", player_path(@player), class: "primary-a" %></b>
+              <a href="#my_schedule" aria-controls="my_schedule" role="tab" data-toggle="tab" class="primary-a">
+                <b>Work Schedule</b>
+              </a>
             </div>
           </div>
         </div>
@@ -113,6 +114,7 @@
       </div>
     </div>
 
+    <a target="_blank" href="https://cmukwg.slack.com/">Link to Team Chat</a>
   </div>
 
   <!-- MAIN CONTAINER: TABS -->
@@ -127,7 +129,10 @@
         <div class="content-container" style="min-height:46px;">
           <!-- TAB NAME -->
           <div class="panel-primary">
-            <div class="panel-title">Work Calendar</div>
+            <div class="panel-title">
+              Work Calendar
+              <a href="<%= player_path(@player) %>" class="btn btn-sm btn-invert pull-right supress-a" style = "margin: -5px; -5px 0 0"><i class="fa fa-refresh"></i> &nbsp;Refresh</a>
+            </div>
           </div>
         </div>
 

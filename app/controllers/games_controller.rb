@@ -10,13 +10,13 @@ class GamesController < ApplicationController
     if @game.game_status == -1
       @active_users = User.where(user_status: "active")
     else
-      @player_project_totals = [0,0,0,0,0,0,0,0]
+      @player_project_totals = [0,0,0,0,0,0,0,0,0,0,0,0]
     end
 
     @players = @game.players.sort_by(&:id)
 
     if @game.game_status > 1
-      @player_project_profit = [0,0,0,0,0,0,0,0]
+      @player_project_profit = [0,0,0,0,0,0,0,0,0,0,0,0]
 
       @players.each_with_index do |p,i|
         p.teams.each do |t|

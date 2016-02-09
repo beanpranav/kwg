@@ -26,7 +26,7 @@ class PlayersController < ApplicationController
     @work_on_options = []
 
     @player.teams.each do |team|
-      team.projects.each do |project|
+      team.projects.sort_by(&:id).each do |project|
         if @player.game.game_status > 1
           project.profit_total.each do |q_stats|
             @player_project_profit += q_stats[2]
