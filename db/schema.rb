@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160112104732) do
+ActiveRecord::Schema.define(version: 20160210081640) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -27,6 +27,27 @@ ActiveRecord::Schema.define(version: 20160112104732) do
     t.string   "session_name"
     t.string   "game_codename"
     t.boolean  "is_paused"
+  end
+
+  create_table "measure_austins", force: true do |t|
+    t.integer  "player_id"
+    t.integer  "skill_1_player_levels",                 array: true
+    t.integer  "skill_2_player_levels",                 array: true
+    t.integer  "skill_3_player_levels",                 array: true
+    t.integer  "skill_4_player_levels",                 array: true
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.boolean  "is_complete",           default: false
+  end
+
+  create_table "measure_lewis", force: true do |t|
+    t.integer  "player_id"
+    t.boolean  "is_complete",              default: false
+    t.integer  "responses_specialization",                 array: true
+    t.integer  "responses_credibility",                    array: true
+    t.integer  "responses_coordination",                   array: true
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "player_monthly_reports", force: true do |t|

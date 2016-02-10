@@ -142,6 +142,38 @@
         
         <h3 class="center">Forms and other data.</h3>
         <!-- button for next steps -->
+        
+        <% if @game.game_status != 100 %>
+          <%= form_tag "/games/#{@game.id}/generate_forms" do %>
+            <div class="center col-sm-6 col-sm-offset-3 button-padding">
+              <%= button_tag(type: 'submit', class: "btn btn-block btn-green") do %>
+                GENERATE FORMS
+              <% end %>
+            </div>
+          <% end %>
+
+        <% else %>
+          <table class="table table-condensed col-sm-6 col-sm-offset-3" style="width: 50%; margin-top:20px;">
+            <thead>
+              <th></th>
+              <th class="center">Austin Scale</th>
+              <th class="center">Lewis Scale</th>
+            </thead>
+            <tbody>
+              <% @players.sort_by(&:member_no).each do |player| %>
+                <tr>
+                  <td><b><%= player.user.name %></b></td>  
+                  <td class="center <%= if player.measure_austin.is_complete then "font-green" else "font-invert" end %>"><i class="fa fa-lg fa-check"></i></td>
+                  <td class="center <%= if player.measure_lewis.is_complete then "font-green" else "font-invert" end %>"><i class="fa fa-lg fa-check"></i></td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+
+          <div class="center col-sm-6 col-sm-offset-3 button-padding">
+            <%= button_to "REFRESH", game_path(@game), class: "btn btn-block btn-green" %>
+          </div>
+        <% end %>
 
       <% end %>
 

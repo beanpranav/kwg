@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  player_id: 1
+  is_complete: false
+  responses_specialization: 1
+  responses_credibility: 1
+  responses_coordination: 1
+
+two:
+  player_id: 1
+  is_complete: false
+  responses_specialization: 1
+  responses_credibility: 1
+  responses_coordination: 1

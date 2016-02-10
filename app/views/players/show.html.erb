@@ -2,7 +2,15 @@
 <!-- SETUP GAME -->
 <% if @player.game.game_status == -1 %>
 
+<% elsif @player.game.game_status == 100 %>
 
+  <% if @player.measure_austin.is_complete == false %>
+    <%= render "players/measure_austin" %>
+  <% elsif @player.measure_lewis.is_complete == false %>
+    <%= render "players/measure_lewis" %>
+  <% else %>
+    Results
+  <% end %>
 
 <% else %> 
 
@@ -17,8 +25,7 @@
         </div>
       </div>
     </div>
-
-    
+ 
     <div class="content-container">
 
       <div class="panel-group" id="accordion-info" role="tablist" aria-multiselectable="true">
@@ -76,11 +83,11 @@
 
         <!-- SKILLS -->
         <div class="panel panel-default">
-            <div class="panel-secondary" role="tab" >
-              <div class="panel-title">
-                My Skill Level
-              </div>
+          <div class="panel-secondary" role="tab">
+            <div class="panel-title">
+              My Skill Level
             </div>
+          </div>
           
           <div id="skills" class="panel-collapse" role="tabpanel">
             <div class="panel-body">
@@ -314,8 +321,6 @@
                           <b><%= p.user.first_name %></b>
                         </td>
                         <% 4.times do |i| %>
-                          <% level_range = $SKILL_LEVELS.detect { |points,level| level === p.skill_level[i] }.first %>
-                          <% skill_progress_ratio = (p.skill_total_points[i]-level_range.begin)*100/(level_range.end-level_range.begin) %>
                           <td class="col-md-3" style="padding:9px;">
                             <% if p.skill_level[i] < 2 %>
                               <div class="progress-level progress-bar-secondary center" style="line-height: 2.3; margin: 0 auto; width:80%; opacity:0.2"><%= $SKILL_LEVELS_NAMES[p.skill_level[i]][:name] %></div>
@@ -346,8 +351,9 @@
 
 <% end %>
 
+
 <script type="text/javascript">
   $(function () {
     $('[data-toggle="tooltip"]').tooltip()
   })
-  </script>
+</script>

@@ -1,0 +1,172 @@
+<div class="col-xs-12 col-sm-8 col-sm-offset-2">
+	<div class="secondary-nav secondary-nav-invert">
+		<i class="fa fa-2x fa-clipboard content-list-icon-primary pull-left"></i>
+		<h2 class="font-invert"><b>End of Game Surveys</b></h2>
+		<h3 class="font-invert">Survey 2/2</h3>
+	</div>
+
+	<div class="content-container">
+	  <div class="panel-secondary">
+	    <div class="panel-title">
+	      Team's ability to work together
+	    </div>
+	  </div>
+
+	  <div class="panel-body">
+
+	  	<div class="center" style="margin:10px 0;">
+	  		<b>Answer the below questions keeping in mind your Team-level interactions.</b> 
+	  		<br>Your responses here will not affect your game performance in any way.
+	  		<br>Please try to answer to the best of your ability. 
+	  	</div>
+
+			<%= form_tag "/players/#{@player.id}/update_measure_lewis" do %>
+		    <table class="table table-condensed table-hover" style="margin:30px 0px;">
+		      <tbody>
+		        <!-- LEWIS 1-5 -->
+	          <tr><td style="padding:25px;">
+	          	<p style="padding: 10px;">
+		            <b><%= get_lewis_items(1) %></b><br>
+		            <% 5.times do |i| %>
+		              &nbsp; &nbsp; &nbsp;<%= radio_button_tag(:lewis_1, i+1) %> &nbsp;<%= get_likert_option(i) %> &nbsp; &nbsp;
+		            <% end %>
+								<br>
+							</p>
+
+							<p style="padding: 10px;">
+		            <b><%= get_lewis_items(2) %></b><br>
+		            <% 5.times do |i| %>
+		              &nbsp; &nbsp; &nbsp;<%= radio_button_tag(:lewis_2, i+1) %> &nbsp;<%= get_likert_option(i) %> &nbsp; &nbsp;
+		            <% end %>
+								<br>
+							</p>
+
+							<p style="padding: 10px;">
+		            <b><%= get_lewis_items(3) %></b><br>
+		            <% 5.times do |i| %>
+		              &nbsp; &nbsp; &nbsp;<%= radio_button_tag(:lewis_3, i+1) %> &nbsp;<%= get_likert_option(i) %> &nbsp; &nbsp;
+		            <% end %>
+								<br>
+							</p>
+
+							<p style="padding: 10px;">
+		            <b><%= get_lewis_items(4) %></b><br>
+		            <% 5.times do |i| %>
+		              &nbsp; &nbsp; &nbsp;<%= radio_button_tag(:lewis_4, i+1) %> &nbsp;<%= get_likert_option(i) %> &nbsp; &nbsp;
+		            <% end %>
+								<br>
+							</p>
+
+							<p style="padding: 10px;">
+		            <b><%= get_lewis_items(5) %></b><br>
+		            <% 5.times do |i| %>
+		              &nbsp; &nbsp; &nbsp;<%= radio_button_tag(:lewis_5, i+1) %> &nbsp;<%= get_likert_option(i) %> &nbsp; &nbsp;
+		            <% end %>
+								<br>
+							</p>
+
+	          </td></tr>
+
+	          <!-- LEWIS 6-10 -->
+	          <tr><td style="padding:25px;">
+	          	<p style="padding: 10px;">
+		            <b><%= get_lewis_items(6) %></b><br>
+		            <% 5.times do |i| %>
+		              &nbsp; &nbsp; &nbsp;<%= radio_button_tag(:lewis_6, i+1) %> &nbsp;<%= get_likert_option(i) %> &nbsp; &nbsp;
+		            <% end %>
+								<br>
+							</p>
+
+							<p style="padding: 10px;">
+		            <b><%= get_lewis_items(7) %></b><br>
+		            <% 5.times do |i| %>
+		              &nbsp; &nbsp; &nbsp;<%= radio_button_tag(:lewis_7, i+1) %> &nbsp;<%= get_likert_option(i) %> &nbsp; &nbsp;
+		            <% end %>
+								<br>
+							</p>
+
+							<p style="padding: 10px;">
+		            <b><%= get_lewis_items(8) %></b><br>
+		            <% 5.times do |i| %>
+		              &nbsp; &nbsp; &nbsp;<%= radio_button_tag(:lewis_8, i+1) %> &nbsp;<%= get_likert_option(i) %> &nbsp; &nbsp;
+		            <% end %>
+								<br>
+							</p>
+
+							<p style="padding: 10px;">
+		            <b><%= get_lewis_items(9) %></b><br>
+		            <% 5.times do |i| %>
+		              &nbsp; &nbsp; &nbsp;<%= radio_button_tag(:lewis_9, i+1) %> &nbsp;<%= get_likert_option(i) %> &nbsp; &nbsp;
+		            <% end %>
+								<br>
+							</p>
+
+							<p style="padding: 10px;">
+		            <b><%= get_lewis_items(10) %></b><br>
+		            <% 5.times do |i| %>
+		              &nbsp; &nbsp; &nbsp;<%= radio_button_tag(:lewis_10, i+1) %> &nbsp;<%= get_likert_option(i) %> &nbsp; &nbsp;
+		            <% end %>
+								<br>
+							</p>
+
+	          </td></tr>
+
+	          <!-- LEWIS 11-15 -->
+	          <tr><td style="padding:25px;">
+	          	<p style="padding: 10px;">
+		            <b><%= get_lewis_items(11) %></b><br>
+		            <% 5.times do |i| %>
+		              &nbsp; &nbsp; &nbsp;<%= radio_button_tag(:lewis_11, i+1) %> &nbsp;<%= get_likert_option(i) %> &nbsp; &nbsp;
+		            <% end %>
+								<br>
+							</p>
+
+							<p style="padding: 10px;">
+		            <b><%= get_lewis_items(12) %></b><br>
+		            <% 5.times do |i| %>
+		              &nbsp; &nbsp; &nbsp;<%= radio_button_tag(:lewis_12, i+1) %> &nbsp;<%= get_likert_option(i) %> &nbsp; &nbsp;
+		            <% end %>
+								<br>
+							</p>
+
+							<p style="padding: 10px;">
+		            <b><%= get_lewis_items(13) %></b><br>
+		            <% 5.times do |i| %>
+		              &nbsp; &nbsp; &nbsp;<%= radio_button_tag(:lewis_13, i+1) %> &nbsp;<%= get_likert_option(i) %> &nbsp; &nbsp;
+		            <% end %>
+								<br>
+							</p>
+
+							<p style="padding: 10px;">
+		            <b><%= get_lewis_items(14) %></b><br>
+		            <% 5.times do |i| %>
+		              &nbsp; &nbsp; &nbsp;<%= radio_button_tag(:lewis_14, i+1) %> &nbsp;<%= get_likert_option(i) %> &nbsp; &nbsp;
+		            <% end %>
+								<br>
+							</p>
+
+							<p style="padding: 10px;">
+		            <b><%= get_lewis_items(15) %></b><br>
+		            <% 5.times do |i| %>
+		              &nbsp; &nbsp; &nbsp;<%= radio_button_tag(:lewis_15, i+1) %> &nbsp;<%= get_likert_option(i) %> &nbsp; &nbsp;
+		            <% end %>
+								<br>
+							</p>
+
+	          </td></tr>
+
+		      </tbody>
+		    </table>
+
+			  <div class="center col-sm-6 col-sm-offset-3">
+			    <%= button_tag(type: 'submit', class: "btn btn-block btn-green") do %>
+			      SAVE & SUBMIT
+			    <% end %>
+			  </div>
+
+			<% end %>
+
+		</div>
+	</div>
+
+</div>

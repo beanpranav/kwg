@@ -1,5 +1,8 @@
 class GamesController < ApplicationController
-  before_action :set_game, only: [:show, :edit, :update, :destroy, :continue_game, :complete_game]
+  before_action :set_game, only: [:show, :edit, :update, :destroy, :continue_game, :complete_game, :generate_forms]
+  before_action :authenticate_user!
+  before_action :authenticate_admin, only: [:index]
+  before_action :correct_user, except: [:index]
   include GamesHelper
 
   def index
@@ -278,7 +281,7 @@ class GamesController < ApplicationController
       flash[:notice] = "Calculations updated. Game paused at Month #{@game.game_status}."
     else
       @game.game_status += 1
-      @game.is_paused = true
+      @game.is_paused = false
       @game.save
       # set player to offline
       players.each do |player|
@@ -331,10 +334,48 @@ class GamesController < ApplicationController
     redirect_to request.referrer
   end
 
+  def generate_forms
+    players = @game.players.sort_by(&:member_no)
+
+    players.each do |player|
+      co_players = []
+      player.teams.each do |team|
+        co_players << team.players.pluck(:id)
+      end
+      
+      empty_array = []
+      co_players.flatten.uniq.sort.each do |co_p_id|
+        empty_array << [co_p_id,1]
+      end
+      
+      m_austin = MeasureAustin.new(player_id: player.id, skill_1_player_levels: empty_array, skill_2_player_levels: empty_array, skill_3_player_levels: empty_array, skill_4_player_levels: empty_array)
+      m_austin.save
+
+      m_lewis = MeasureLewis.new(player_id: player.id)
+      m_lewis.save
+    end
+
+    # set game status and return
+    @game.game_status = 100
+    @game.save
+    flash[:notice] = "Forms Generated. Awating submission by players."
+    redirect_to request.referrer
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_game
       @game = Game.find(params[:id])
+    end
+
+    def correct_user
+      if  @game.user_id == current_user.id
+      # current user's game
+        true
+      else
+      # no access
+        redirect_to root_path, notice: "You don't have permission to view this page.".html_safe
+      end
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

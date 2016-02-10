@@ -1,8 +1,12 @@
 Rails.application.routes.draw do
   
+  resources :measure_austins
+
   resources :players do
     member do
       post :update_work_schedule
+      post :update_measure_austin
+      post :update_measure_lewis
     end
   end
   
@@ -11,6 +15,7 @@ Rails.application.routes.draw do
       post :assign_players
       post :complete_game
       post :continue_game
+      post :generate_forms
     end
   end
 
@@ -19,27 +24,5 @@ Rails.application.routes.draw do
   get "demo_screenshots" => "pages#demo_screenshots"
     post "activate_user" => "pages#activate_user"
   root 'pages#home'
-
-
-  # Example of named route that can be invoked with purchase_url(id: product.id)
-  #   get 'products/:id/purchase' => 'catalog#purchase', as: :purchase
-
-  # Example resource route with options:
-  #   resources :products do
-  #     member do
-  #       get 'short'
-  #       post 'toggle'
-  #     end
-  #
-  #     collection do
-  #       get 'sold'
-  #     end
-  #   end
-
-  # Example resource route with sub-resources:
-  #   resources :products do
-  #     resources :comments, :sales
-  #     resource :seller
-  #   end
 
 end

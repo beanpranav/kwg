@@ -1,5 +1,8 @@
 class PlayersController < ApplicationController
-  before_action :set_player, only: [:show, :edit, :update, :destroy]
+  before_action :set_player, only: [:show, :edit, :update, :destroy, :update_measure_austin, :update_measure_lewis]
+  before_action :authenticate_user!
+  before_action :authenticate_admin, only: [:index]
+  before_action :correct_user, except: [:index]
   include PlayersHelper
 
   def index
@@ -24,7 +27,7 @@ class PlayersController < ApplicationController
     @player_projects = []
     @player_project_profit = 0
     @work_on_options = []
-
+    
     @player.teams.each do |team|
       team.projects.sort_by(&:id).each do |project|
         if @player.game.game_status > 1
@@ -37,6 +40,11 @@ class PlayersController < ApplicationController
       end
     end
 
+    @co_players = []
+    @player.game.players.each do |p|
+      @co_players << [p.id, p.user.name]
+    end
+
     @gs_adjustment_factor = $GAME_TYPES_LOOKUP[@player.game.game_type][:group_size]
     @work_on_options = [['APP ------',@work_on_options],['NOTHING ------',[["do nothing",-1]]]]
     @using_skill_options = [
@@ -45,6 +53,7 @@ class PlayersController < ApplicationController
                             ['IMPROVE ------',[["App Dev skills",11], ["Marketing skills",12], ["Support skills",13], ["R&D skills",14]]],
                             ['NOTHING ------',[["do nothing",-1]]]
                           ]
+    @measure_austin_options = [["Novice",1],["Advanced",2],["Expert",4]]
   end
 
   def new
@@ -93,10 +102,63 @@ class PlayersController < ApplicationController
     redirect_to request.referrer
   end
 
+  def update_measure_austin
+    m = @player.measure_austin
+    players_count = params[:input_skills].count/4
+
+    skill_1_levels = []
+    skill_2_levels = []
+    skill_3_levels = []
+    skill_4_levels = []
+    players_count.times do |i|
+      skill_1_levels << [m.skill_1_player_levels[i][0],params[:input_skills][i*4]]
+      skill_2_levels << [m.skill_1_player_levels[i][0],params[:input_skills][i*4+1]]
+      skill_3_levels << [m.skill_1_player_levels[i][0],params[:input_skills][i*4+2]]
+      skill_4_levels << [m.skill_1_player_levels[i][0],params[:input_skills][i*4+3]]
+    end
+    m.skill_1_player_levels = skill_1_levels
+    m.skill_1_player_levels_will_change!
+    m.skill_2_player_levels = skill_2_levels
+    m.skill_2_player_levels_will_change!
+    m.skill_3_player_levels = skill_3_levels
+    m.skill_3_player_levels_will_change!
+    m.skill_4_player_levels = skill_4_levels
+    m.skill_4_player_levels_will_change!
+
+    m.is_complete = true
+    m.save
+
+    flash[:notice] = "Survey 1 saved successfully."
+    redirect_to request.referrer
+  end
+
+  def update_measure_lewis
+    m = @player.measure_lewis
+    m.responses_specialization = [params[:lewis_1],params[:lewis_2],params[:lewis_3],params[:lewis_4],params[:lewis_5]]
+    m.responses_credibility = [params[:lewis_6],params[:lewis_7],params[:lewis_8],6-params[:lewis_9].to_i,6-params[:lewis_10].to_i]
+    m.responses_coordination = [params[:lewis_11],params[:lewis_12],6-params[:lewis_13].to_i,params[:lewis_14],6-params[:lewis_15].to_i]
+
+    m.is_complete = true
+    m.save
+
+    flash[:notice] = "Survey 2 saved successfully."
+    redirect_to request.referrer
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_player
       @player = Player.find(params[:id])
+    end
+
+    def correct_user
+      if  @player.user == current_user or @player.game.user_id == current_user.id
+      # current user's game
+        true
+      else
+      # no access
+        redirect_to root_path, notice: "You don't have permission to view this page.".html_safe
+      end
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

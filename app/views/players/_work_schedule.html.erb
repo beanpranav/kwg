@@ -65,7 +65,7 @@
                         
                         <div class="work-container-form work-bg-secondary">
                           <% if work_item.skill_use == nil or work_item.skill_use == '' %>
-                            <%= select_tag "skill_uses[]", grouped_options_for_select(@using_skill_options), prompt: "--- do activity ---", class: "" %>
+                            <%= select_tag "skill_uses[]", grouped_options_for_select(@using_skill_options), prompt: "--- do activity ---" %>
                           <% else %>
                             <div class="value-chosen-form"><%= select_tag "skill_uses[]", grouped_options_for_select(@using_skill_options, "#{work_item.skill_use}") %></div>
                           <% end %>
