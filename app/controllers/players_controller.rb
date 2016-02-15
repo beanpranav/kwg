@@ -2,7 +2,7 @@ class PlayersController < ApplicationController
   before_action :set_player, only: [:show, :edit, :update, :destroy, :update_measure_austin, :update_measure_lewis]
   before_action :authenticate_user!
   before_action :authenticate_admin, only: [:index]
-  before_action :correct_user, except: [:index]
+  before_action :correct_user, only: [:show, :edit, :update]
   include PlayersHelper
 
   def index
