@@ -2,7 +2,7 @@ class GamesController < ApplicationController
   before_action :set_game, only: [:show, :edit, :update, :destroy, :continue_game, :complete_game, :generate_forms]
   before_action :authenticate_user!
   before_action :authenticate_admin, only: [:index]
-  before_action :correct_user, except: [:index]
+  before_action :correct_user, except: [:index, :new, :create]
   include GamesHelper
 
   def index
