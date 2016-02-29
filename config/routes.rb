@@ -23,6 +23,7 @@ Rails.application.routes.draw do
   
   get "demo_screenshots" => "pages#demo_screenshots"
   get "tutorial" => "pages#tutorial"
+  get "tutorial_steps" => "pages#tutorial_steps"
     post "activate_user" => "pages#activate_user"
   root 'pages#home'
 
