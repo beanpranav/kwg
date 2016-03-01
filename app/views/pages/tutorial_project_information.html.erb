@@ -1,22 +1,18 @@
   <div id="step2" class="alert alert-info" role="alert">
     <b>STEP 3/4: PROJECT INFORMATION</b>
-    <button id="s0" onclick="show(['s1n','s1p','s1','s1i'],['s0','s0p'])" class="btn btn-help pull-right">Begin Step 3</button>
-    <a id="s0p" href="<%= tutorial_work_calendar_path %>" class="btn btn-help pull-right">Back to Step 2</a>
-
-    <button id="s1n" onclick="show(['s2n','s2p','s2','s2i','s2i2'],['s1n','s1p','s1','s1i'])" class="btn btn-help pull-right" style="display:none;">Next</button>
-    <button id="s1p" onclick="hide(['s1n','s1p','s1','s1i'],['s0','s0p'])" class="btn btn-help pull-right" style="display:none;">Previous</button>
+    <button id="s1n" onclick="show(['s2n','s2p','s2','s2i','s2i2'],['s1n','s1p','s1','s1i'])" class="btn btn-help pull-right">Begin Step 3</button>
+    <a id="s1p" href="<%= tutorial_work_calender_path %>" class="btn btn-help pull-right">Back to Step 2</a>
 
     <button id="s2n" onclick="show(['s3n','s3p','s3','s3i'],['s2n','s2p','s2i','s2i2'])" class="btn btn-help pull-right" style="display:none;">Next</button>
     <button id="s2p" onclick="hide(['s2n','s2p','s2','s2i','s2i2'],['s1n','s1p','s1','s1i'])" class="btn btn-help pull-right" style="display:none;">Previous</button>
 
-    <button id="s3n" onclick="show(['s4n','s4p','s4','s4i','s4i2'],['s3n','s3p','s3i'])" class="btn btn-help pull-right" style="display:none;">Next</button>
+    <button id="s3n" onclick="show(['s4n','s4p','s4','s4i','s4i2'],['s3n','s3p','s3','s3i'])" class="btn btn-help pull-right" style="display:none;">Next</button>
     <button id="s3p" onclick="hide(['s3n','s3p','s3','s3i'],['s2n','s2p','s2i','s2i2'])" class="btn btn-help pull-right" style="display:none;">Previous</button>
 
-    <button id="s4n" onclick="show(['s5n','s5p','s5','s5i'],['s4n','s4p','s4i','s4i2'])" class="btn btn-help pull-right" style="display:none;">Next</button>
+    <a id="s4n" href="<%= tutorial_project_information_path %>" class="btn btn-help pull-right" style="display:none;">Go to Step 4</a>
     <button id="s4p" onclick="hide(['s4n','s4p','s4','s4i','s4i2'],['s3n','s3p','s3i'])" class="btn btn-help pull-right" style="display:none;">Previous</button>
 
-    <a id="s5n" href="<%= tutorial_project_information_path %>" class="btn btn-help pull-right" style="display:none;">Go to Step 2</a>
-    <button id="s5p" onclick="hide(['s5n','s5p','s5','s5i'],['s4n','s4p','s4i','s4i2'])" class="btn btn-help pull-right" style="display:none;">Previous</button>
+
   </div>
 
   <!-- SIDEBAR -->
@@ -118,6 +114,24 @@
 
     <a target="_blank" onclick="return false" href="#">Link to Team Chat</a>
 
+  </div>
+
+  <!-- MAIN CONTAINER: DEMO -->
+  <div id="s1" class="col-xs-12 col-sm-9" style="padding-right:0px;">
+    <div class="content-container" style="min-height:46px;">
+      <div class="panel-primary">
+        <div class="panel-title">
+          Work Calendar / Project Information
+        </div>
+      </div>
+    </div>
+
+    <div class="content-container" style="min-height:577px;">
+      <div id="s1i" class="alert alert-success alert-cushion center" role="alert">
+        <b>Your Work Dashboard Area</b><br>
+        Your Work Calender and Projects' Information,<br>both are displayed in this area.
+      </div>
+    </div>
   </div>
 
   <!-- MAIN CONTAINER: CALENDER 1 -->
