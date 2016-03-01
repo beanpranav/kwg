@@ -1,0 +1,166 @@
+<div id="step1" class="alert alert-info" role="alert">
+  <b>STEP 1/4: PERSONAL DASHBOARD</b>
+  <button id="s0" onclick="show(['s1n','s1p','s1','s1i'],['s0'])" class="btn btn-help pull-right">Begin Step 1</button>
+
+  <button id="s1n" onclick="show(['s2n','s2p','s2','s2i'],['s1n','s1p','s1i'])" class="btn btn-help pull-right" style="display:none;">Next</button>
+  <button id="s1p" onclick="hide(['s1n','s1p','s1','s1i'],['s0'])" class="btn btn-help pull-right" style="display:none;">Previous</button>
+
+  <button id="s2n" onclick="show(['s3n','s3p','s3','s3i'],['s2n','s2p','s2i'])" class="btn btn-help pull-right" style="display:none;">Next</button>
+  <button id="s2p" onclick="hide(['s2n','s2p','s2','s2i'],['s1n','s1p','s1i'])" class="btn btn-help pull-right" style="display:none;">Previous</button>
+
+  <button id="s3n" onclick="show(['s4n','s4p','s4','s4i','s4i2'],['s3n','s3p','s3i'])" class="btn btn-help pull-right" style="display:none;">Next</button>
+  <button id="s3p" onclick="hide(['s3n','s3p','s3','s3i'],['s2n','s2p','s2i'])" class="btn btn-help pull-right" style="display:none;">Previous</button>
+
+  <button id="s4n" onclick="show(['s5n','s5p','s5','s5i'],['s4n','s4p','s4i','s4i2'])" class="btn btn-help pull-right" style="display:none;">Next</button>
+  <button id="s4p" onclick="hide(['s4n','s4p','s4','s4i','s4i2'],['s3n','s3p','s3i'])" class="btn btn-help pull-right" style="display:none;">Previous</button>
+
+  <a id="s5n" href="<%= tutorial_work_calendar_path %>" class="btn btn-help pull-right" style="display:none;">Go to Step 2</a>
+  <button id="s5p" onclick="hide(['s5n','s5p','s5','s5i'],['s4n','s4p','s4i','s4i2'])" class="btn btn-help pull-right" style="display:none;">Previous</button>
+</div>
+
+<!-- SIDEBAR -->
+<div id="s1" class="col-xs-12 col-sm-3" style="padding:0px; display:none;">
+
+  <!-- NAME -->
+  <div class="content-container" style="min-height:46px;">
+    <div class="panel-primary">
+      <div class="panel-title">
+        Your Screen Name
+      </div>
+    </div>
+  </div>
+
+  <div class="content-container" style="min-height:557px;">
+    <div id="s1i" class="alert alert-success center alert-cushion" role="alert" style="display:none;"><b>Your Personal<br>Dashboard Area</b></div>
+
+    <div class="panel-group" id="accordion-info" role="tablist" aria-multiselectable="true">
+      
+      <!-- LINKS -->
+      <div id="s2" class="panel panel-default" style="display:none;">
+        <div class="panel-secondary" role="tab" >
+          <div class="panel-title">
+            Vandeley Apps
+          </div>
+        </div>
+        
+        <div id="links" class="panel-collapse" role="tabpanel">
+          <div class="panel-body">
+            <b>My Projects</b>
+            <% @sample_projects.each do |project| %>
+              <br>&nbsp;&nbsp;
+              <i class="fa fa-angle-double-right"></i>&nbsp;&nbsp;
+              <a href="#<%= project %>" aria-controls="<%= project %>" role="tab" data-toggle="tab" class="primary-a"><%= project %></a>
+            <% end %>
+            <br><br>
+            <a href="#my_schedule" aria-controls="my_schedule" role="tab" data-toggle="tab" class="primary-a">
+              <b>My Work Calendar</b>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div id="s2i" class="alert alert-success alert-cushion" role="alert" style="display:none;">
+        <b>Navigation Links </b>to your projects and work calendar.
+      </div>
+
+      <!-- SALARY -->
+      <div id="s3" class="panel panel-default" style="display:none;">
+        <div class="panel-secondary" role="tab" >
+          <div class="panel-title">
+            Performance
+          </div>
+        </div>
+        
+        <div id="performance" class="panel-collapse" role="tabpanel">
+          <div class="panel-body">
+            <div class="h-primary"><%= number_to_currency(0, negative_format: "(%u%n)", precision: 0) %></div>
+            <h3 class="center">Net Apps Profit (Q1)</h3>
+          </div>
+        </div>
+      </div>
+
+      <div id="s3i" class="alert alert-success alert-cushion" role="alert" style="display:none;">
+        <b>Total profit your Apps make</b><br>Your goal is to maximize this!
+      </div>
+
+      <!-- SKILLS -->
+      <div id="s4" class="panel panel-default" style="display:none;">
+        <div class="panel-secondary" role="tab">
+          <div class="panel-title">
+            My Skill Level
+          </div>
+        </div>
+        
+        <div id="skills" class="panel-collapse" role="tabpanel">
+          <div class="panel-body">
+            
+            <% 4.times do |i| %>
+              <% level_range = $SKILL_LEVELS.detect { |points,level| level === @sample_skill_level[i] }.first %>
+              <% skill_progress_ratio = (@sample_skill_total_points[i]-level_range.begin)*100/(level_range.end-level_range.begin) %>
+              <div class="cpi-goal">  
+                <div class="pull-left" style="margin-left:36px;">
+                  <span class="font-secondary">  <%= $SKILL_LEVELS_NAMES[@sample_skill_level[i]][:name] %></span>
+                  <%= $SKILL_NAMES[i] %>
+                  <% skill_p = ($SKILL_PRODUCTIVITY[i+1][@sample_skill_level[i]]*2/@gs_adjustment_factor).to_i %>
+                  <% skill_s = ($SKILL_SALARY[i+1][@sample_skill_level[i]]*2/@gs_adjustment_factor).to_i %>
+                  <i class="fa fa-info-circle font-secondary" data-toggle="tooltip" data-placement="top" title="<%= "--- Level #{$SKILL_LEVELS_NAMES[@sample_skill_level[i]][:icon]} #{$SKILL_NAMES[i]} --- #{$STATS_NAMES[i]} ++ Productivity: #{skill_p} /wk Salary: $#{skill_s} /wk" %>"></i> 
+                </div>
+                <div class="pull-right">
+                  <%= @sample_skill_total_points[i]-level_range.begin %><span class="font-secondary">/<%= level_range.end-level_range.begin+1 %></span>
+                </div>
+                <div class="progress-level progress-bar-<%= i+1 %> center"><%= $SKILL_LEVELS_NAMES[@sample_skill_level[i]][:icon] %></div>
+                <div class="progress">
+                  <div class="progress-bar progress-bar-<%= i+1 %>" role="progressbar" aria-valuenow="<%= skill_progress_ratio %>" aria-valuemin="0" aria-valuemax="100" style="width: <%= skill_progress_ratio %>%">
+                    <span class="sr-only"><%= skill_progress_ratio %>%</span>
+                  </div>
+                </div>
+              </div>
+            <% end %>
+
+          </div>
+        </div>
+      </div>
+
+      <div id="s4i" class="alert alert-success alert-cushion" role="alert" style="display:none;">
+        <b>Your Skillset Status</b><br>You posses the above four skills. These skills correspond directly to the tasks you will be doing for each project. Currently, you are a Novice at using each skill. Hover over the (i) icon to see your productivity and salary at current level.<br><br>Just like real-life, the more skilled you are at a task, more is your productivity and more you get paid!
+      </div>
+      <div id="s4i2" class="alert alert-success alert-cushion" role="alert" style="display:none;">
+        <b>Improving Your Skills</b><br>In real-life your skill level doesn't remain static, you learn and can reach an 'Advanced' or even 'Expert' skill level. Your earn skill points by completing tasks (learning-by-doing) as well as by choosing to invest in learning activities (intentional learning). More on this later.
+      </div>
+
+    </div>
+  </div>
+
+  <a id="s5" target="_blank" onclick="return false" href="#" style="display:none;">Link to Team Chat</a>
+  <div id="s5i" class="alert alert-success alert-cushion" role="alert" style="display:none;">
+    <b>Team Chat Window</b> is used to talk with your team members. This is available only if you are logged in as a player.
+  </div>
+
+</div>
+
+
+<script type="text/javascript">
+  $(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+  })
+</script>
+
+<script type="text/javascript">
+  function show(target, source){
+    for(var i = 0; i < target.length; i++) {
+      document.getElementById(target[i]).style.display = 'block';
+    }
+    for(var i = 0; i < source.length; i++) {
+      document.getElementById(source[i]).style.display = 'none';
+    }
+  }
+
+  function hide(target, source){
+    for(var i = 0; i < target.length; i++) {
+      document.getElementById(target[i]).style.display = 'none';
+    }
+    for(var i = 0; i < source.length; i++) {
+      document.getElementById(source[i]).style.display = 'block';
+    }
+  }
+</script>

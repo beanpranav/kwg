@@ -23,7 +23,9 @@ Rails.application.routes.draw do
   
   get "demo_screenshots" => "pages#demo_screenshots"
   get "tutorial" => "pages#tutorial"
-  get "tutorial_steps" => "pages#tutorial_steps"
+  get "tutorial_personal_dashboard" => "pages#tutorial_personal_dashboard"
+  get "tutorial_work_calendar" => "pages#tutorial_work_calendar"
+  get "tutorial_project_information" => "pages#tutorial_project_information"
     post "activate_user" => "pages#activate_user"
   root 'pages#home'
 

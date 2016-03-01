@@ -222,6 +222,7 @@ a, a:hover { color: $brand-blue; }
 	color: white;
 }
 .panel-right { float: right; font-weight: normal; }
+.alert-cushion { margin: 4px; }
 
 .btn { 
 	padding: 5px 12px; 
@@ -244,6 +245,8 @@ a, a:hover { color: $brand-blue; }
 .btn-invert:hover, .btn-invert:focus { background-color: white; color: $brand-primary !important; border: 2px solid $brand-primary; }
 .btn-sm { padding: 4px 9px; }
 
+.btn-help { min-width: 64px; padding: 3px 7px; margin: -2px 2px; line-height: 1.5; color: #31708f!important; border: 1px solid #31708f; background-color: transparent; font-size: 11px;}
+.btn-help:hover, .btn-help:focus { background-color: #31708f; color: white!important; border: 1px solid #31708f; }
 
 
 // FORMS
