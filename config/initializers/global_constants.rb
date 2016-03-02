@@ -99,12 +99,12 @@ $GAME_TYPES_LOOKUP =
 
 $SKILL_LEVELS = 
 {
-	1..300 => 1,
-	301..600 => 2,
-	601..1000 => 3,
-	1001..1500 => 4,
-	1501..2500 => 5,
-	2501..5000 => 6
+	1..400 => 1,
+	401..800 => 2,
+	801..1200 => 3,
+	1201..1600 => 4,
+	1601..2200 => 5,
+	2201..4000 => 6
 }
 
 $SKILL_LEVELS_NAMES = 
@@ -172,7 +172,7 @@ $HELP_TEXT =
 	"users_supported" => "Number of users supported in this quarter. Affected by app's support and user satisfaction.",
 	"active_users" => "Cumulative number of paying users of your app.",
 	# R&D text
-	0 => "text 1",
-	1 => "text 1",
-	2 => "text 1"
+	0 => "Indirectly improves Max User Capacity",
+	1 => "Indirectly improves Demand Generated",
+	2 => "Indirectly improves Users Supported"
 }
