@@ -26,7 +26,11 @@ Rails.application.routes.draw do
   get "tutorial_personal_dashboard" => "pages#tutorial_personal_dashboard"
   get "tutorial_work_calendar" => "pages#tutorial_work_calendar"
   get "tutorial_project_information" => "pages#tutorial_project_information"
-    post "activate_user" => "pages#activate_user"
+  get "tutorial_gameplay_choices" => "pages#tutorial_gameplay_choices"
+  get "tutorial_gameplay_results" => "pages#tutorial_gameplay_results"
+
+  post "activate_user" => "pages#activate_user"
+  
   root 'pages#home'
 
 end

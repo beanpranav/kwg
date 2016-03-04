@@ -1,0 +1,224 @@
+  <div id="step2" class="alert alert-info" role="alert">
+    <b>STEP 4/4: &nbsp;&nbsp;-----&nbsp;&nbsp; PLAYING THE GAME (TRIAL MONTH) &nbsp;&nbsp;---- </b>
+<!--     <button id="s1n" onclick="show(['s2p','s2','s2i'],['s1n','s1p','s1','s1i'])" class="btn btn-help pull-right">Begin Step 4</button>
+    <a id="s1p" href="<%= tutorial_project_information_path %>" class="btn btn-help pull-right">Back to Step 3</a>
+
+    <button id="s2p" onclick="hide(['s2p','s2','s2i'],['s1n','s1p','s1','s1i'])" class="btn btn-help pull-right" style="display:none;">Previous</button>
+    <button id="s3p" onclick="hide(['s3p','s3'],['s2i'])" class="btn btn-help pull-right" style="display:none;">Previous</button> -->
+
+  </div>
+
+  <!-- SIDEBAR -->
+  <div class="col-xs-12 col-sm-3" style="padding:0px;">
+
+    <!-- NAME -->
+    <div class="content-container" style="min-height:46px;">
+      <div class="panel-primary">
+        <div class="panel-title">
+          Your Screen Name
+        </div>
+      </div>
+    </div>
+ 
+    <div class="content-container" style="min-height:557px;">
+
+      <div class="panel-group" id="accordion-info" role="tablist" aria-multiselectable="true">
+        
+        <!-- LINKS -->
+        <div class="panel panel-default">
+          <div class="panel-secondary" role="tab" >
+            <div class="panel-title">
+              Vandeley Apps
+            </div>
+          </div>
+          
+          <div id="links" class="panel-collapse" role="tabpanel">
+            <div class="panel-body">
+              <b>My Projects</b>
+              <% @sample_projects.each do |project| %>
+                <br>&nbsp;&nbsp;
+                <i class="fa fa-angle-double-right"></i>&nbsp;&nbsp;
+                <a href="#<%= project %>" aria-controls="<%= project %>" role="tab" data-toggle="tab" class="primary-a"><%= project %></a>
+              <% end %>
+              <br><br>
+              <a href="#my_schedule" aria-controls="my_schedule" role="tab" data-toggle="tab" class="primary-a">
+                <b>My Work Calendar</b>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- SALARY -->
+        <div class="panel panel-default">
+          <div class="panel-secondary" role="tab" >
+            <div class="panel-title">
+              Performance
+            </div>
+          </div>
+          
+          <div id="performance" class="panel-collapse" role="tabpanel">
+            <div class="panel-body">
+              <div class="h-primary"><%= number_to_currency(0, negative_format: "(%u%n)", precision: 0) %></div>
+              <h3 class="center">Net Apps Profit (Q1)</h3>
+            </div>
+          </div>
+        </div>
+
+        <!-- SKILLS -->
+        <div class="panel panel-default">
+          <div class="panel-secondary" role="tab">
+            <div class="panel-title">
+              My Skill Level
+            </div>
+          </div>
+          
+          <div id="skills" class="panel-collapse" role="tabpanel">
+            <div class="panel-body">
+              
+              <% 4.times do |i| %>
+                <% level_range = $SKILL_LEVELS.detect { |points,level| level === @sample_skill_level[i] }.first %>
+                <% skill_progress_ratio = (@sample_skill_total_points[i]-level_range.begin)*100/(level_range.end-level_range.begin) %>
+                <div class="cpi-goal">  
+                  <div class="pull-left" style="margin-left:36px;">
+                    <span class="font-secondary">  <%= $SKILL_LEVELS_NAMES[@sample_skill_level[i]][:name] %></span>
+                    <%= $SKILL_NAMES[i] %>
+                    <% skill_p = ($SKILL_PRODUCTIVITY[i+1][@sample_skill_level[i]]*2/@gs_adjustment_factor).to_i %>
+                    <% skill_s = ($SKILL_SALARY[i+1][@sample_skill_level[i]]*2/@gs_adjustment_factor).to_i %>
+                    <i class="fa fa-info-circle font-secondary" data-toggle="tooltip" data-placement="top" title="<%= "--- Level #{$SKILL_LEVELS_NAMES[@sample_skill_level[i]][:icon]} #{$SKILL_NAMES[i]} --- #{$STATS_NAMES[i]} ++ Productivity: #{skill_p} /wk Salary: $#{skill_s} /wk" %>"></i> 
+                  </div>
+                  <div class="pull-right">
+                    <%= @sample_skill_total_points[i]-level_range.begin %><span class="font-secondary">/<%= level_range.end-level_range.begin+1 %></span>
+                  </div>
+                  <div class="progress-level progress-bar-<%= i+1 %> center"><%= $SKILL_LEVELS_NAMES[@sample_skill_level[i]][:icon] %></div>
+                  <div class="progress">
+                    <div class="progress-bar progress-bar-<%= i+1 %>" role="progressbar" aria-valuenow="<%= skill_progress_ratio %>" aria-valuemin="0" aria-valuemax="100" style="width: <%= skill_progress_ratio %>%">
+                      <span class="sr-only"><%= skill_progress_ratio %>%</span>
+                    </div>
+                  </div>
+                </div>
+              <% end %>
+
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <a target="_blank" onclick="return false" href="#">Link to Team Chat</a>
+
+  </div>
+
+  <!-- MAIN CONTAINER: CALENDER 1 -->
+  <div id="s2" class="col-xs-12 col-sm-9" style="padding-right:0px;">
+    <div class="content-container" style="min-height:46px;">
+      <div class="panel-primary">
+        <div class="panel-title">
+          Work Calendar
+          <a href="<%= tutorial_gameplay_results_path %>" class="btn btn-sm btn-invert pull-right supress-a" style = "margin: -5px; -5px 0 0"><i class="fa fa-refresh"></i> &nbsp;Refresh</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="content-container">
+      <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+        <div class="panel panel-default">
+          <div class="panel-secondary" role="tab" >
+            <div class="panel-title">
+              Quarter 1
+              <i class="fa fa-fw fa-sort pull-right" style="margin: 3px -5px 0 0;"></i>
+            </div>
+          </div>
+        </div>
+
+        <!-- Show monthly choices -->
+        <div id="s2i" class="panel-body" style="display:block;">
+          <div class="col-sm-4 center">
+            <div class="h-primary"><%= get_month_name(1) %></div>
+          </div>
+          <div class="col-sm-4 center">
+          <!-- MONTHS: SHOW OPTIONS -->
+            
+            <div class="h-primary"><%= get_month_name(2) %></div>
+            <% 8.times do |work_item| %>
+              <div class="work-container-form work-bg-secondary">
+                <%= select_tag "skill_uses[]", grouped_options_for_select([
+                            ['DO ------',[["App Dev",1],["Marketing",2],["Support",3]]],
+                            ['DO R&D ------',[["R&D on App Dev",5],["R&D on Marketing",6],["R&D on Support",7]]],
+                            ['IMPROVE ------',[["App Dev skills",11], ["Marketing skills",12], ["Support skills",13], ["R&D skills",14]]],
+                            ['NOTHING ------',[["do nothing",-1]]]
+                          ]), prompt: "--- do task ---" %>
+                <%= select_tag "project_monthly_report_ids[]", grouped_options_for_select([
+                        ['APP ------',[["vChat",1],["vTunes",2]]],
+                        ['NOTHING ------',[["do nothing",-1]]]
+                      ]), prompt: "--- choose app ---" %>
+              </div>
+            <% end %>
+
+            <div class="button-padding">
+              <!-- <button onclick="show(['s3p','s3'],['s2i'])" class="btn btn-sm btn-primary">SAVE CHANGES</button> -->
+              <a href="#" class="btn btn-sm btn-primary">SAVE CHANGES</a>
+            </div>
+
+          </div>
+
+          <div class="col-sm-4">
+            <div class="alert alert-success alert-cushion" role="alert">
+              <b>Make Some Monthly Task Choices:</b>
+              <br>Ok, let's assume you've already had a conversation with
+              
+
+            </div>
+            <div class="alert alert-warning alert-cushion" role="alert">
+              <b>Important note:</b>
+
+            </div>
+          </div>
+        </div>
+
+        <!-- Show monthly choices made -->
+
+
+         
+
+        <!-- Remaining 3 Qs -->
+        <% 3.times do |i| %>
+          <div class="panel panel-default" style="margin-top:2px;">
+            <div class="panel-secondary" role="tab" >
+              <div class="panel-title">
+                Quarter <%= i+2 %>
+                <i class="fa fa-fw fa-sort pull-right" style="margin: 3px -5px 0 0;"></i>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+
+  </div>
+
+<script type="text/javascript">
+  $(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+  })
+</script>
+
+<script type="text/javascript">
+  function show(target, source){
+    for(var i = 0; i < target.length; i++) {
+      document.getElementById(target[i]).style.display = 'block';
+    }
+    for(var i = 0; i < source.length; i++) {
+      document.getElementById(source[i]).style.display = 'none';
+    }
+  }
+
+  function hide(target, source){
+    for(var i = 0; i < target.length; i++) {
+      document.getElementById(target[i]).style.display = 'none';
+    }
+    for(var i = 0; i < source.length; i++) {
+      document.getElementById(source[i]).style.display = 'block';
+    }
+  }
+</script>

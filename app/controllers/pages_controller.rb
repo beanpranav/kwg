@@ -44,5 +44,25 @@ class PagesController < ApplicationController
     @sample_rnd_total_points = [1,1,1,1]
     @sample_players = ["You","Team Member 1","Team Member 2","..."]
   end
+
+  def tutorial_gameplay_choices
+    @sample_projects = ["vChat","vTunes"]
+    @sample_skill_level = [1,1,1,1]
+    @sample_skill_total_points = [1,1,1,1]
+    @gs_adjustment_factor = 3
+    @sample_rnd_total_points = [1,1,1,1]
+    @sample_players = ["You","Team Member 1","Team Member 2","..."]
+    @task_choices = ["App Dev","App Dev","Marketing","Marketing","App Dev","App Dev","5","11"]
+    @app_choices = [1,1,1,1,2,2,1,1]
+  end
+
+  def tutorial_gameplay_results
+    @sample_projects = ["vChat","vTunes"]
+    @sample_skill_level = [1,1,1,1]
+    @sample_skill_total_points = [141,21,11,1]
+    @gs_adjustment_factor = 3
+    @sample_rnd_total_points = [241,1,1,1]
+    @sample_players = ["You","Team Member 1","Team Member 2","..."]
+  end
  	
 end
