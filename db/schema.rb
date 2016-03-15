@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160210081640) do
+ActiveRecord::Schema.define(version: 20160315213257) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -66,11 +66,17 @@ ActiveRecord::Schema.define(version: 20160210081640) do
     t.integer  "user_id"
     t.integer  "game_id"
     t.integer  "salary_total"
-    t.integer  "skill_level",        array: true
-    t.integer  "skill_total_points", array: true
+    t.integer  "skill_level",                        array: true
+    t.integer  "skill_total_points",                 array: true
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "member_no"
+    t.string   "player_name",        default: ""
+    t.string   "player_screenname",  default: ""
+    t.string   "gender",             default: ""
+    t.boolean  "valid_age",          default: false
+    t.boolean  "valid_read",         default: false
+    t.boolean  "valid_consent",      default: false
   end
 
   create_table "project_goals", force: true do |t|
@@ -146,6 +152,12 @@ ActiveRecord::Schema.define(version: 20160210081640) do
     t.string   "user_status",            default: "offline",     null: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "player_name",            default: ""
+    t.string   "player_screenname",      default: ""
+    t.string   "gender",                 default: ""
+    t.boolean  "valid_age",              default: false
+    t.boolean  "valid_read",             default: false
+    t.boolean  "valid_consent",          default: false
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree

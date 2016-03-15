@@ -9,6 +9,9 @@ class PagesController < ApplicationController
 			else
 				@current_game_screen = current_user.players.sort_by(&:id).last
 			end
+
+    else
+      redirect_to new_user_session_path
 		end
   end
 
@@ -17,9 +20,22 @@ class PagesController < ApplicationController
 
   def activate_user
   	user = User.find(params[:user_id])
-  	user.user_status = "active"
-  	user.save
-  	redirect_to request.referrer
+    user.player_name = params[:full_name]
+    user.player_screenname = params[:screen_name]
+    user.gender = params[:gender]
+    user.valid_age = params[:age]
+    user.valid_read = params[:read]
+    user.valid_consent = params[:consent]
+    user.save
+    
+    if (user.valid_age and user.valid_read and user.valid_consent)
+  	  user.user_status = "active"
+  	  user.save
+  	  redirect_to request.referrer
+    else
+      flash[:notice] = "Thank you for your interest."
+      redirect_to request.referrer
+    end
   end
 
   def tutorial_personal_dashboard

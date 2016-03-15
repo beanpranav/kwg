@@ -1,5 +1,5 @@
 <% if user_signed_in? %>
-
+<!-- RESEARCHER HOME -->
 	<% if current_user.user_type == "researcher" %>
 		
 		<div class="col-xs-12 col-sm-8 col-sm-offset-2">
@@ -91,99 +91,180 @@
 	  		</div>
 			</div>
 		</div>
-		
+	
+<!-- PARTICIPANT HOME -->
 	<% else %>
 		
 		<div class="col-xs-12 col-sm-8 col-sm-offset-2">
-			<div class="secondary-nav secondary-nav-invert">
-				<i class="fa fa-2x fa-rocket content-list-icon-primary pull-left"></i>
-				<h2 class="font-invert"><b>Hi <%= current_user.first_name %>!</b></h2>
-				<h3 class="font-invert">As a participant, you have played <%= pluralize( current_user.games.count, 'game' ) %>.</h3>
-			</div>
-		
-  		<!-- 			= link_to controller: "games", action: "new", user_id: current_user.id do %>
-				<div class="game-card supress-a col-sm-4 row">
-					Ready to Play
+
+		<!-- OFFLINE MODE: CONSENT FORM -->
+			<% if current_user.user_status == "offline" %>
+
+				<div class="secondary-nav secondary-nav-invert">
+					<i class="fa fa-2x fa-clipboard content-list-icon-primary pull-left"></i>
+					<h2 class="font-invert"><b>Hi <%= current_user.first_name %>!</b></h2>
+					<h3 class="font-invert">Before we begin, please read carefully and sign the consent form below.</h3>
 				</div>
-			 end %> -->
+			
+				<div class="content-container">
+		  		<div class="panel-body" style="margin-bottom:30px;">
 
-			<div class="content-container">
-				<div class="panel-secondary">
-	  		  <div class="panel-title">
-	  			  Current Status
-	  		  </div>
-	  		</div>
+		  			<div class="h-primary">CONSENT FORM</div>
 
-	  		<div class="panel-body">
+						<!-- CONSENT FORM TEXT -->
+			  			<br><p>This online-game is part of a research study conducted by Pranav Gupta at Carnegie Mellon University.</p>
+			  			<p>The purpose of the research is to investigate how people make decisions when working simultaneously on multiple projects and how this affects performance.</p>
 
-	  			<div class="h-primary">PLAYER STATUS: <%= current_user.user_status.upcase %></div>
-					
-					<% if current_user.user_status == "offline" %>
-						<h3 class="center">click "join" when you are ready to play</h3>	
-		  			<%= link_to activate_user_path(user_id: current_user.id), method: :post do %>
-							<div class="center col-sm-6 col-sm-offset-3 button-padding">
-			          <button type="button" class="btn btn-block btn-green">JOIN A GAME</button>
-			        </div>
-						<% end %>
+			  			<p>
+			  				<b>Procedures</b><br>
+			  				In this study, you will be asked to work with multiple team members across different decision making tasks over a course of 2 hours. You will be interacting with members of your team only via online team-chat, there is no face-to-face or video interaction involved. You will have the option of choosing a screen-name: It can be your first name or something else if you wish to do so. Only your chat conversations and screen-name will be visible to other participants. At the conclusion of your team’s work, you will be asked to complete a brief survey about your experiences with the team and the task.
+			  			</p>
 
-					<% elsif current_user.user_status == "active" %>
+			  			<p>
+			  				<b>Participant Requirements</b><br>
+			  				Participation in this study is limited to individuals age 18 and older who are fluent english speakers and comfortable with using computers.
+			  			</p>
+
+			  			<p>
+			  				<b>Risks</b><br>
+			  				The risks and discomfort associated with participation in this study are no greater than those ordinarily encountered in daily life or during other online activities.
+			  			</p>
+
+			  			<p>
+			  				<b>Benefits</b><br>
+			  				There may be no personal benefit from your participation in the study but the knowledge received may be of value to humanity.
+			  			</p>
+
+			  			<p>
+			  				<b>Compensation & Costs</b><br>
+			  				You will receive $10/hr upon completion of the study. For example, for a 2hr study you will recieve $20.
+			  			</p>
+
+			  			<p>
+			  				<b>Confidentiality</b><br>
+			  				By participating in this research, you understand and agree that Carnegie Mellon may be required to disclose your consent form, data and other personally identifiable information as required by law, regulation, subpoena or court order. Otherwise, your confidentiality will be maintained in the following manner:
+			  			</p>
+
+			  			<p>Your data and consent form will be kept separate. Your consent form will be stored in a locked location on Carnegie Mellon property and will not be disclosed to third parties. Sharing of data with other researchers will only be done in such a manner that you will not be identified.</p>
+
+			  			<p>By participating, you understand and agree that the data and information gathered during this study may be used by Carnegie Mellon and published and/or disclosed by Carnegie Mellon to others outside of Carnegie Mellon. However, your name or contact information in your consent form will not be mentioned in any such publication or dissemination of the research data and/or results by Carnegie Mellon.</p>
+
+			  			<p>
+			  				<b>Right to Ask Questions & Contact Information</b><br>
+			  				If you have any questions about this study, you should feel free to ask them by contacting the Principal Investigator Pranav Gupta at: <em>Tepper School of Business, Carnegie Mellon University, 5000 Forbes Avenue, Pittsburgh, PA 15217; Tel. 412-961-5793; Email: pranavgu@andrew.cmu.edu</em>
+			  				<br>If you have questions later, desire additional information, or wish to withdraw your participation please contact the Principal Investigator by mail, phone or e-mail in accordance with the contact information listed above.
+			  			</p>
+
+			  			<p>If you have questions pertaining to your rights as a research participant; or to report concerns to this study, you should contact the Office of Research integrity and Compliance at Carnegie Mellon University. <em>Email: irb-review@andrew.cmu.edu; Phone: 412-268-1901 or 412-268-5460.</em></p>
+
+			  			<p>
+			  				<b>Voluntary Participation</b><br>
+			  				Your participation in this research is voluntary. You may discontinue participation at any time during the research activity.
+			  			</p>
+
+			  			<br><br>
+
+			  		<!-- FORM ITEMS -->
+
+							<%= form_tag("/activate_user", method: :post) do %>
+								<div class="row">
+								  <div class="col-xs-12 col-sm-3">
+								    <div class="form-label"><b>Sign Full Name</b></div>
+								    <div class="form-label"><b>Choose Screen Name</b></div>
+								    <div class="form-label"><b>Your Gender</b></div>
+								  </div>
+								  <div class="col-xs-12 col-sm-9">
+										<%= text_field_tag :full_name, nil, placeholder: "full name", class: "form-control" %>
+										<%= text_field_tag :screen_name, nil, placeholder: "screen name (can be your first name)", class: "form-control" %>
+										<div class="form-control-select">
+							        <%= select_tag :gender, options_for_select(["Male","Female","Other"]), class: "form-control" %>
+							      </div>
+									</div>
+								</div><br>
+
+								<div class="row">
+								  <div class="col-xs-12 col-sm-3">
+								  	<p class="form-radio" style="text-align:right;">
+										  <%= radio_button_tag(:age, true) %>
+										  <%= label_tag(:age_true, "Yes") %> &nbsp; &nbsp;
+										  <%= radio_button_tag(:age, false, true) %>
+										  <%= label_tag(:age_false, "No") %>
+										</p>
+										<p class="form-radio" style="text-align:right;">
+										  <%= radio_button_tag(:read, true) %>
+										  <%= label_tag(:read_true, "Yes") %> &nbsp; &nbsp;
+										  <%= radio_button_tag(:read, false, true) %>
+										  <%= label_tag(:read_false, "No") %>
+										</p>
+										<p class="form-radio" style="text-align:right;">
+										  <%= radio_button_tag(:consent, true) %>
+										  <%= label_tag(:consent_true, "Yes") %> &nbsp; &nbsp;
+										  <%= radio_button_tag(:consent, false, true) %>
+										  <%= label_tag(:consent_false, "No") %>
+										</p>
+									</div>
+									<div class="col-xs-12 col-sm-9">
+								    <div class="form-label" style="text-align:left; padding: 10px 0 6px 4px;">I am age 18 or older.</div>
+								    <div class="form-label" style="text-align:left; padding: 11px 0 6px 4px;">I have read and understand the information above.</div>
+								    <div class="form-label" style="text-align:left; padding: 12px 0 6px 4px;">I want to participate in this research and continue with the game.</div>
+								  </div>
+								</div>
+
+								<%= hidden_field_tag(:user_id, current_user.id) %>
+
+								<div class="center col-sm-6 col-sm-offset-3 button-padding">
+				          <%= submit_tag "I'M READY TO JOIN A GAME", class: "btn btn-block btn-green" %>
+				        </div>
+							<% end %>
+
+					</div>
+				</div>
+
+		<!-- ACTIVE MODE: AWAITING GAME ASSIGNMENT -->
+			<% elsif current_user.user_status == "active" %>
+
+				<div class="secondary-nav secondary-nav-invert">
+					<i class="fa fa-2x fa-rocket content-list-icon-primary pull-left"></i>
+					<h2 class="font-invert"><b>Hi <%= current_user.player_screenname %>!</b></h2>
+					<h3 class="font-invert">Your current game status</h3>
+				</div>
+			
+				<div class="content-container">
+		  		<div class="panel-body" style="margin-bottom:30px;">
+
+						<div class="h-primary">PLAYER STATUS: <%= current_user.user_status.upcase %></div>
+
 						<h3 class="center">please wait to get assigned</h3>	
 						<div class="center col-sm-6 col-sm-offset-3 button-padding">
 		          <button type="button" class="btn btn-block btn-orange active">LOOKING FOR GAME ...</button>
 		        </div>
 
-					<% else %>
+		      </div>
+		    </div>
+
+		<!-- GAME IN SESSION -->
+			<% else %>
+
+				<div class="secondary-nav secondary-nav-invert">
+					<i class="fa fa-2x fa-rocket content-list-icon-primary pull-left"></i>
+					<h2 class="font-invert"><b>Hi <%= current_user.player_screenname %>!</b></h2>
+					<h3 class="font-invert">Your current game status</h3>
+				</div>
+			
+				<div class="content-container">
+		  		<div class="panel-body" style="margin-bottom:30px;">
+						<div class="h-primary">PLAYER STATUS: <%= current_user.user_status.upcase %></div>
+
 						<h3 class="center">game in session</h3>	
 		  			<%= link_to player_path(@current_game_screen) do %>
 							<div class="center col-sm-6 col-sm-offset-3 button-padding">
 			          <button type="button" class="btn btn-block btn-green">GO TO GAME</button>
 			        </div>
-						<% end %>
+			      <% end %>
 
-					<% end %>
-
-
-			  </div>
-			</div>
-
-			<% if current_user.players.count > 0 %>
-
-			  <div class="content-container">
-			    <div class="panel-secondary">
-			      <div class="panel-title">
-			        Game Listing
-			      </div>
 			    </div>
+			  </div>
 
-			    <div class="panel-body">
-					<!-- GAME LISTINGS -->
-		  			<table class="table table-condensed table-hover">
-		  			  <thead>
-		  			    <tr>
-		  			      <th>Played on</th>
-		  			      <th>Codename</th>
-		  			      <th>Game length</th>
-		  			      <th colspan="1">Status</th>
-		  			      <th colspan="1"></th>
-		  			    </tr>
-		  			  </thead>
-
-		  			  <tbody>
-		  			    <% current_user.players.sort_by(&:created_at).reverse.each.with_index do |p| %>
-		  			      <tr>
-		  			        <td><%= p.game.updated_at.strftime("%b %d, %Y") %></td>
-		  			        <td><%= p.game.game_codename %></td>
-		  			        <td><%= p.game.game_length %> months</td>
-		  			        <td><%= if p.game.game_status <= 0 then "Not Started" elsif p.game.game_status > p.game.game_length then "Completed" else "Incomplete" end %></td>
-		  			        <td class="center <%= if p.game.game_status <= 0 then "panel-orange" elsif p.game.game_status > p.game.game_length then "" else "panel-green" end %>"><a href="<%= player_path(p) %>"><i class="fa fa-arrow-right"></a></td>
-		  			      </tr>
-		  			    <% end %>
-		  			  </tbody>
-		  			</table>
-
-		  		</div>
-
-				</div>
 			<% end %>
 
 		</div>

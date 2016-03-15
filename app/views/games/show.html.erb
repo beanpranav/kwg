@@ -1,323 +1,326 @@
 <!-- SIDEBAR -->
-<div class="col-xs-12 col-sm-3" style="padding:0px;">
-  <a href="<%= root_path %>" class="supress-a">
-    <div class="secondary-nav secondary-nav-button">
-      <i class="fa fa-2x fa-arrow-left secondary-nav-icon pull-left"></i>
-      <h3><%= current_user.name %></h3>
-      <h2>Dashboard</h2>
-    </div>
-  </a>
-  
-  <div class="content-container">
-    <div class="panel-secondary">
-      <div class="panel-title">
-        Information
+  <div class="col-xs-12 col-sm-3" style="padding:0px;">
+    <a href="<%= root_path %>" class="supress-a">
+      <div class="secondary-nav secondary-nav-button">
+        <i class="fa fa-2x fa-arrow-left secondary-nav-icon pull-left"></i>
+        <h3><%= current_user.name %></h3>
+        <h2>Dashboard</h2>
       </div>
-    </div>
-
-    <div class="panel-body">
-      <h3>Game Type</h3>
-      <h2><%= $GAME_TYPES_LOOKUP[@game.game_type][:name] %></h2>
-      <br>
-
-      <h3>Game Length</h3>
-      <h2><%= @game.game_length %> Months</h2>
-      <br>
-
-      <h3>Access Condition</h3>
-      <h2><%= if @game.access_treatement then "Treatment" else "Control" end %></h2>
-    </div>
-  </div>
-  <% if @game.game_status == -1 %><%= link_to 'Edit Game', edit_game_path(@game) %><% end %>
-  
-</div>
-
-<!-- MAIN CONTAINER -->
-<div class="col-xs-12 col-sm-9" style="padding-right:0px;">
-  <div class="secondary-nav secondary-nav-invert">
-    <i class="fa fa-2x fa-laptop content-list-icon-primary pull-left"></i>
-    <h2 class="font-invert"><b>Codename: <%= @game.game_codename %></b></h2>
-    <h3 class="font-invert">Session: <%= @game.session_name %></h3>
-  </div>
-
-  <div class="content-container">
-    <div class="panel-secondary">
-      <div class="panel-title">
-        Status
-      </div>
-    </div>
-
-    <div class="panel-body">
-      <!-- SETUP GAME -->
-      <% if @game.game_status == -1 %>
-        <div class="h-primary">SETUP MODE</div>
-        
-        <h3 class="center"><%= @active_users.count %> participants are ready to play</h3>
-        
-        <% if @active_users.count >= $GAME_TYPES_LOOKUP[@game.game_type][:n] %>
-          <%= form_tag "/games/#{@game.id}/assign_players" do %>
-            <%= hidden_field_tag :n, $GAME_TYPES_LOOKUP[@game.game_type][:n] %>
-            <%= hidden_field_tag :game_id, @game.id %>
-            <div class="center col-sm-6 col-sm-offset-3 button-padding">
-              <%= button_tag(type: 'submit', class: "btn btn-block btn-green") do %>
-                RANDOMLY ASSIGN PLAYERS (N = <%= $GAME_TYPES_LOOKUP[@game.game_type][:n] %>)
-              <% end %>
-            </div>
-          <% end %>
-        <% else %>
-          <div class="center col-sm-6 col-sm-offset-3 button-padding">
-            <button class="btn btn-block btn-red" disabled="disabled">
-              NOT ENOUGH PLAYERS AVAILABLE
-            </button>
-          </div>
-        <% end %>
-      
-      <!-- SETUP COMPLETE -->
-      <% elsif @game.game_status == 0 %>
-        <div class="h-primary">SETUP COMPLETE</div>
-        
-        <h3 class="center"><%= @game.players.count %> Players assigned, <%= @game.teams.count %> Teams created, and <%= @game.projects.count %> Projects created.</h3>
-
-        <%= form_tag "/games/#{@game.id}/continue_game" do %>
-          <div class="center col-sm-6 col-sm-offset-3 button-padding">
-            <%= button_tag(type: 'submit', class: "btn btn-block btn-green") do %>
-              START GAME
-            <% end %>
-          </div>
-        <% end %>
-      
-      <!-- CONTINUE GAME -->
-      <% elsif @game.game_status <= @game.game_length %>
-
-        <% if @game.is_paused %>
-          <div class="h-primary">GAME IS PAUSED: MONTH <%= @game.game_status %></div>
-          
-          <h3 class="center">Help text here.</h3>
-          
-          <% if @game.game_status < @game.game_length %>
-
-            <%= form_tag "/games/#{@game.id}/continue_game" do %>
-              <div class="center col-sm-4 col-sm-offset-2 button-padding">
-                <%= button_tag(type: 'submit', class: "btn btn-block btn-green") do %>
-                  <%= "START MONTH #{@game.game_status+1}" %>
-                <% end %>
-              </div>
-            <% end %>
-
-            <div class="center col-sm-4 button-padding">
-              <button class="btn btn-block btn-disabled" disabled="disabled">
-                <%= "COMPLETE MONTH #{@game.game_status+1}" %>
-              </button>
-            </div>
-
-          <% else %>
-
-          <% end %>
-
-        <% else %>
-          <div class="h-primary">GAME IN PLAY: MONTH <%= @game.game_status %></div>
-          
-          <h3 class="center">Help text here.</h3>
-          
-          <div class="center col-sm-4 col-sm-offset-2 button-padding">
-            <button class="btn btn-block btn-disabled" disabled="disabled">
-              <%= if @game.game_status < @game.game_length then "START MONTH #{@game.game_status+1}" else "GENERATE FORMS" end %>
-            </button>
-          </div>
-          
-          <%= form_tag "/games/#{@game.id}/complete_game" do %>
-            <div class="center col-sm-4 button-padding">
-              <%= button_tag(type: 'submit', class: "btn btn-block btn-red") do %>
-                <%= if @game.game_status < @game.game_length then "COMPLETE MONTH #{@game.game_status}" else "FINISH GAME" end %>
-              <% end %>
-            </div>
-          <% end %>
-
-        <% end %>
-
-      
-      <!-- GAME COMPLETED -->
-      <% else %>
-        <div class="h-primary">GAME COMPLETED</div>
-        
-        <h3 class="center">Forms and other data.</h3>
-        <!-- button for next steps -->
-        
-        <% if @game.game_status != 100 %>
-          <%= form_tag "/games/#{@game.id}/generate_forms" do %>
-            <div class="center col-sm-6 col-sm-offset-3 button-padding">
-              <%= button_tag(type: 'submit', class: "btn btn-block btn-green") do %>
-                GENERATE FORMS
-              <% end %>
-            </div>
-          <% end %>
-
-        <% else %>
-          <table class="table table-condensed col-sm-6 col-sm-offset-3" style="width: 50%; margin-top:20px;">
-            <thead>
-              <th></th>
-              <th class="center">Austin Scale</th>
-              <th class="center">Lewis Scale</th>
-            </thead>
-            <tbody>
-              <% @players.sort_by(&:member_no).each do |player| %>
-                <tr>
-                  <td><b><%= player.user.name %></b></td>  
-                  <td class="center <%= if player.measure_austin.is_complete then "font-green" else "font-invert" end %>"><i class="fa fa-lg fa-check"></i></td>
-                  <td class="center <%= if player.measure_lewis.is_complete then "font-green" else "font-invert" end %>"><i class="fa fa-lg fa-check"></i></td>
-                </tr>
-              <% end %>
-            </tbody>
-          </table>
-
-          <div class="center col-sm-6 col-sm-offset-3 button-padding">
-            <%= link_to "REFRESH", game_path(@game), class: "btn btn-block btn-green" %>
-          </div>
-        <% end %>
-
-      <% end %>
-
-    </div>
-  </div>
-
-  <% if @game.game_status >= 0 %>
-
+    </a>
+    
     <div class="content-container">
       <div class="panel-secondary">
         <div class="panel-title">
-          Assignment Matrix
+          Information
         </div>
       </div>
 
       <div class="panel-body">
-        
-        <table class="table table-condensed table-hover table-bordered">
-          <thead>
-            <tr>
-              <th style="border-right-width: 2px;"></th>
-              <% @game.players.sort_by(&:member_no).each do |player| %>
-                <th class="center"><%= player.user.first_name %></th>
-              <% end %>
-            </tr>
-          </thead>
+        <h3>Game Type</h3>
+        <h2><%= $GAME_TYPES_LOOKUP[@game.game_type][:name] %></h2>
+        <br>
 
-          <tbody>
-            <% @game.teams.sort_by(&:id).each do |team| %>
-              <tr>
-                <td style="padding-left:10px; border-right-width: 2px;">
-                  <b><%= team.team_name %></b>
-                  <% team.projects.each do |project| %>
-                    <br>&nbsp;&nbsp;&nbsp;<%= project.project_name %>
-                  <% end %>
-                </td>
-                <% @game.players.sort_by(&:member_no).each_with_index do |player,i| %>
-                  <td class="center">
-                    <br>
-                    <% if team.players.detect{|p| p.id == player.id} %>
-                      <% team.projects.count.times do %>
-                        x<br>
-                      <% end %>
-                      <% @player_project_totals[i] += team.projects.count %>
-                    <% end %>
-                  </td>
+        <h3>Game Length</h3>
+        <h2><%= @game.game_length %> Months</h2>
+        <br>
+
+        <h3>Access Condition</h3>
+        <h2><%= if @game.access_treatement then "Treatment" else "Control" end %></h2>
+      </div>
+    </div>
+    <% if @game.game_status == -1 %><%= link_to 'Edit Game', edit_game_path(@game) %><% end %>
+    
+  </div>
+
+<!-- MAIN CONTAINER -->
+  <div class="col-xs-12 col-sm-9" style="padding-right:0px;">
+    <div class="secondary-nav secondary-nav-invert">
+      <i class="fa fa-2x fa-laptop content-list-icon-primary pull-left"></i>
+      <h2 class="font-invert"><b>Codename: <%= @game.game_codename %></b></h2>
+      <h3 class="font-invert">Session: <%= @game.session_name %></h3>
+    </div>
+
+  <!-- GAME STATUS -->
+    <div class="content-container">
+      <div class="panel-secondary">
+        <div class="panel-title">
+          Status
+        </div>
+      </div>
+
+      <div class="panel-body">
+        <!-- SETUP GAME -->
+        <% if @game.game_status == -1 %>
+          <div class="h-primary">SETUP MODE</div>
+          
+          <h3 class="center"><%= @active_users.count %> participants are ready to play</h3>
+          
+          <% if @active_users.count >= $GAME_TYPES_LOOKUP[@game.game_type][:n] %>
+            <%= form_tag "/games/#{@game.id}/assign_players" do %>
+              <%= hidden_field_tag :n, $GAME_TYPES_LOOKUP[@game.game_type][:n] %>
+              <%= hidden_field_tag :game_id, @game.id %>
+              <div class="center col-sm-6 col-sm-offset-3 button-padding">
+                <%= button_tag(type: 'submit', class: "btn btn-block btn-green") do %>
+                  RANDOMLY ASSIGN PLAYERS (N = <%= $GAME_TYPES_LOOKUP[@game.game_type][:n] %>)
                 <% end %>
-              </tr>
+              </div>
             <% end %>
-            <tr>
-              <th style="border-top-width: 2px; border-right-width: 2px; padding-left:10px;">Total Projects (<%= @game.projects.count %>)</th>
-              <% @game.players.sort_by(&:member_no).each_with_index do |player,i| %>
-                <th class="center" style="border-top-width: 2px;"><%= @player_project_totals[i] %></th>
+          <% else %>
+            <div class="center col-sm-6 col-sm-offset-3 button-padding">
+              <button class="btn btn-block btn-red" disabled="disabled">
+                NOT ENOUGH PLAYERS AVAILABLE
+              </button>
+            </div>
+          <% end %>
+        
+        <!-- SETUP COMPLETE -->
+        <% elsif @game.game_status == 0 %>
+          <div class="h-primary">SETUP COMPLETE</div>
+          
+          <h3 class="center"><%= @game.players.count %> Players assigned, <%= @game.teams.count %> Teams created, and <%= @game.projects.count %> Projects created.</h3>
+
+          <%= form_tag "/games/#{@game.id}/continue_game" do %>
+            <div class="center col-sm-6 col-sm-offset-3 button-padding">
+              <%= button_tag(type: 'submit', class: "btn btn-block btn-green") do %>
+                START GAME
               <% end %>
-            </tr>
-          </tbody>
-        </table>
+            </div>
+          <% end %>
+        
+        <!-- CONTINUE GAME -->
+        <% elsif @game.game_status <= @game.game_length %>
+
+          <% if @game.is_paused %>
+            <div class="h-primary">GAME IS PAUSED: MONTH <%= @game.game_status %></div>
+            
+            <h3 class="center">Help text here.</h3>
+            
+            <% if @game.game_status < @game.game_length %>
+
+              <%= form_tag "/games/#{@game.id}/continue_game" do %>
+                <div class="center col-sm-4 col-sm-offset-2 button-padding">
+                  <%= button_tag(type: 'submit', class: "btn btn-block btn-green") do %>
+                    <%= "START MONTH #{@game.game_status+1}" %>
+                  <% end %>
+                </div>
+              <% end %>
+
+              <div class="center col-sm-4 button-padding">
+                <button class="btn btn-block btn-disabled" disabled="disabled">
+                  <%= "COMPLETE MONTH #{@game.game_status+1}" %>
+                </button>
+              </div>
+
+            <% else %>
+
+            <% end %>
+
+          <% else %>
+            <div class="h-primary">GAME IN PLAY: MONTH <%= @game.game_status %></div>
+            
+            <h3 class="center">Help text here.</h3>
+            
+            <div class="center col-sm-4 col-sm-offset-2 button-padding">
+              <button class="btn btn-block btn-disabled" disabled="disabled">
+                <%= if @game.game_status < @game.game_length then "START MONTH #{@game.game_status+1}" else "GENERATE FORMS" end %>
+              </button>
+            </div>
+            
+            <%= form_tag "/games/#{@game.id}/complete_game" do %>
+              <div class="center col-sm-4 button-padding">
+                <%= button_tag(type: 'submit', class: "btn btn-block btn-red") do %>
+                  <%= if @game.game_status < @game.game_length then "COMPLETE MONTH #{@game.game_status}" else "FINISH GAME" end %>
+                <% end %>
+              </div>
+            <% end %>
+
+          <% end %>
+
+        
+        <!-- GAME COMPLETED -->
+        <% else %>
+          <div class="h-primary">GAME COMPLETED</div>
+          
+          <h3 class="center">Forms and other data.</h3>
+          <!-- button for next steps -->
+          
+          <% if @game.game_status != 100 %>
+            <%= form_tag "/games/#{@game.id}/generate_forms" do %>
+              <div class="center col-sm-6 col-sm-offset-3 button-padding">
+                <%= button_tag(type: 'submit', class: "btn btn-block btn-green") do %>
+                  GENERATE FORMS
+                <% end %>
+              </div>
+            <% end %>
+
+          <% else %>
+            <table class="table table-condensed col-sm-6 col-sm-offset-3" style="width: 50%; margin-top:20px;">
+              <thead>
+                <th></th>
+                <th class="center">Austin Scale</th>
+                <th class="center">Lewis Scale</th>
+              </thead>
+              <tbody>
+                <% @players.sort_by(&:member_no).each do |player| %>
+                  <tr>
+                    <td><b><%= player.user.name %></b></td>  
+                    <td class="center <%= if player.measure_austin.is_complete then "font-green" else "font-invert" end %>"><i class="fa fa-lg fa-check"></i></td>
+                    <td class="center <%= if player.measure_lewis.is_complete then "font-green" else "font-invert" end %>"><i class="fa fa-lg fa-check"></i></td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+
+            <div class="center col-sm-6 col-sm-offset-3 button-padding">
+              <%= link_to "REFRESH", game_path(@game), class: "btn btn-block btn-green" %>
+            </div>
+          <% end %>
+
+        <% end %>
 
       </div>
     </div>
 
-    <% if @game.game_status > 1 %>
-      
-      <!-- PLAYER SUMMARY -->
-      <div class="content-container">
-        <div class="panel-secondary">
-          <div class="panel-title">
-            Player Summaries
-          </div>
-        </div>
+  <!-- GAME DETAILS -->
+    <% if @game.game_status >= 0 %>
 
-        <div class="panel-body">
-          <table class="table table-condensed table-hover">
-            <thead>
-              <th></th>
-              <th>Skill Level</th>
-              <th>Skill Points</th>
-              <th>Total Salary</th>
-              <th>Net Project Profit</th>
-            </thead>
-            <tbody>
-              <% @players.sort_by(&:member_no).each_with_index do |player,i| %>
+      <!-- ASSIGNMENT MATRIX -->
+        <div class="content-container">
+          <div class="panel-secondary">
+            <div class="panel-title">
+              Assignment Matrix
+            </div>
+          </div>
+
+          <div class="panel-body">
+            
+            <table class="table table-condensed table-hover table-bordered">
+              <thead>
                 <tr>
-                  <td><%= link_to player.user.name, player_path(player) %></td>  
-                  <td><%= player.skill_level %></td>
-                  <td><%= player.skill_total_points.sum %></td>
-                  <td><%= number_to_currency(player.salary_total, negative_format: "(%u%n)", precision: 0) %></td>
-                  <td><%= number_to_currency(@player_project_profit[i], negative_format: "(%u%n)", precision: 0) %></td>
+                  <th style="border-right-width: 2px;"></th>
+                  <% @game.players.sort_by(&:member_no).each do |player| %>
+                    <th class="center"><%= player.user.first_name %></th>
+                  <% end %>
                 </tr>
-              <% end %>
-            </tbody>
-          </table>
-        </div>
-      </div>
+              </thead>
 
-      <!-- PROJECT SUMMARY -->
-      <div class="content-container">
-        <div class="panel-secondary">
-          <div class="panel-title">
-            Project Summaries
-          </div>
-        </div>
-
-        <div class="panel-body">
-          <table class="table table-condensed table-hover">
-            <thead>
-              <th></th>
-              <th>R&D Points</th>
-              <th>Active Users</th>
-              <th>Total Profit</th>
-            </thead>
-            <tbody>
-              <% @game.projects.sort_by(&:id).each_with_index do |project,i| %>
+              <tbody>
+                <% @game.teams.sort_by(&:id).each do |team| %>
+                  <tr>
+                    <td style="padding-left:10px; border-right-width: 2px;">
+                      <b><% team.team_name %></b>
+                      <% team.projects.each do |project| %>
+                        <div>&nbsp;&nbsp;&nbsp;<b><%= project.project_name %></b></div>
+                      <% end %>
+                    </td>
+                    <% @game.players.sort_by(&:member_no).each_with_index do |player,i| %>
+                      <td class="center font-green">
+                        <% if team.players.detect{|p| p.id == player.id} %>
+                          <% team.projects.count.times do %>
+                            <div><i class="fa fa-check"></i></div>
+                          <% end %>
+                          <% @player_project_totals[i] += team.projects.count %>
+                        <% end %>
+                      </td>
+                    <% end %>
+                  </tr>
+                <% end %>
                 <tr>
-                  <td><%= project.project_name %></td>  
-                  <td><%= project.rnd_total_points.sum %></td>
-                  <td><%= project.users_total[-1][2] %></td>
-                  <td><%= number_to_currency(@project_profits[i], negative_format: "(%u%n)", precision: 0) %></td>
+                  <th style="border-top-width: 2px; border-right-width: 2px; padding-left:10px;">Total Projects (<%= @game.projects.count %>)</th>
+                  <% @game.players.sort_by(&:member_no).each_with_index do |player,i| %>
+                    <th class="center" style="border-top-width: 2px;"><%= @player_project_totals[i] %></th>
+                  <% end %>
                 </tr>
-              <% end %>
-            </tbody>
-          </table>
-        </div>
-      </div>
+              </tbody>
+            </table>
 
-    <% else %>
-      <div class="content-container">
-        <div class="panel-secondary">
-          <div class="panel-title">
-            Player Pages
           </div>
         </div>
 
-        <div class="panel-body">
-          <% @players.sort_by(&:member_no).each do |player| %>
-            <a target="_blank" href="<%= player_path(player) %>"><%= player.user.name %></a><br>
-          <% end %>
-        </div>
-      </div>
+      <!-- PERFORMANCE DETAILS -->
+        <% if @game.game_status > 1 %>
+          
+          <!-- PLAYER SUMMARY -->
+            <div class="content-container">
+              <div class="panel-secondary">
+                <div class="panel-title">
+                  Player Summaries
+                </div>
+              </div>
+
+              <div class="panel-body">
+                <table class="table table-condensed table-hover">
+                  <thead>
+                    <th></th>
+                    <th>Skill Level</th>
+                    <th>Skill Points</th>
+                    <th>Total Salary</th>
+                    <th>Net Project Profit</th>
+                  </thead>
+                  <tbody>
+                    <% @players.sort_by(&:member_no).each_with_index do |player,i| %>
+                      <tr>
+                        <td><a target="_blank" href="<%= player_path(player) %>"><%= player.player_screenname %></a></td>  
+                        <td><%= player.skill_level %></td>
+                        <td><%= player.skill_total_points.sum %></td>
+                        <td><%= number_to_currency(player.salary_total, negative_format: "(%u%n)", precision: 0) %></td>
+                        <td><%= number_to_currency(@player_project_profit[i], negative_format: "(%u%n)", precision: 0) %></td>
+                      </tr>
+                    <% end %>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+          <!-- PROJECT SUMMARY -->
+            <div class="content-container">
+              <div class="panel-secondary">
+                <div class="panel-title">
+                  Project Summaries
+                </div>
+              </div>
+
+              <div class="panel-body">
+                <table class="table table-condensed table-hover">
+                  <thead>
+                    <th></th>
+                    <th>R&D Points</th>
+                    <th>Active Users</th>
+                    <th>Total Profit</th>
+                  </thead>
+                  <tbody>
+                    <% @game.projects.sort_by(&:id).each_with_index do |project,i| %>
+                      <tr>
+                        <td><%= project.project_name %></td>  
+                        <td><%= project.rnd_total_points.sum %></td>
+                        <td><%= project.users_total[-1][2] %></td>
+                        <td><%= number_to_currency(@project_profits[i], negative_format: "(%u%n)", precision: 0) %></td>
+                      </tr>
+                    <% end %>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+        <% else %>
+          <div class="content-container">
+            <div class="panel-secondary">
+              <div class="panel-title">
+                Player Pages
+              </div>
+            </div>
+
+            <div class="panel-body">
+              <% @players.sort_by(&:member_no).each do |player| %>
+                <a target="_blank" href="<%= player_path(player) %>"><%= player.player_screenname %></a><br>
+              <% end %>
+            </div>
+          </div>
+        <% end %>
+    
     <% end %>
-  
-  <% end %>
 
-</div>
+  </div>
 
 
 

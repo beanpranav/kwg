@@ -2,12 +2,12 @@
 	<div class="content-container">
 		<div class="panel-primary">
 		    <div class="panel-title">
-			    Login
+			    Welcome Participants!
 		    </div>
 		</div>
 
 		<div class="panel-body form-container">
-				<p>Play the Knowledge Worker's Game<br><br></p>
+				<p>Please use the email ID and password provided to login<br><br></p>
 		    <%= form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f| %>
 	        <p><%= f.email_field :email, placeholder: "email", class: "form-control", :autofocus => true %></p>
 	        <p><%= f.password_field :password, placeholder: "password", class: "form-control" %></p>
