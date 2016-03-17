@@ -103,28 +103,28 @@ $SKILL_POINTS =
 $SKILL_SALARY = 
 {
 	# do work [order: PMSR]
-	1 => { 1 => 480, 2 => 960, 3 => 1320, 4 => 1800, 5 => 2400, 6 => 3000},
-	2 => { 1 => 480, 2 => 960, 3 => 1320, 4 => 1800, 5 => 2400, 6 => 3000},
-	3 => { 1 => 480, 2 => 960, 3 => 1320, 4 => 1800, 5 => 2400, 6 => 3000},
-	4 => { 1 => 480, 2 => 960, 3 => 1320, 4 => 1800, 5 => 2400, 6 => 3000}
+	1 => { 1 => 2400, 2 => 4800, 3 => 6600, 4 => 9000, 5 => 12000, 6 => 15000},
+	2 => { 1 => 2400, 2 => 4800, 3 => 6600, 4 => 9000, 5 => 12000, 6 => 15000},
+	3 => { 1 => 2400, 2 => 4800, 3 => 6600, 4 => 9000, 5 => 12000, 6 => 15000},
+	4 => { 1 => 2400, 2 => 4800, 3 => 6600, 4 => 9000, 5 => 12000, 6 => 15000}
 }
 
 $SKILL_PRODUCTIVITY = 
 {
 	# do work [order: PMS]
-	1 => { 1 => 480, 2 => 960, 3 => 1440, 4 => 2280, 5 => 2760, 6 => 3000},
-	2 => { 1 => 480, 2 => 960, 3 => 1440, 4 => 2280, 5 => 2760, 6 => 3000},
-	3 => { 1 => 480, 2 => 960, 3 => 1440, 4 => 2280, 5 => 2760, 6 => 3000},
-	4 => { 1 => 480, 2 => 960, 3 => 1440, 4 => 2280, 5 => 2760, 6 => 3000}
+	1 => { 1 => 2400, 2 => 4800, 3 => 7200, 4 => 11400, 5 => 13800, 6 => 15000},
+	2 => { 1 => 2400, 2 => 4800, 3 => 7200, 4 => 11400, 5 => 13800, 6 => 15000},
+	3 => { 1 => 2400, 2 => 4800, 3 => 7200, 4 => 11400, 5 => 13800, 6 => 15000},
+	4 => { 1 => 2400, 2 => 4800, 3 => 7200, 4 => 11400, 5 => 13800, 6 => 15000}
 }
 
 $RND_STAGES = 
 {
-	1..300 => { stage_no: 1, multiplier_1: 0.30, multiplier_2: 0.20, multiplier_3: 0.50 },
-	301..1000 => { stage_no: 2, multiplier_1: 0.60, multiplier_2: 0.50, multiplier_3: 0.80 },
-	1001..2000 => { stage_no: 3, multiplier_1: 0.80, multiplier_2: 0.75, multiplier_3: 0.95 },
-	2001..4000 => { stage_no: 4, multiplier_1: 0.95, multiplier_2: 0.95, multiplier_3: 0.99 },
-	4001..8000 => { stage_no: 5, multiplier_1: 1, multiplier_2: 1, multiplier_3: 1 }
+	1..500 => { stage_no: 1, multiplier_1: 0.30, multiplier_2: 0.20, multiplier_3: 0.50 },
+	501..1500 => { stage_no: 2, multiplier_1: 0.60, multiplier_2: 0.50, multiplier_3: 0.80 },
+	1501..3000 => { stage_no: 3, multiplier_1: 0.80, multiplier_2: 0.75, multiplier_3: 0.95 },
+	3001..6000 => { stage_no: 4, multiplier_1: 0.95, multiplier_2: 0.95, multiplier_3: 0.99 },
+	6001..10000 => { stage_no: 5, multiplier_1: 1, multiplier_2: 1, multiplier_3: 1 }
 }
 
 $STATS_NAMES = ["Max User Capacity", "Demand Generated", "Users Supported", "R&D Area Selected"]
@@ -135,7 +135,7 @@ $SUPPORTED_CONVERSION = 0.9
 $UNSUPPORTED_CONVERSION = 0.2
 $MARKET_CONVERSION = 1
 $PRODUCT_UNIT_COST = 10
-$STARTING_INVESTMENT = 5000
+$STARTING_INVESTMENT = 20000
 
 
 $HELP_TEXT = 
