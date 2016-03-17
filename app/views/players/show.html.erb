@@ -1,367 +1,267 @@
+<!-- GAME NOT SETUP: SHOW NOTHING -->
+  <% if @player.game.game_status == -1 %>
 
-<!-- SETUP GAME -->
-<% if @player.game.game_status == -1 %>
+<!-- GAME COMPLETED: ADMINISTER SURVEYS -->
+  <% elsif @player.game.game_status == 100 %>
 
-<% elsif @player.game.game_status == 100 %>
+    <% if @player.measure_austin.is_complete == false %>
+      <%= render "players/measure_austin" %>
+    <% elsif @player.measure_lewis.sort_by(&:id)[0].is_complete == false %>
+      <%= render "players/measure_lewis", lewis_no: 0 %>
+    <% elsif @player.teams.count > 1 and @player.measure_lewis.sort_by(&:id)[1].is_complete == false %>
+      <%= render "players/measure_lewis", lewis_no: 1 %>
+    <% elsif @player.measure_workload.is_complete == false %>
+      <%= render "players/measure_workload" %>
+    <% else %>
+      Results
+    <% end %>
 
-  <% if @player.measure_austin.is_complete == false %>
-    <%= render "players/measure_austin" %>
-  <% elsif @player.measure_lewis.is_complete == false %>
-    <%= render "players/measure_lewis" %>
-  <% else %>
-    Results
-  <% end %>
+<!-- GAME IN PROGRESS: SHOW GAME -->
+  <% else %> 
 
-<% else %> 
+    <!-- SIDEBAR -->
+      <div class="col-xs-12 col-sm-3" style="padding:0px;">
 
-  <!-- SIDEBAR -->
-  <div class="col-xs-12 col-sm-3" style="padding:0px;">
-
-    <!-- NAME -->
-    <div class="content-container" style="min-height:46px;">
-      <div class="panel-primary">
-        <div class="panel-title">
-          <%= @player.player_screenname %>
-        </div>
-      </div>
-    </div>
- 
-    <div class="content-container">
-
-      <div class="panel-group" id="accordion-info" role="tablist" aria-multiselectable="true">
-        
-        <!-- LINKS -->
-        <div class="panel panel-default">
-            <div class="panel-secondary" role="tab" >
-              <div class="panel-title">
-                Vandeley Apps
-              </div>
-            </div>
-          
-          <div id="links" class="panel-collapse" role="tabpanel">
-            <div class="panel-body">
-              <b>My Projects</b>
-              <% @player.teams.each do |team| %>
-                <!-- <b><%= team.team_name %></b> -->
-                <% team.projects.sort_by(&:id).each do |project| %>
-                  <br>&nbsp;&nbsp;
-                  <i class="fa fa-angle-double-right"></i>&nbsp;&nbsp;
-                  <a href="#<%= project.project_name %>" aria-controls="<%= project.project_name %>" role="tab" data-toggle="tab" class="primary-a"><%= project.project_name %></a>
-                <% end %>
-              <% end %>
-              <br><br>
-              <a href="#my_schedule" aria-controls="my_schedule" role="tab" data-toggle="tab" class="primary-a">
-                <b>My Work Calendar</b>
-              </a>
-            </div>
-          </div>
-        </div>
-
-        <!-- SALARY -->
-        <div class="panel panel-default">
-            <div class="panel-secondary" role="tab" >
-              <div class="panel-title">
-                Performance
-              </div>
-            </div>
-          
-          <div id="performance" class="panel-collapse" role="tabpanel">
-            <div class="panel-body">
-              <div class="h-primary"><%= number_to_currency(@player_project_profit, negative_format: "(%u%n)", precision: 0) %></div>
-              <h3 class="center">Net Apps Profit (Q<%= @current_quarter-1 %>)</h3>
-            </div>
-          </div>
-
-          <!-- <div id="performance" class="panel-collapse" role="tabpanel">
-            <div class="panel-body">
-              <div class="h-primary"><i class="fa fa-usd"></i> <%= @player.salary_total %></div>
-              <h3 class="center">Total Salary Earned</h3>
-            </div>
-          </div> -->
-
-        </div>
-
-        <!-- SKILLS -->
-        <div class="panel panel-default">
-          <div class="panel-secondary" role="tab">
-            <div class="panel-title">
-              My Skill Set
-            </div>
-          </div>
-          
-          <div id="skills" class="panel-collapse" role="tabpanel">
-            <div class="panel-body">
-              
-              <% 4.times do |i| %>
-                <% level_range = $SKILL_LEVELS.detect { |points,level| level === @player.skill_level[i] }.first %>
-                <% skill_progress_ratio = (@player.skill_total_points[i]-level_range.begin)*100/(level_range.end-level_range.begin) %>
-                <div class="cpi-goal">  
-                  <div class="pull-left" style="margin-left:36px;">
-                    <span class="font-secondary">  <%= $SKILL_LEVELS_NAMES[@player.skill_level[i]][:name] %></span>
-                    <%= $SKILL_NAMES[i] %>
-                    <% skill_p = ($SKILL_PRODUCTIVITY[i+1][@player.skill_level[i]]*2/@gs_adjustment_factor).to_i %>
-                    <% skill_s = ($SKILL_SALARY[i+1][@player.skill_level[i]]*2/@gs_adjustment_factor).to_i %>
-                    <i class="fa fa-info-circle font-secondary" data-toggle="tooltip" data-placement="top" title="<%= "--- Level #{$SKILL_LEVELS_NAMES[@player.skill_level[i]][:icon]} #{$SKILL_NAMES[i]} --- #{$STATS_NAMES[i]} ++ Productivity: #{skill_p} /wk Salary: $#{skill_s} /wk" %>"></i> 
-                  </div>
-                  <div class="pull-right">
-                    <%= @player.skill_total_points[i]-level_range.begin %><span class="font-secondary">/<%= level_range.end-level_range.begin+1 %></span>
-                  </div>
-                  <div class="progress-level progress-bar-<%= i+1 %> center"><%= $SKILL_LEVELS_NAMES[@player.skill_level[i]][:icon] %></div>
-                  <div class="progress">
-                    <div class="progress-bar progress-bar-<%= i+1 %>" role="progressbar" aria-valuenow="<%= skill_progress_ratio %>" aria-valuemin="0" aria-valuemax="100" style="width: <%= skill_progress_ratio %>%">
-                      <span class="sr-only"><%= skill_progress_ratio %>%</span>
-                    </div>
-                  </div>
-                </div>
-              <% end %>
-
-            </div>
-          </div>
-        </div>
-
-      </div>
-    </div>
-
-    <a target="_blank" href="https://cmukwg.slack.com/">Link to Team Chat</a>
-  </div>
-
-  <!-- MAIN CONTAINER: TABS -->
-  <div class="col-xs-12 col-sm-9" style="padding-right:0px;">
-    
-    <!-- TABS -->
-    <div class="tab-content">
-      
-      <!-- TAB 1: WORK SCHEDULE -->
-      <div role="tabpanel" class="tab-pane active" id="my_schedule">
-        
-        <div class="content-container" style="min-height:46px;">
-          <!-- TAB NAME -->
-          <div class="panel-primary">
-            <div class="panel-title">
-              Work Calendar
-              <a href="<%= player_path(@player) %>" class="btn btn-sm btn-invert pull-right supress-a" style = "margin: -5px; -5px 0 0"><i class="fa fa-refresh"></i> &nbsp;Refresh</a>
-            </div>
-          </div>
-        </div>
-
-        <div class="content-container">
-          <%= render "players/work_schedule" %>
-        </div>
-
-      </div>
-
-      <!-- TAB 2-N: PROJECTS -->
-
-      <% @player_projects.each do |project| %>
-        <div role="tabpanel" class="tab-pane" id="<%= project.project_name %>">
-          
+        <!-- NAME -->
           <div class="content-container" style="min-height:46px;">
-            <!-- TAB NAME -->
             <div class="panel-primary">
               <div class="panel-title">
-                <%= project.project_name %>
-                <a href="<%= player_path(@player) %>" class="btn btn-sm btn-invert pull-right supress-a" style = "margin: -5px; -5px 0 0"><i class="fa fa-refresh"></i> &nbsp;Refresh</a>
+                <%= @player.player_screenname %>
               </div>
             </div>
           </div>
-
+     
           <div class="content-container">
-            <div class="panel-secondary">
-              <div class="panel-title">
-                <%= project.project_name %> :: Beginning <%= get_month_name(@current_month) %> Status 
-              </div>
-            </div>
 
-            <div class="panel-body" style="padding-bottom:25px;">
+            <div class="panel-group" id="accordion-info" role="tablist" aria-multiselectable="true">
               
-              <% if @player.game.is_paused %>
-
-                <div class="center h-primary">GAME PAUSED</div>
-
-              <% else %>
-                <!-- PERFORMANCE -->
-                <div class="col-sm-4 center">
-                  <div class="h-primary" style="margin-bottom:27px;">PERFORMANCE</div>
-
-                  <table class="table table-condensed table-hover">
-                    
-                    <% performance = 0 %>
-                    <% project.profit_total.each_with_index do |q_profits,i| %>
-                      <tr>
-                        <td class="left">Q<%= i+1 %> Expenses</td>
-                        <td class="right"><%= number_to_currency(-q_profits[1], negative_format: "(%u%n)", precision: 0) %></td>
-                      </tr>
-
-                      <tr>
-                        <td class="left">Q<%= i+1 %> Revenue</td>
-                        <td class="right"><%= number_to_currency(q_profits[0], negative_format: "(%u%n)", precision: 0) %></td>
-                      </tr>
-                      
-                      <% performance += q_profits[0]-q_profits[1] %>
+        <!-- PROJECT LINKS -->
+              <div class="panel panel-default">
+                  <div class="panel-secondary" role="tab" >
+                    <div class="panel-title">
+                      Vandeley Apps
+                    </div>
+                  </div>
+                
+                <div id="links" class="panel-collapse" role="tabpanel">
+                  <div class="panel-body">
+                    <b>My Projects</b>
+                    <% @player.teams.each do |team| %>
+                      <!-- <b><%= team.team_name %></b> -->
+                      <% team.projects.sort_by(&:id).each do |project| %>
+                        <br>&nbsp;&nbsp;
+                        <i class="fa fa-angle-double-right"></i>&nbsp;&nbsp;
+                        <a href="#<%= project.project_name %>" aria-controls="<%= project.project_name %>" role="tab" data-toggle="tab" class="primary-a"><%= project.project_name %></a>
+                      <% end %>
                     <% end %>
-                    <tr>
-                      <td class="left"><b>Team's Net Profit</b></td>
-                      <td class="right"><b><%= number_to_currency(performance, negative_format: "(%u%n)", precision: 0) %></b></td>
-                    </tr>
-                  </table>
+                    <br><br>
+                    <a href="#my_schedule" aria-controls="my_schedule" role="tab" data-toggle="tab" class="primary-a">
+                      <b>My Work Calendar</b>
+                    </a>
+                  </div>
+                </div>
+              </div>
 
+        <!-- PERFORMANCE METRIC -->
+              <div class="panel panel-default">
+                  <div class="panel-secondary" role="tab" >
+                    <div class="panel-title">
+                      Performance
+                    </div>
+                  </div>
+                
+                <div id="performance" class="panel-collapse" role="tabpanel">
+                  <div class="panel-body">
+                    <div class="h-primary"><%= number_to_currency(@player_project_profit, negative_format: "(%u%n)", precision: 0) %></div>
+                    <h3 class="center">Net Apps Profit (Q<%= @current_quarter-1 %> end)</h3>
+                  </div>
                 </div>
 
-                <!-- STATS -->
-                <div class="col-sm-4 center">
-                  <div class="h-primary" style="margin-bottom:27px;">Q<%= @current_quarter %> STATS</div>
+                <!-- <div id="performance" class="panel-collapse" role="tabpanel">
+                  <div class="panel-body">
+                    <div class="h-primary"><i class="fa fa-usd"></i> <%= @player.salary_total %></div>
+                    <h3 class="center">Total Salary Earned</h3>
+                  </div>
+                </div> -->
 
-                  <table class="table table-condensed">
-                    <tr>
-                      <td class="left">App Unit Price (per Q)</td>
-                      <td class="right"><b><%= number_to_currency($PRODUCT_UNIT_COST, precision: 0) %></b></td>
-                    </tr>
-                    <tr class="">
-                      <td class="left">
-                        Max User Capacity
-                        <i class="fa fa-info-circle font-secondary" data-toggle="tooltip" data-placement="top" title="<%= $HELP_TEXT["max_user_capacity"]%>"></i>
-                      </td>
-                      <td class="right font-invert progress-bar-1"><b><%= project.stats_total[0] %></b></td>
-                    </tr>
-                    <tr class="">
-                      <td class="left">
-                        Demand Generated
-                        <i class="fa fa-info-circle font-secondary" data-toggle="tooltip" data-placement="top" title="<%= $HELP_TEXT["demand_generated"]%>"></i>
-                      </td>
-                      <td class="right font-invert progress-bar-2"><b><%= project.stats_total[1] %></b></td>
-                    </tr>
-                    <tr class="">
-                      <td class="left">
-                        Users Supported
-                        <i class="fa fa-info-circle font-secondary" data-toggle="tooltip" data-placement="top" title="<%= $HELP_TEXT["users_supported"]%>"></i>
-                      </td>
-                      <td class="right font-invert progress-bar-3"><b><%= project.stats_total[2] %></b></td>
-                    </tr>
-                    <tr>
-                      <td class="left">
-                        <b>Q<%= @current_quarter %> Active Users</b>
-                        <i class="fa fa-info-circle font-secondary" data-toggle="tooltip" data-placement="top" title="<%= $HELP_TEXT["active_users"]%>"></i>
-                      </td>
-                      <td class="right font-invert progress-bar-secondary"><b><%= project.users_total[-1][2] %></b></td>
-                    </tr>
-                  </table>
+              </div>
 
+        <!-- PLAYER SKILLS -->
+              <div class="panel panel-default">
+                <div class="panel-secondary" role="tab">
+                  <div class="panel-title">
+                    My Skill Set
+                  </div>
                 </div>
-
-                <!-- APP R&D -->
-                <div class="col-sm-4 center">
-                  <div class="h-primary" style="margin-bottom:-5px;">APP R&D CENTER</div>
-                  
-                  <% 3.times do |i| %>
-                  <% stage_no = $RND_STAGES.detect { |points,stage| points === project.rnd_total_points[i] }.last[:stage_no] %>
-                    <% stage_range = $RND_STAGES.detect { |points,k| k[:stage_no] === stage_no }.first %>
-                    <% rnd_progress_ratio = (project.rnd_total_points[i]-stage_range.begin)*100/(stage_range.end-stage_range.begin) %>
-                    <div class="cpi-goal" style="margin-top:30px;">  
-                      <div class="pull-left" style="margin-left:36px;">
-                        R&D on <%= $SKILL_NAMES[i] %>
-                        <i class="fa fa-info-circle font-secondary" data-toggle="tooltip" data-placement="top" title="<%= $HELP_TEXT[i]%>"></i>
-                      </div>
-                      <div class="pull-right"><%= project.rnd_total_points[i]-stage_range.begin %>
-                        <span class="font-secondary">/<%= stage_range.end-stage_range.begin+1 %></span>
-                      </div>
-                      <div class="progress-level progress-bar-secondary center">
-                        <% case i %>
-                        <% when 0 %>
-                        <%= (($RND_STAGES.detect { |points,stage| points === project.rnd_total_points[i] }.last[:multiplier_1])*100).to_i %>
-                        <% when 1 %>
-                        <%= (($RND_STAGES.detect { |points,stage| points === project.rnd_total_points[i] }.last[:multiplier_2])*100).to_i %>
-                        <% when 2 %>
-                        <%= (($RND_STAGES.detect { |points,stage| points === project.rnd_total_points[i] }.last[:multiplier_3])*100).to_i %>
-                        <% end %>
-                      </div>
-                      <div class="progress" style="margin-bottom:2px;">
-                        <div class="progress-bar progress-bar-4" role="progressbar" aria-valuenow="<%= rnd_progress_ratio %>" aria-valuemin="0" aria-valuemax="100" style="width: <%= rnd_progress_ratio %>%">
-                          <span class="sr-only"><%= rnd_progress_ratio %>%</span>
+                
+                <div id="skills" class="panel-collapse" role="tabpanel">
+                  <div class="panel-body">
+                    
+                    <% 4.times do |i| %>
+                      <% level_range = $SKILL_LEVELS.detect { |points,level| level === @player.skill_level[i] }.first %>
+                      <% skill_progress_ratio = (@player.skill_total_points[i]-level_range.begin)*100/(level_range.end-level_range.begin) %>
+                      <div class="cpi-goal" style=<%= if i == 0 then "margin-top:5px;" else "margin-top:30px;" end %>>  
+                        <div class="pull-left" style="margin-left:36px;">
+                          <span class="font-secondary">  <%= $SKILL_LEVELS_NAMES[@player.skill_level[i]][:name] %></span>
+                          <%= $SKILL_NAMES[i] %>
+                          <% skill_p = ($SKILL_PRODUCTIVITY[i+1][@player.skill_level[i]]/@gs_adjustment_factor).to_i %>
+                          <% skill_s = ($SKILL_SALARY[i+1][@player.skill_level[i]]/@gs_adjustment_factor).to_i %>
+                          <i class="fa fa-info-circle font-secondary" data-toggle="tooltip" data-placement="top" title="<%= "---- Level #{$SKILL_LEVELS_NAMES[@player.skill_level[i]][:icon]} #{$SKILL_NAMES[i]} ---- Improves #{$STATS_NAMES[i]}" %>"></i> 
+                          <!--  Productivity: #{skill_p} /wk Wages: $#{skill_s} /wk -->
+                        </div>
+                        <div class="pull-right">
+                          <%= @player.skill_total_points[i]-level_range.begin %><span class="font-secondary">/<%= level_range.end-level_range.begin+1 %></span>
+                        </div>
+                        <div class="progress-level progress-bar-<%= i+1 %> center"><%= $SKILL_LEVELS_NAMES[@player.skill_level[i]][:icon] %></div>
+                        <div class="progress" style="margin-bottom:2px;">
+                          <div class="progress-bar progress-bar-<%= i+1 %>" role="progressbar" aria-valuenow="<%= skill_progress_ratio %>" aria-valuemin="0" aria-valuemax="100" style="width: <%= skill_progress_ratio %>%">
+                            <span class="sr-only"><%= skill_progress_ratio %>%</span>
+                          </div>
+                        </div>
+                        <div class="pull-left font-label" style="width: 102%;">
+                          <%= "You produce #{skill_p} units & cost $#{skill_s} per wk" %>
                         </div>
                       </div>
-                      <div class="pull-left font-label">
-                        <%= project.project_name %> has
-                        <% case i %>
-                        <% when 0 %>
-                        <%= (($RND_STAGES.detect { |points,stage| points === project.rnd_total_points[i] }.last[:multiplier_1])*100).to_i %>% <%= $RND_BENEFITS[i] %>
-                        <% when 1 %>
-                        <%= (($RND_STAGES.detect { |points,stage| points === project.rnd_total_points[i] }.last[:multiplier_2])*100).to_i %>% <%= $RND_BENEFITS[i] %>
-                        <% when 2 %>
-                        <%= (($RND_STAGES.detect { |points,stage| points === project.rnd_total_points[i] }.last[:multiplier_3])*100).to_i %>% <%= $RND_BENEFITS[i] %>
+                    <% end %>
+
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+        <!-- CHAT LINK -->
+          <a target="_blank" href="https://cmukwg.slack.com/">Link to Team Chat</a>
+      </div>
+
+    <!-- MAIN CONTAINER: TABS -->
+      <div class="col-xs-12 col-sm-9" style="padding-right:0px;">
+        
+        <div class="tab-content">
+          
+        <!-- TAB 1: WORK SCHEDULE -->
+          <div role="tabpanel" class="tab-pane active" id="my_schedule">
+            
+            <!-- TAB NAME -->
+              <div class="content-container" style="min-height:46px;">
+                <div class="panel-primary">
+                  <div class="panel-title">
+                    Work Calendar
+                    <a href="<%= player_path(@player) %>" class="btn btn-sm btn-invert pull-right supress-a" style = "margin: -5px; -5px 0 0"><i class="fa fa-refresh"></i> &nbsp;Refresh</a>
+                  </div>
+                </div>
+              </div>
+
+            <!-- SHOW PLAYER SCHEDULE -->
+              <div class="content-container">
+                <%= render "players/work_schedule" %>
+              </div>
+
+          </div>
+
+        <!-- TAB 2-N: PROJECTS -->
+          <% @player_projects.each do |project| %>
+            <div role="tabpanel" class="tab-pane" id="<%= project.project_name %>">
+              
+            <!-- TAB NAME -->
+              <div class="content-container" style="min-height:46px;">
+                <div class="panel-primary">
+                  <div class="panel-title">
+                    <%= project.project_name %>
+                    <a href="<%= player_path(@player) %>" class="btn btn-sm btn-invert pull-right supress-a" style = "margin: -5px; -5px 0 0"><i class="fa fa-refresh"></i> &nbsp;Refresh</a>
+                  </div>
+                </div>
+              </div>
+
+            <!-- SHOW PROJECT DETAILS -->
+              <div class="content-container">
+                <%= render "players/project_details", project: project %>
+              </div>
+
+            <!-- ACCESS MANIPULATION: MEMBERS DETAILS -->
+              <% if !@player.game.is_paused %>
+
+                <!-- TREATMENT CONDITON: SHOW SKILLS -->
+                  <% if @player.game.access_treatement %>
+                    <div class="content-container">
+                      <div class="panel-secondary">
+                        <div class="panel-title">
+                          <%= project.project_name %> :: Member's skills
+                        </div>
+                      </div>
+
+                      <div class="panel-body">
+
+                        <table class="table table-condensed table-hover" style="margin:10px 0;">
+                          <thead>
+                            <tr>
+                              <th></th>
+                              <% 4.times do |i| %>
+                                <th class="center"><%= $SKILL_NAMES[i] %></th>
+                              <% end %>
+                            </tr>
+                          </thead>
+
+                          <tbody>
+                            <% project.team.players.sort_by(&:id).each do |p| %>
+                              <tr class="<%= "active" if p.user == current_user %>">
+                                <td style="padding:15px;">
+                                  <b><%= p.player_screenname %></b>
+                                </td>
+                                <% 4.times do |i| %>
+                                  <td class="col-md-3" style="padding:9px;">
+                                    <% if p.skill_level[i] < 2 %>
+                                      <div class="progress-level progress-bar-secondary center" style="line-height: 2.3; margin: 0 auto; width:80%; opacity:0.2"><%= $SKILL_LEVELS_NAMES[p.skill_level[i]][:name] %></div>
+                                    <% elsif p.skill_level[i] > 3 %>
+                                      <div class="progress-level progress-bar-<%= i+1 %> center" style="line-height: 2.3; margin: 0 auto; width:80%; opacity:1"><%= $SKILL_LEVELS_NAMES[p.skill_level[i]][:name] %></div>
+                                    <% else %>
+                                      <div class="progress-level progress-bar-<%= i+1 %> center" style="line-height: 2.3; margin: 0 auto; width:80%; opacity:0.4"><%= $SKILL_LEVELS_NAMES[p.skill_level[i]][:name] %></div>
+                                    <% end %>
+                                   
+                                  </td>
+                                <% end %>
+                            <% end %>
+                          </tbody>
+                        </table>
+
+                      </div>
+
+                    </div>
+
+                <!-- CONTROL CONDITON: SHOW ONLY MEMBER NAMES -->
+                  <% else %>
+                    <div class="content-container">
+                      <div class="panel-secondary">
+                        <div class="panel-title">
+                          <%= project.project_name %> :: Team Members
+                        </div>
+                      </div>
+
+                      <div class="panel-body">
+                        <% project.team.players.sort_by(&:id).each do |p| %>
+                          <p><b><%= p.player_screenname %></b></p>
                         <% end %>
                       </div>
                     </div>
+
                   <% end %>
 
-                </div>
-              
               <% end %>
 
-            </div>
-          
-          </div>
-
-          <!-- MEMBERS DETAILS -->
-          <% if @player.game.access_treatement and !@player.game.is_paused %>
-            <div class="content-container">
-              <div class="panel-secondary">
-                <div class="panel-title">
-                  <%= project.project_name %> :: Member's skills
-                </div>
-              </div>
-
-              <div class="panel-body">
-
-                <table class="table table-condensed table-hover" style="margin:10px 0;">
-                  <thead>
-                    <tr>
-                      <th></th>
-                      <% 4.times do |i| %>
-                        <th class="center"><%= $SKILL_NAMES[i] %></th>
-                      <% end %>
-                    </tr>
-                  </thead>
-
-                  <tbody>
-                    <% project.team.players.sort_by(&:id).each do |p| %>
-                      <tr class="<%= "active" if p.user == current_user %>">
-                        <td style="padding:15px;">
-                          <b><%= p.user.first_name %></b>
-                        </td>
-                        <% 4.times do |i| %>
-                          <td class="col-md-3" style="padding:9px;">
-                            <% if p.skill_level[i] < 2 %>
-                              <div class="progress-level progress-bar-secondary center" style="line-height: 2.3; margin: 0 auto; width:80%; opacity:0.2"><%= $SKILL_LEVELS_NAMES[p.skill_level[i]][:name] %></div>
-                            <% elsif p.skill_level[i] > 3 %>
-                              <div class="progress-level progress-bar-<%= i+1 %> center" style="line-height: 2.3; margin: 0 auto; width:80%; opacity:1"><%= $SKILL_LEVELS_NAMES[p.skill_level[i]][:name] %></div>
-                            <% else %>
-                              <div class="progress-level progress-bar-<%= i+1 %> center" style="line-height: 2.3; margin: 0 auto; width:80%; opacity:0.4"><%= $SKILL_LEVELS_NAMES[p.skill_level[i]][:name] %></div>
-                            <% end %>
-                           
-                          </td>
-                        <% end %>
-                    <% end %>
-                  </tbody>
-                </table>
-
-              </div>
 
             </div>
           <% end %>
 
-
         </div>
-      <% end %>
 
-    </div>
+      </div>
 
-  </div>
+  <% end %>
 
-<% end %>
-
-
-<script type="text/javascript">
-  $(function () {
-    $('[data-toggle="tooltip"]').tooltip()
-  })
-</script>
+<!-- Script for activating TOOLTIPS -->
+  <script type="text/javascript">
+    $(function () {
+      $('[data-toggle="tooltip"]').tooltip()
+    })
+  </script>

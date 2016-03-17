@@ -7,6 +7,7 @@ Rails.application.routes.draw do
       post :update_work_schedule
       post :update_measure_austin
       post :update_measure_lewis
+      post :update_measure_workload
     end
   end
   

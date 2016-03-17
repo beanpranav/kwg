@@ -49,7 +49,7 @@
       </div>
 
       <div class="panel-body">
-        <!-- SETUP GAME -->
+      <!-- SETUP GAME -->
         <% if @game.game_status == -1 %>
           <div class="h-primary">SETUP MODE</div>
           
@@ -73,7 +73,7 @@
             </div>
           <% end %>
         
-        <!-- SETUP COMPLETE -->
+      <!-- SETUP COMPLETE -->
         <% elsif @game.game_status == 0 %>
           <div class="h-primary">SETUP COMPLETE</div>
           
@@ -87,7 +87,7 @@
             </div>
           <% end %>
         
-        <!-- CONTINUE GAME -->
+      <!-- CONTINUE GAME -->
         <% elsif @game.game_status <= @game.game_length %>
 
           <% if @game.is_paused %>
@@ -114,7 +114,7 @@
             <% else %>
 
             <% end %>
-
+        
           <% else %>
             <div class="h-primary">GAME IN PLAY: MONTH <%= @game.game_status %></div>
             
@@ -135,9 +135,8 @@
             <% end %>
 
           <% end %>
-
-        
-        <!-- GAME COMPLETED -->
+      
+      <!-- GAME COMPLETED: FORMS -->
         <% else %>
           <div class="h-primary">GAME COMPLETED</div>
           
@@ -154,18 +153,24 @@
             <% end %>
 
           <% else %>
-            <table class="table table-condensed col-sm-6 col-sm-offset-3" style="width: 50%; margin-top:20px;">
+            <table class="table table-condensed col-sm-8 col-sm-offset-2" style="width: 70%; margin-top:20px;">
               <thead>
                 <th></th>
                 <th class="center">Austin Scale</th>
                 <th class="center">Lewis Scale</th>
+                <th class="center">Workload Scale</th>
               </thead>
               <tbody>
                 <% @players.sort_by(&:member_no).each do |player| %>
                   <tr>
-                    <td><b><%= player.user.name %></b></td>  
+                    <td><b><%= player.player_screenname %></b></td>  
                     <td class="center <%= if player.measure_austin.is_complete then "font-green" else "font-invert" end %>"><i class="fa fa-lg fa-check"></i></td>
-                    <td class="center <%= if player.measure_lewis.is_complete then "font-green" else "font-invert" end %>"><i class="fa fa-lg fa-check"></i></td>
+                    <% if player.teams.count > 1 %>
+                      <td class="center <%= if player.measure_lewis[0].is_complete and player.measure_lewis[1].is_complete then "font-green" else "font-invert" end %>"><i class="fa fa-lg fa-check"></i></td>
+                    <% else %>
+                      <td class="center <%= if player.measure_lewis[0].is_complete then "font-green" else "font-invert" end %>"><i class="fa fa-lg fa-check"></i></td>
+                    <% end %>
+                    <td class="center <%= if player.measure_workload.is_complete then "font-green" else "font-invert" end %>"><i class="fa fa-lg fa-check"></i></td>
                   </tr>
                 <% end %>
               </tbody>
@@ -214,10 +219,10 @@
                       <% end %>
                     </td>
                     <% @game.players.sort_by(&:member_no).each_with_index do |player,i| %>
-                      <td class="center font-green">
+                      <td class="center font-blue">
                         <% if team.players.detect{|p| p.id == player.id} %>
                           <% team.projects.count.times do %>
-                            <div><i class="fa fa-check"></i></div>
+                            <div><i class="fa fa-user"></i></div>
                           <% end %>
                           <% @player_project_totals[i] += team.projects.count %>
                         <% end %>

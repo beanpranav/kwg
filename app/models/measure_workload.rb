@@ -1,4 +1,4 @@
-class MeasureLewis < ActiveRecord::Base
+class MeasureWorkload < ActiveRecord::Base
 	validates_presence_of :player_id
 
 	belongs_to :player

@@ -116,13 +116,13 @@ a, a:hover { color: $brand-blue; }
 
 .work-container-form, .work-container, .work-container-dummy-week { 
 	width: 80%;
-	border: 2px solid $body-border;
-	margin: -2px auto 0;
-	padding: 3px 4px;
-	height: 58px
+  border: 2px solid white;
+  margin: -2px auto 0;
+  padding: 19px 4px;
+  height: 114px;
 }
-.work-container-dummy-week { border: 2px solid white; height: 114px; }
-.work-container { border: 2px solid white; }
+// .work-container-dummy-week { border: 2px solid white; height: 114px; }
+// .work-container { border: 2px solid white; }
 
 .work-bg-secondary { background-color: $secondary-bg; }
 .work-bg-blue { background-color: $brand-blue; opacity: 0.6; }
@@ -130,8 +130,8 @@ a, a:hover { color: $brand-blue; }
 .work-bg-orange { background-color: $brand-orange; opacity: 0.6; }
 .work-bg-green { background-color: $brand-green; opacity: 0.6; }
 
-.work-container-text { color: white; margin: 14px 0; }
-.work-container-dummy-week-text { font-weight: bold; color: $brand-font-gray; margin:42px 0; }
+.work-container-text { color: white; margin: 27px 0; }
+.work-container-dummy-week-text { font-weight: bold; color: $brand-font-gray; margin:25px 0; }
 
 
 
@@ -279,11 +279,11 @@ a, a:hover { color: $brand-blue; }
 }
 
 select { 
-	width: 100%;
-	border-radius: 0px!important;
-	margin: 1px 0; 
-	border: 0; 
-	height: 22px;
+  width: 96%;
+  border-radius: 0px !important;
+  margin: 3px 4px;
+  border: 0;
+  height: 30px;
 	box-shadow: inset 0px 0px 50px #ccc;
 	background-color: #eeeeee;
 	color: $brand-primary;
@@ -292,11 +292,11 @@ select:focus { box-shadow: inset 0px 0px 2px $body-border; outline: 0; }
 
 .value-chosen-form {
 	select { 
-		width: 100%;
-		border-radius: 0px!important;
-		margin: 1px 0; 
-		border: 0; 
-		height: 22px;
+		width: 96%;
+    border-radius: 0px !important;
+    margin: 3px 4px;
+    border: 0;
+    height: 30px;
 		box-shadow: inset 0px 0px 50px $secondary-bg;
 		background-color: transparent;
 	}

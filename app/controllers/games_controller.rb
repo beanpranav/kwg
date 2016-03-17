@@ -217,7 +217,7 @@ class GamesController < ApplicationController
         if @game.game_status % 3 == 1
           project.profit_total << [0,project_report.expense_generated,0]
         else
-          project.profit_total[-1] = [0,project.profit_total[-1][1]+project_report.expense_generated,0]
+          project.profit_total[-1] = [project.profit_total[-1][0],project.profit_total[-1][1]+project_report.expense_generated,0]
         end
         project.profit_total_will_change!
         project.rnd_total_points = [
@@ -306,8 +306,8 @@ class GamesController < ApplicationController
         @pr = PlayerMonthlyReport.new(player_id: player.id, month_no: @game.game_status+1, salary_generated: 0)
         @pr.save
         
-        # create 8 work schedules for each report
-        8.times do |i|
+        # create 4 work schedules for each report
+        4.times do |i|
           ws = WorkSchedule.new(player_monthly_report_id: @pr.id, rank: i+1)
           ws.save
         end
@@ -351,14 +351,20 @@ class GamesController < ApplicationController
       m_austin = MeasureAustin.new(player_id: player.id, skill_1_player_levels: empty_array, skill_2_player_levels: empty_array, skill_3_player_levels: empty_array, skill_4_player_levels: empty_array)
       m_austin.save
 
-      m_lewis = MeasureLewis.new(player_id: player.id)
-      m_lewis.save
+      player.teams.each do |team|
+        m_lewis = MeasureLewi.new(player_id: player.id, team_id: team.id)
+        m_lewis.save
+      end
+
+      m_workload = MeasureWorkload.new(player_id: player.id)
+      m_workload.save
+
     end
 
     # set game status and return
     @game.game_status = 100
     @game.save
-    flash[:notice] = "Forms Generated. Awating submission by players."
+    flash[:notice] = "Forms Generated. Awaiting submission by players."
     redirect_to request.referrer
   end
 

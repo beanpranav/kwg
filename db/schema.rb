@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160315213257) do
+ActiveRecord::Schema.define(version: 20160317013411) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -46,6 +46,15 @@ ActiveRecord::Schema.define(version: 20160315213257) do
     t.integer  "responses_specialization",                 array: true
     t.integer  "responses_credibility",                    array: true
     t.integer  "responses_coordination",                   array: true
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "team_id"
+  end
+
+  create_table "measure_workloads", force: true do |t|
+    t.integer  "player_id"
+    t.boolean  "is_complete", default: false
+    t.integer  "responses",                   array: true
     t.datetime "created_at"
     t.datetime "updated_at"
   end

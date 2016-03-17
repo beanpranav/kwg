@@ -1,0 +1,134 @@
+<div class="panel-secondary">
+  <div class="panel-title">
+    <%= project.project_name %> :: Beginning <%= get_month_name(@current_month) %> Status 
+  </div>
+</div>
+
+<div class="panel-body" style="padding-bottom:25px;">
+  
+  <% if @player.game.is_paused %>
+
+    <div class="center h-primary">GAME PAUSED</div>
+
+  <% else %>
+
+    <!-- PERFORMANCE -->
+      <div class="col-sm-4 center">
+        <div class="h-primary" style="margin-bottom:27px;">PERFORMANCE</div>
+
+        <table class="table table-condensed table-hover">
+          
+          <% performance = $STARTING_INVESTMENT %>
+          <% project.profit_total.each_with_index do |q_profits,i| %>
+            <tr>
+              <td class="left">Q<%= i+1 %> Expenses</td>
+              <td class="right"><%= number_to_currency(-q_profits[1], negative_format: "(%u%n)", precision: 0) %></td>
+            </tr>
+
+            <tr>
+              <td class="left">Q<%= i+1 %> Revenue</td>
+              <td class="right"><%= number_to_currency(q_profits[0], negative_format: "(%u%n)", precision: 0) %></td>
+            </tr>
+            
+            <% performance += q_profits[0]-q_profits[1] %>
+          <% end %>
+          <tr>
+              <td class="left">Starting Investment</td>
+              <td class="right"><%= number_to_currency($STARTING_INVESTMENT, negative_format: "(%u%n)", precision: 0) %></td>
+            </tr>
+          <tr>
+            <td class="left"><b><%= project.project_name %>'s Net Profit</b></td>
+            <td class="right"><b><%= number_to_currency(performance, negative_format: "(%u%n)", precision: 0) %></b></td>
+          </tr>
+        </table>
+      </div>
+
+    <!-- STATS -->
+      <div class="col-sm-4 center">
+        <div class="h-primary" style="margin-bottom:27px;">Q<%= @current_quarter %> STATS</div>
+
+        <table class="table table-condensed">
+          <tr>
+            <td class="left">App Unit Price (per Q)</td>
+            <td class="right"><b><%= number_to_currency($PRODUCT_UNIT_COST, precision: 0) %></b></td>
+          </tr>
+          <tr class="">
+            <td class="left">
+              Max User Capacity
+              <i class="fa fa-info-circle font-secondary" data-toggle="tooltip" data-placement="top" title="<%= $HELP_TEXT["max_user_capacity"]%>"></i>
+            </td>
+            <td class="right font-invert progress-bar-1"><b><%= project.stats_total[0] %></b></td>
+          </tr>
+          <tr class="">
+            <td class="left">
+              Demand Generated
+              <i class="fa fa-info-circle font-secondary" data-toggle="tooltip" data-placement="top" title="<%= $HELP_TEXT["demand_generated"]%>"></i>
+            </td>
+            <td class="right font-invert progress-bar-2"><b><%= project.stats_total[1] %></b></td>
+          </tr>
+          <tr class="">
+            <td class="left">
+              Users Supported
+              <i class="fa fa-info-circle font-secondary" data-toggle="tooltip" data-placement="top" title="<%= $HELP_TEXT["users_supported"]%>"></i>
+            </td>
+            <td class="right font-invert progress-bar-3"><b><%= project.stats_total[2] %></b></td>
+          </tr>
+          <tr>
+            <td class="left">
+              <b>Q<%= @current_quarter %> Active Users</b>
+              <i class="fa fa-info-circle font-secondary" data-toggle="tooltip" data-placement="top" title="<%= $HELP_TEXT["active_users"]%>"></i>
+            </td>
+            <td class="right font-invert progress-bar-secondary"><b><%= project.users_total[-1][2] %></b></td>
+          </tr>
+        </table>
+      </div>
+
+    <!-- APP R&D -->
+      <div class="col-sm-4 center">
+        <div class="h-primary" style="margin-bottom:-5px;">APP R&D CENTER</div>
+        
+        <% 3.times do |i| %>
+        <% stage_no = $RND_STAGES.detect { |points,stage| points === project.rnd_total_points[i] }.last[:stage_no] %>
+          <% stage_range = $RND_STAGES.detect { |points,k| k[:stage_no] === stage_no }.first %>
+          <% rnd_progress_ratio = (project.rnd_total_points[i]-stage_range.begin)*100/(stage_range.end-stage_range.begin) %>
+          <div class="cpi-goal" style="margin-top:30px;">  
+            <div class="pull-left" style="margin-left:36px;">
+              R&D on <%= $SKILL_NAMES[i] %>
+              <i class="fa fa-info-circle font-secondary" data-toggle="tooltip" data-placement="top" title="<%= $HELP_TEXT[i]%>"></i>
+            </div>
+            <div class="pull-right"><%= project.rnd_total_points[i]-stage_range.begin %>
+              <span class="font-secondary">/<%= stage_range.end-stage_range.begin+1 %></span>
+            </div>
+            <div class="progress-level progress-bar-4 center">
+              <% case i %>
+              <% when 0 %>
+              <%= (($RND_STAGES.detect { |points,stage| points === project.rnd_total_points[i] }.last[:multiplier_1])*100).to_i %>
+              <% when 1 %>
+              <%= (($RND_STAGES.detect { |points,stage| points === project.rnd_total_points[i] }.last[:multiplier_2])*100).to_i %>
+              <% when 2 %>
+              <%= (($RND_STAGES.detect { |points,stage| points === project.rnd_total_points[i] }.last[:multiplier_3])*100).to_i %>
+              <% end %>
+            </div>
+            <div class="progress" style="margin-bottom:2px;">
+              <div class="progress-bar progress-bar-4" role="progressbar" aria-valuenow="<%= rnd_progress_ratio %>" aria-valuemin="0" aria-valuemax="100" style="width: <%= rnd_progress_ratio %>%">
+                <span class="sr-only"><%= rnd_progress_ratio %>%</span>
+              </div>
+            </div>
+            <div class="pull-left font-label">
+              <%= project.project_name %> has
+              <% case i %>
+              <% when 0 %>
+              <%= (($RND_STAGES.detect { |points,stage| points === project.rnd_total_points[i] }.last[:multiplier_1])*100).to_i %>% <%= $RND_BENEFITS[i] %>
+              <% when 1 %>
+              <%= (($RND_STAGES.detect { |points,stage| points === project.rnd_total_points[i] }.last[:multiplier_2])*100).to_i %>% <%= $RND_BENEFITS[i] %>
+              <% when 2 %>
+              <%= (($RND_STAGES.detect { |points,stage| points === project.rnd_total_points[i] }.last[:multiplier_3])*100).to_i %>% <%= $RND_BENEFITS[i] %>
+              <% end %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+  
+  <% end %>
+
+</div>

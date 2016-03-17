@@ -82,8 +82,8 @@
                   <div class="pull-left" style="margin-left:36px;">
                     <span class="font-secondary">  <%= $SKILL_LEVELS_NAMES[@sample_skill_level[i]][:name] %></span>
                     <%= $SKILL_NAMES[i] %>
-                    <% skill_p = ($SKILL_PRODUCTIVITY[i+1][@sample_skill_level[i]]*2/@gs_adjustment_factor).to_i %>
-                    <% skill_s = ($SKILL_SALARY[i+1][@sample_skill_level[i]]*2/@gs_adjustment_factor).to_i %>
+                    <% skill_p = ($SKILL_PRODUCTIVITY[i+1][@sample_skill_level[i]]toolbar-secondary/@gs_adjustment_factor).to_i %>
+                    <% skill_s = ($SKILL_SALARY[i+1][@sample_skill_level[i]]toolbar-secondary/@gs_adjustment_factor).to_i %>
                     <i class="fa fa-info-circle font-secondary" data-toggle="tooltip" data-placement="top" title="<%= "--- Level #{$SKILL_LEVELS_NAMES[@sample_skill_level[i]][:icon]} #{$SKILL_NAMES[i]} --- #{$STATS_NAMES[i]} ++ Productivity: #{skill_p} /wk Salary: $#{skill_s} /wk" %>"></i> 
                   </div>
                   <div class="pull-right">
@@ -157,7 +157,7 @@
           <!-- MONTHS: SHOW OPTIONS -->
             
             <div class="h-primary"><%= get_month_name(1) %></div>
-            <% 8.times do |work_item| %>
+            <% 4.times do |work_item| %>
               <div class="work-container-form work-bg-secondary">
                 <%= select_tag "skill_uses[]", grouped_options_for_select([
                             ['DO ------',[["App Dev",1],["Marketing",2],["Support",3]]],

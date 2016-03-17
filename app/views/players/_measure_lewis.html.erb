@@ -2,7 +2,7 @@
 	<div class="secondary-nav secondary-nav-invert">
 		<i class="fa fa-2x fa-clipboard content-list-icon-primary pull-left"></i>
 		<h2 class="font-invert"><b>End of Game Surveys</b></h2>
-		<h3 class="font-invert">Survey 2/2</h3>
+		<h3 class="font-invert">Survey <%= 2+lewis_no %>/<%= @total_surveys %></h3>
 	</div>
 
 	<div class="content-container">
@@ -20,145 +20,189 @@
 	  		<br>Please try to answer to the best of your ability. 
 	  	</div>
 
+			<% team = Team.find(@player.measure_lewis.sort_by(&:id)[lewis_no].team_id) %>
+			<div class="h-primary" style="margin:20px 0 -20px;">
+				<% if team.projects.count > 1 %>
+					Team Vandeley
+				<% else %>
+		  		For <%= team.projects[0].project_name %> Team
+		  	<% end %>
+		  </div>
+
 			<%= form_tag "/players/#{@player.id}/update_measure_lewis" do %>
 		    <table class="table table-condensed table-hover" style="margin:30px 0px;">
 		      <tbody>
-		        <!-- LEWIS 1-5 -->
-	          <tr><td style="padding:25px;">
-	          	<p style="padding: 10px;">
-		            <b><%= get_lewis_items(1) %></b><br>
-		            <% 5.times do |i| %>
-		              &nbsp; &nbsp; &nbsp;<%= radio_button_tag(:lewis_1, i+1) %> &nbsp;<%= get_likert_option(i) %> &nbsp; &nbsp;
-		            <% end %>
-								<br>
-							</p>
 
-							<p style="padding: 10px;">
-		            <b><%= get_lewis_items(2) %></b><br>
-		            <% 5.times do |i| %>
-		              &nbsp; &nbsp; &nbsp;<%= radio_button_tag(:lewis_2, i+1) %> &nbsp;<%= get_likert_option(i) %> &nbsp; &nbsp;
-		            <% end %>
-								<br>
-							</p>
-
-							<p style="padding: 10px;">
-		            <b><%= get_lewis_items(3) %></b><br>
-		            <% 5.times do |i| %>
-		              &nbsp; &nbsp; &nbsp;<%= radio_button_tag(:lewis_3, i+1) %> &nbsp;<%= get_likert_option(i) %> &nbsp; &nbsp;
-		            <% end %>
-								<br>
-							</p>
-
-							<p style="padding: 10px;">
-		            <b><%= get_lewis_items(4) %></b><br>
-		            <% 5.times do |i| %>
-		              &nbsp; &nbsp; &nbsp;<%= radio_button_tag(:lewis_4, i+1) %> &nbsp;<%= get_likert_option(i) %> &nbsp; &nbsp;
-		            <% end %>
-								<br>
-							</p>
-
-							<p style="padding: 10px;">
-		            <b><%= get_lewis_items(5) %></b><br>
-		            <% 5.times do |i| %>
-		              &nbsp; &nbsp; &nbsp;<%= radio_button_tag(:lewis_5, i+1) %> &nbsp;<%= get_likert_option(i) %> &nbsp; &nbsp;
-		            <% end %>
-								<br>
-							</p>
-
-	          </td></tr>
-
-	          <!-- LEWIS 6-10 -->
-	          <tr><td style="padding:25px;">
-	          	<p style="padding: 10px;">
-		            <b><%= get_lewis_items(6) %></b><br>
-		            <% 5.times do |i| %>
-		              &nbsp; &nbsp; &nbsp;<%= radio_button_tag(:lewis_6, i+1) %> &nbsp;<%= get_likert_option(i) %> &nbsp; &nbsp;
-		            <% end %>
-								<br>
-							</p>
-
-							<p style="padding: 10px;">
-		            <b><%= get_lewis_items(7) %></b><br>
-		            <% 5.times do |i| %>
-		              &nbsp; &nbsp; &nbsp;<%= radio_button_tag(:lewis_7, i+1) %> &nbsp;<%= get_likert_option(i) %> &nbsp; &nbsp;
-		            <% end %>
-								<br>
-							</p>
-
-							<p style="padding: 10px;">
-		            <b><%= get_lewis_items(8) %></b><br>
-		            <% 5.times do |i| %>
-		              &nbsp; &nbsp; &nbsp;<%= radio_button_tag(:lewis_8, i+1) %> &nbsp;<%= get_likert_option(i) %> &nbsp; &nbsp;
-		            <% end %>
-								<br>
-							</p>
-
-							<p style="padding: 10px;">
-		            <b><%= get_lewis_items(9) %></b><br>
-		            <% 5.times do |i| %>
-		              &nbsp; &nbsp; &nbsp;<%= radio_button_tag(:lewis_9, i+1) %> &nbsp;<%= get_likert_option(i) %> &nbsp; &nbsp;
-		            <% end %>
-								<br>
-							</p>
-
-							<p style="padding: 10px;">
-		            <b><%= get_lewis_items(10) %></b><br>
-		            <% 5.times do |i| %>
-		              &nbsp; &nbsp; &nbsp;<%= radio_button_tag(:lewis_10, i+1) %> &nbsp;<%= get_likert_option(i) %> &nbsp; &nbsp;
-		            <% end %>
-								<br>
-							</p>
-
-	          </td></tr>
-
-	          <!-- LEWIS 11-15 -->
-	          <tr><td style="padding:25px;">
-	          	<p style="padding: 10px;">
+	          	<tr><td style="padding: 20px;">
 		            <b><%= get_lewis_items(11) %></b><br>
-		            <% 5.times do |i| %>
+		            <% (0..1).each do |i| %>
 		              &nbsp; &nbsp; &nbsp;<%= radio_button_tag(:lewis_11, i+1) %> &nbsp;<%= get_likert_option(i) %> &nbsp; &nbsp;
 		            <% end %>
-								<br>
-							</p>
-
-							<p style="padding: 10px;">
-		            <b><%= get_lewis_items(12) %></b><br>
-		            <% 5.times do |i| %>
-		              &nbsp; &nbsp; &nbsp;<%= radio_button_tag(:lewis_12, i+1) %> &nbsp;<%= get_likert_option(i) %> &nbsp; &nbsp;
+								&nbsp; &nbsp; &nbsp;<%= radio_button_tag(:lewis_11, 2, true) %> &nbsp;<%= get_likert_option(2) %> &nbsp; &nbsp;
+		            <% (3..4).each do |i| %>
+		              &nbsp; &nbsp; &nbsp;<%= radio_button_tag(:lewis_11, i+1) %> &nbsp;<%= get_likert_option(i) %> &nbsp; &nbsp;
 		            <% end %>
-								<br>
-							</p>
+							</td></tr>
 
-							<p style="padding: 10px;">
+							<tr><td style="padding: 20px;">
+		            <b><%= get_lewis_items(7) %></b><br>
+		            <% (0..1).each do |i| %>
+		              &nbsp; &nbsp; &nbsp;<%= radio_button_tag(:lewis_7, i+1) %> &nbsp;<%= get_likert_option(i) %> &nbsp; &nbsp;
+		            <% end %>
+								&nbsp; &nbsp; &nbsp;<%= radio_button_tag(:lewis_7, 2, true) %> &nbsp;<%= get_likert_option(2) %> &nbsp; &nbsp;
+		            <% (3..4).each do |i| %>
+		              &nbsp; &nbsp; &nbsp;<%= radio_button_tag(:lewis_7, i+1) %> &nbsp;<%= get_likert_option(i) %> &nbsp; &nbsp;
+		            <% end %>
+							</td></tr>
+
+							<tr><td style="padding: 20px;">
+		            <b><%= get_lewis_items(3) %></b><br>
+		            <% (0..1).each do |i| %>
+		              &nbsp; &nbsp; &nbsp;<%= radio_button_tag(:lewis_3, i+1) %> &nbsp;<%= get_likert_option(i) %> &nbsp; &nbsp;
+		            <% end %>
+								&nbsp; &nbsp; &nbsp;<%= radio_button_tag(:lewis_3, 2, true) %> &nbsp;<%= get_likert_option(2) %> &nbsp; &nbsp;
+		            <% (3..4).each do |i| %>
+		              &nbsp; &nbsp; &nbsp;<%= radio_button_tag(:lewis_3, i+1) %> &nbsp;<%= get_likert_option(i) %> &nbsp; &nbsp;
+		            <% end %>
+							</td></tr>
+
+							<tr><td style="padding: 20px;">
+		            <b><%= get_lewis_items(2) %></b><br>
+		            <% (0..1).each do |i| %>
+		              &nbsp; &nbsp; &nbsp;<%= radio_button_tag(:lewis_2, i+1) %> &nbsp;<%= get_likert_option(i) %> &nbsp; &nbsp;
+		            <% end %>
+								&nbsp; &nbsp; &nbsp;<%= radio_button_tag(:lewis_2, 2, true) %> &nbsp;<%= get_likert_option(2) %> &nbsp; &nbsp;
+		            <% (3..4).each do |i| %>
+		              &nbsp; &nbsp; &nbsp;<%= radio_button_tag(:lewis_2, i+1) %> &nbsp;<%= get_likert_option(i) %> &nbsp; &nbsp;
+		            <% end %>
+							</td></tr>
+
+							<tr><td style="padding: 20px;">
+		            <b><%= get_lewis_items(8) %></b><br>
+		            <% (0..1).each do |i| %>
+		              &nbsp; &nbsp; &nbsp;<%= radio_button_tag(:lewis_8, i+1) %> &nbsp;<%= get_likert_option(i) %> &nbsp; &nbsp;
+		            <% end %>
+								&nbsp; &nbsp; &nbsp;<%= radio_button_tag(:lewis_8, 2, true) %> &nbsp;<%= get_likert_option(2) %> &nbsp; &nbsp;
+		            <% (3..4).each do |i| %>
+		              &nbsp; &nbsp; &nbsp;<%= radio_button_tag(:lewis_8, i+1) %> &nbsp;<%= get_likert_option(i) %> &nbsp; &nbsp;
+		            <% end %>
+							</td></tr>
+
+	          	<tr><td style="padding: 20px;">
+		            <b><%= get_lewis_items(1) %></b><br>
+		            <% (0..1).each do |i| %>
+		              &nbsp; &nbsp; &nbsp;<%= radio_button_tag(:lewis_1, i+1) %> &nbsp;<%= get_likert_option(i) %> &nbsp; &nbsp;
+		            <% end %>
+								&nbsp; &nbsp; &nbsp;<%= radio_button_tag(:lewis_1, 2, true) %> &nbsp;<%= get_likert_option(2) %> &nbsp; &nbsp;
+		            <% (3..4).each do |i| %>
+		              &nbsp; &nbsp; &nbsp;<%= radio_button_tag(:lewis_1, i+1) %> &nbsp;<%= get_likert_option(i) %> &nbsp; &nbsp;
+		            <% end %>
+							</td></tr>
+
+							<tr><td style="padding: 20px;">
 		            <b><%= get_lewis_items(13) %></b><br>
-		            <% 5.times do |i| %>
+		            <% (0..1).each do |i| %>
 		              &nbsp; &nbsp; &nbsp;<%= radio_button_tag(:lewis_13, i+1) %> &nbsp;<%= get_likert_option(i) %> &nbsp; &nbsp;
 		            <% end %>
-								<br>
-							</p>
-
-							<p style="padding: 10px;">
-		            <b><%= get_lewis_items(14) %></b><br>
-		            <% 5.times do |i| %>
-		              &nbsp; &nbsp; &nbsp;<%= radio_button_tag(:lewis_14, i+1) %> &nbsp;<%= get_likert_option(i) %> &nbsp; &nbsp;
+								&nbsp; &nbsp; &nbsp;<%= radio_button_tag(:lewis_13, 2, true) %> &nbsp;<%= get_likert_option(2) %> &nbsp; &nbsp;
+		            <% (3..4).each do |i| %>
+		              &nbsp; &nbsp; &nbsp;<%= radio_button_tag(:lewis_13, i+1) %> &nbsp;<%= get_likert_option(i) %> &nbsp; &nbsp;
 		            <% end %>
-								<br>
-							</p>
+							</td></tr>
 
-							<p style="padding: 10px;">
+							<tr><td style="padding: 20px;">
 		            <b><%= get_lewis_items(15) %></b><br>
-		            <% 5.times do |i| %>
+		            <% (0..1).each do |i| %>
 		              &nbsp; &nbsp; &nbsp;<%= radio_button_tag(:lewis_15, i+1) %> &nbsp;<%= get_likert_option(i) %> &nbsp; &nbsp;
 		            <% end %>
-								<br>
-							</p>
+								&nbsp; &nbsp; &nbsp;<%= radio_button_tag(:lewis_15, 2, true) %> &nbsp;<%= get_likert_option(2) %> &nbsp; &nbsp;
+		            <% (3..4).each do |i| %>
+		              &nbsp; &nbsp; &nbsp;<%= radio_button_tag(:lewis_15, i+1) %> &nbsp;<%= get_likert_option(i) %> &nbsp; &nbsp;
+		            <% end %>
+							</td></tr>
 
-	          </td></tr>
+							<tr><td style="padding: 20px;">
+		            <b><%= get_lewis_items(4) %></b><br>
+		            <% (0..1).each do |i| %>
+		              &nbsp; &nbsp; &nbsp;<%= radio_button_tag(:lewis_4, i+1) %> &nbsp;<%= get_likert_option(i) %> &nbsp; &nbsp;
+		            <% end %>
+								&nbsp; &nbsp; &nbsp;<%= radio_button_tag(:lewis_4, 2, true) %> &nbsp;<%= get_likert_option(2) %> &nbsp; &nbsp;
+		            <% (3..4).each do |i| %>
+		              &nbsp; &nbsp; &nbsp;<%= radio_button_tag(:lewis_4, i+1) %> &nbsp;<%= get_likert_option(i) %> &nbsp; &nbsp;
+		            <% end %>
+							</td></tr>
+
+							<tr><td style="padding: 20px;">
+		            <b><%= get_lewis_items(10) %></b><br>
+		            <% (0..1).each do |i| %>
+		              &nbsp; &nbsp; &nbsp;<%= radio_button_tag(:lewis_10, i+1) %> &nbsp;<%= get_likert_option(i) %> &nbsp; &nbsp;
+		            <% end %>
+								&nbsp; &nbsp; &nbsp;<%= radio_button_tag(:lewis_10, 2, true) %> &nbsp;<%= get_likert_option(2) %> &nbsp; &nbsp;
+		            <% (3..4).each do |i| %>
+		              &nbsp; &nbsp; &nbsp;<%= radio_button_tag(:lewis_10, i+1) %> &nbsp;<%= get_likert_option(i) %> &nbsp; &nbsp;
+		            <% end %>
+							</td></tr>
+
+	          	<tr><td style="padding: 20px;">
+		            <b><%= get_lewis_items(5) %></b><br>
+		            <% (0..1).each do |i| %>
+		              &nbsp; &nbsp; &nbsp;<%= radio_button_tag(:lewis_5, i+1) %> &nbsp;<%= get_likert_option(i) %> &nbsp; &nbsp;
+		            <% end %>
+								&nbsp; &nbsp; &nbsp;<%= radio_button_tag(:lewis_5, 2, true) %> &nbsp;<%= get_likert_option(2) %> &nbsp; &nbsp;
+		            <% (3..4).each do |i| %>
+		              &nbsp; &nbsp; &nbsp;<%= radio_button_tag(:lewis_5, i+1) %> &nbsp;<%= get_likert_option(i) %> &nbsp; &nbsp;
+		            <% end %>
+							</td></tr>
+
+							<tr><td style="padding: 20px;">
+		            <b><%= get_lewis_items(12) %></b><br>
+		            <% (0..1).each do |i| %>
+		              &nbsp; &nbsp; &nbsp;<%= radio_button_tag(:lewis_12, i+1) %> &nbsp;<%= get_likert_option(i) %> &nbsp; &nbsp;
+		            <% end %>
+								&nbsp; &nbsp; &nbsp;<%= radio_button_tag(:lewis_12, 2, true) %> &nbsp;<%= get_likert_option(2) %> &nbsp; &nbsp;
+		            <% (3..4).each do |i| %>
+		              &nbsp; &nbsp; &nbsp;<%= radio_button_tag(:lewis_12, i+1) %> &nbsp;<%= get_likert_option(i) %> &nbsp; &nbsp;
+		            <% end %>
+							</td></tr>
+
+							<tr><td style="padding: 20px;">
+		            <b><%= get_lewis_items(9) %></b><br>
+		            <% (0..1).each do |i| %>
+		              &nbsp; &nbsp; &nbsp;<%= radio_button_tag(:lewis_9, i+1) %> &nbsp;<%= get_likert_option(i) %> &nbsp; &nbsp;
+		            <% end %>
+								&nbsp; &nbsp; &nbsp;<%= radio_button_tag(:lewis_9, 2, true) %> &nbsp;<%= get_likert_option(2) %> &nbsp; &nbsp;
+		            <% (3..4).each do |i| %>
+		              &nbsp; &nbsp; &nbsp;<%= radio_button_tag(:lewis_9, i+1) %> &nbsp;<%= get_likert_option(i) %> &nbsp; &nbsp;
+		            <% end %>
+							</td></tr>
+
+							<tr><td style="padding: 20px;">
+		            <b><%= get_lewis_items(6) %></b><br>
+		            <% (0..1).each do |i| %>
+		              &nbsp; &nbsp; &nbsp;<%= radio_button_tag(:lewis_6, i+1) %> &nbsp;<%= get_likert_option(i) %> &nbsp; &nbsp;
+		            <% end %>
+								&nbsp; &nbsp; &nbsp;<%= radio_button_tag(:lewis_6, 2, true) %> &nbsp;<%= get_likert_option(2) %> &nbsp; &nbsp;
+		            <% (3..4).each do |i| %>
+		              &nbsp; &nbsp; &nbsp;<%= radio_button_tag(:lewis_6, i+1) %> &nbsp;<%= get_likert_option(i) %> &nbsp; &nbsp;
+		            <% end %>
+							</td></tr>
+
+							<tr><td style="padding: 20px;">
+		            <b><%= get_lewis_items(14) %></b><br>
+		            <% (0..1).each do |i| %>
+		              &nbsp; &nbsp; &nbsp;<%= radio_button_tag(:lewis_14, i+1) %> &nbsp;<%= get_likert_option(i) %> &nbsp; &nbsp;
+		            <% end %>
+								&nbsp; &nbsp; &nbsp;<%= radio_button_tag(:lewis_14, 2, true) %> &nbsp;<%= get_likert_option(2) %> &nbsp; &nbsp;
+		            <% (3..4).each do |i| %>
+		              &nbsp; &nbsp; &nbsp;<%= radio_button_tag(:lewis_14, i+1) %> &nbsp;<%= get_likert_option(i) %> &nbsp; &nbsp;
+		            <% end %>
+							</td></tr>
 
 		      </tbody>
 		    </table>
 
 			  <div class="center col-sm-6 col-sm-offset-3">
+			  	<%= hidden_field_tag :lewis_no, lewis_no %>
 			    <%= button_tag(type: 'submit', class: "btn btn-block btn-green") do %>
 			      SAVE & SUBMIT
 			    <% end %>

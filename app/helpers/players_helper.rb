@@ -5,11 +5,19 @@ module PlayersHelper
   end
 
   def get_lewis_items(item_no)
-    lewis_scale[item_no-1]
+    lewis_scale[item_no]
   end
 
   def get_likert_option(option_no)
     likert_options[option_no]
+  end
+
+  def get_workload_items(item_no)
+    workload_scale[item_no]
+  end
+
+  def get_high_low_likert_option(option_no)
+    high_low_likert_options[option_no]
   end
 
   private
@@ -22,29 +30,43 @@ module PlayersHelper
   end
 
   def lewis_scale
-    [
-      "1. Each team member has specialized knowledge of some aspect of our project.", 
-      "2. I have knowledge about an aspect of the project that no other team member has.", 
-      "3. Different team members are responsible for expertise in different areas.", 
-      "4. The specialized knowledge of several different team members was needed to complete the project deliverables.",
-      "5. I know which team members have expertise in specific areas.",
+    {
+      1 =>  "6. Each team member has specialized knowledge of some aspect of our project.", 
+      2 =>  "4. I have knowledge about an aspect of the project that no other team member has.", 
+      3 =>  "3. Different team members are responsible for expertise in different areas.", 
+      4 =>  "9. The specialized knowledge of different team members was needed to complete the project.",
+      5 =>  "11. I know which team members have expertise in specific areas.",
     
-      "6. I was comfortable accepting procedural suggestions from other team members.", 
-      "7. I trusted that other members’ knowledge about the project was credible.", 
-      "8. I was confident relying on the information that other team members brought to the discussion.", 
-      "9. When other members gave information, I wanted to double-check it for myself.", 
-      "10. I did not have much faith in other members’“expertise.”",
+      6 =>  "14. I was comfortable accepting procedural suggestions from other team members.", 
+      7 =>  "2. I trusted that other members’ knowledge about the project was credible.", 
+      8 =>  "5. I was confident relying on the information that other members brought to the discussion.", 
+      9 =>  "13. When other members gave information, I wanted to double-check it for myself.", 
+      10 =>  "10. I did not have much faith in other members’ “expertise.”",
     
-      "11. Our team worked together in a well-coordinated fashion.", 
-      "12. Our team had very few misunderstandings about what to do.", 
-      "13. Our team needed to backtrack and start over a lot.", 
-      "14. We accomplished the task smoothly and efficiently.",
-      "15. There was much confusion about how we would accomplish the task."
-    ]
+      11 =>  "1. Our team worked together in a well-coordinated fashion.", 
+      12 =>  "12. Our team had very few misunderstandings about what to do.", 
+      13 =>  "7. Our team needed to backtrack and start over a lot.", 
+      14 =>  "15. We accomplished the task smoothly and efficiently.",
+      15 =>  "8. There was much confusion about how we would accomplish the task."
+    }
   end
 
   def likert_options
     ["strongly disagree", "disagree", "neutral", "agree", "strongly agree"]
+  end
+
+  def workload_scale
+    {
+      1 =>  "(Mental Demand) --> How mentally demanding was the task?", 
+      2 =>  "(Temporal Demand) --> How hurried or rushed was the pace of the task?", 
+      3 =>  "(Performance) --> How successful were you in accomplishing the task?", 
+      4 =>  "(Effort) --> How hard did you have to work to accomplish your level of performance?",
+      5 =>  "(Frustration) --> How insecure, discouraged, irritated, stressed, or annoyed were you?",
+    }
+  end
+
+  def high_low_likert_options
+    ["very low", "low", "neutral", "high", "very high"]
   end
 
 end

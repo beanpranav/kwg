@@ -3,7 +3,6 @@ class Project < ActiveRecord::Base
 
 	belongs_to :game
 	belongs_to :team
-	has_many :project_goals, dependent: :destroy
-	has_many :players, through: :project_goals
+	
 	has_many :project_monthly_reports, dependent: :destroy
 end

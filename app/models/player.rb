@@ -6,10 +6,10 @@ class Player < ActiveRecord::Base
 
 	has_many :team_memberships, dependent: :destroy
 	has_many :teams, through: :team_memberships
-	has_many :team_strategies, dependent: :destroy
-	has_many :project_goals, dependent: :destroy
+	
 	has_many :player_monthly_reports, dependent: :destroy
 
 	has_one :measure_austin, dependent: :destroy
-	has_one :measure_lewis, dependent: :destroy
+	has_many :measure_lewis, dependent: :destroy
+	has_one :measure_workload, dependent: :destroy
 end

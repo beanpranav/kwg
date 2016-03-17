@@ -2,13 +2,13 @@
 	<div class="secondary-nav secondary-nav-invert">
 		<i class="fa fa-2x fa-clipboard content-list-icon-primary pull-left"></i>
 		<h2 class="font-invert"><b>End of Game Surveys</b></h2>
-		<h3 class="font-invert">Survey 1/2</h3>
+		<h3 class="font-invert">Survey 1/<%= @total_surveys %></h3>
 	</div>
 
 	<div class="content-container">
 	  <div class="panel-secondary">
 	    <div class="panel-title">
-	      Team's Skill Diversity
+	      Team Member's Skills
 	    </div>
 	  </div>
 
@@ -38,7 +38,7 @@
 		              <b><%= @co_players.detect{ |x| x[0] == p_id[0] }[1] %></b>
 		            </td>
 		            <% 4.times do |i| %>
-		              <td class="col-md-3" style="padding:12px 22px;">
+		              <td class="col-md-3" style="padding:7px 15px;">
 		                <%= select_tag "input_skills[]", options_for_select(@measure_austin_options) %>
 		              </td>
 		            <% end %>

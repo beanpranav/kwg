@@ -1,5 +1,5 @@
 class PlayersController < ApplicationController
-  before_action :set_player, only: [:show, :edit, :update, :destroy, :update_measure_austin, :update_measure_lewis]
+  before_action :set_player, only: [:show, :edit, :update, :destroy, :update_measure_austin, :update_measure_lewis, :update_measure_workload]
   before_action :authenticate_user!
   before_action :authenticate_admin, only: [:index]
   before_action :correct_user, only: [:show, :edit, :update]
@@ -10,50 +10,58 @@ class PlayersController < ApplicationController
   end
 
   def show
-    @current_month = @player.game.game_status
-    @current_quarter = ((@current_month-1)/3)+1
+    if @player.game.game_status == 100
+      # austin + workload + lewis
+      @total_surveys = 2+@player.teams.count
 
-    quarters_count = @player.game.game_length/3
-    @quarter_reports = Array.new(quarters_count){Array.new(3,0)}
-    reports = @player.player_monthly_reports.sort_by(&:month_no) 
-    quarters_count.times do |q|
-      3.times do |m|
-        if reports.detect {|r| r.month_no == q*3+m+1}
-          @quarter_reports[q][m] = reports.select {|r| r.month_no == q*3+m+1}
+      # for austin
+      @co_players = []
+      @player.game.players.each do |p|
+        @co_players << [p.id, p.user.name]
+      end
+      @measure_austin_options = [["Novice",1],["Advanced",2],["Expert",4]]
+
+    else
+      @current_month = @player.game.game_status
+      @current_quarter = ((@current_month-1)/3)+1
+
+      quarters_count = @player.game.game_length/3
+      @quarter_reports = Array.new(quarters_count){Array.new(3,0)}
+      reports = @player.player_monthly_reports.sort_by(&:month_no) 
+      quarters_count.times do |q|
+        3.times do |m|
+          if reports.detect {|r| r.month_no == q*3+m+1}
+            @quarter_reports[q][m] = reports.select {|r| r.month_no == q*3+m+1}
+          end
         end
       end
-    end
 
-    @player_projects = []
-    @player_project_profit = 0
-    @work_on_options = []
-    
-    @player.teams.each do |team|
-      team.projects.sort_by(&:id).each do |project|
-        if @player.game.game_status > 1
-          project.profit_total.each do |q_stats|
-            @player_project_profit += q_stats[2]
-          end 
-        end      
-        @player_projects << project
-        @work_on_options << [project.project_name,project.project_monthly_reports.sort_by(&:created_at).last.id] if @player.game.game_status > 0
+      @player_projects = []
+      @player_project_profit = 0
+      @work_on_options = []
+      
+      @player.teams.each do |team|
+        team.projects.sort_by(&:id).each do |project|
+          if @player.game.game_status > 1
+            project.profit_total.each do |q_stats|
+              @player_project_profit += q_stats[2]
+            end 
+          end  
+          @player_project_profit += $STARTING_INVESTMENT    
+          @player_projects << project
+          @work_on_options << [project.project_name,project.project_monthly_reports.sort_by(&:created_at).last.id] if @player.game.game_status > 0
+        end
       end
-    end
 
-    @co_players = []
-    @player.game.players.each do |p|
-      @co_players << [p.id, p.user.name]
+      @gs_adjustment_factor = $GAME_TYPES_LOOKUP[@player.game.game_type][:group_size]
+      @work_on_options = [['APP ------',@work_on_options],['NOTHING ------',[["do nothing",-1]]]]
+      @using_skill_options = [
+                              ['DO ------',[["App Dev",1],["Marketing",2],["Support",3]]],
+                              ['DO R&D ------',[["R&D on App Dev",5],["R&D on Marketing",6],["R&D on Support",7]]],
+                              ['IMPROVE ------',[["App Dev skills",11], ["Marketing skills",12], ["Support skills",13], ["R&D skills",14]]],
+                              ['NOTHING ------',[["do nothing",-1]]]
+                            ]
     end
-
-    @gs_adjustment_factor = $GAME_TYPES_LOOKUP[@player.game.game_type][:group_size]
-    @work_on_options = [['APP ------',@work_on_options],['NOTHING ------',[["do nothing",-1]]]]
-    @using_skill_options = [
-                            ['DO ------',[["App Dev",1],["Marketing",2],["Support",3]]],
-                            ['DO R&D ------',[["R&D on App Dev",5],["R&D on Marketing",6],["R&D on Support",7]]],
-                            ['IMPROVE ------',[["App Dev skills",11], ["Marketing skills",12], ["Support skills",13], ["R&D skills",14]]],
-                            ['NOTHING ------',[["do nothing",-1]]]
-                          ]
-    @measure_austin_options = [["Novice",1],["Advanced",2],["Expert",4]]
   end
 
   def new
@@ -133,7 +141,7 @@ class PlayersController < ApplicationController
   end
 
   def update_measure_lewis
-    m = @player.measure_lewis
+    m = @player.measure_lewis.sort_by(&:id)[params[:lewis_no].to_i]
     m.responses_specialization = [params[:lewis_1],params[:lewis_2],params[:lewis_3],params[:lewis_4],params[:lewis_5]]
     m.responses_credibility = [params[:lewis_6],params[:lewis_7],params[:lewis_8],6-params[:lewis_9].to_i,6-params[:lewis_10].to_i]
     m.responses_coordination = [params[:lewis_11],params[:lewis_12],6-params[:lewis_13].to_i,params[:lewis_14],6-params[:lewis_15].to_i]
@@ -141,7 +149,18 @@ class PlayersController < ApplicationController
     m.is_complete = true
     m.save
 
-    flash[:notice] = "Survey 2 saved successfully."
+    flash[:notice] = "Survey #{2+params[:lewis_no].to_i} saved successfully."
+    redirect_to request.referrer
+  end
+
+  def update_measure_workload
+    m = @player.measure_workload
+    m.responses = [params[:workload_1],params[:workload_2],params[:workload_3].to_i,params[:workload_4],params[:workload_5].to_i]
+
+    m.is_complete = true
+    m.save
+
+    flash[:notice] = "Last survey saved successfully."
     redirect_to request.referrer
   end
 
