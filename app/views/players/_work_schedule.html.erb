@@ -64,16 +64,16 @@
                         <%= hidden_field_tag "work_schedule_ids[]", work_item.id %>
                         
                         <div class="work-container-form work-bg-secondary">
-                          <% if work_item.skill_use == nil or work_item.skill_use == '' %>
-                            <%= select_tag "skill_uses[]", grouped_options_for_select(@using_skill_options), prompt: "--- do task ---" %>
-                          <% else %>
-                            <div class="value-chosen-form"><%= select_tag "skill_uses[]", grouped_options_for_select(@using_skill_options, "#{work_item.skill_use}") %></div>
-                          <% end %>
-
                           <% if work_item.project_monthly_report_id == nil %> 
                             <%= select_tag "project_monthly_report_ids[]", grouped_options_for_select(@work_on_options), prompt: "--- choose app ---" %>
                           <% else %>
                             <div class="value-chosen-form"><%= select_tag "project_monthly_report_ids[]", grouped_options_for_select(@work_on_options, "#{work_item.project_monthly_report_id}") %></div>
+                          <% end %>
+                          
+                          <% if work_item.skill_use == nil or work_item.skill_use == '' %>
+                            <%= select_tag "skill_uses[]", grouped_options_for_select(@using_skill_options), prompt: "--- do task ---" %>
+                          <% else %>
+                            <div class="value-chosen-form"><%= select_tag "skill_uses[]", grouped_options_for_select(@using_skill_options, "#{work_item.skill_use}") %></div>
                           <% end %>
                           
                         </div>

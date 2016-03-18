@@ -286,7 +286,7 @@ class GamesController < ApplicationController
       # set player to offline
       players.each do |player|
         u = player.user
-        u.user_status = "offline"
+        u.user_status = "survey"
         u.save
       end
       flash[:notice] = "Calculations updated. Game completed."

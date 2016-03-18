@@ -214,7 +214,7 @@
                   <tr>
                     <td style="padding-left:10px; border-right-width: 2px;">
                       <b><% team.team_name %></b>
-                      <% team.projects.each do |project| %>
+                      <% team.projects.sort_by(&:id).each do |project| %>
                         <div>&nbsp;&nbsp;&nbsp;<b><%= project.project_name %></b></div>
                       <% end %>
                     </td>
@@ -245,6 +245,36 @@
       <!-- PERFORMANCE DETAILS -->
         <% if @game.game_status > 1 %>
           
+          <!-- PROJECT SUMMARY -->
+            <div class="content-container">
+              <div class="panel-secondary">
+                <div class="panel-title">
+                  Project Summaries
+                </div>
+              </div>
+
+              <div class="panel-body">
+                <table class="table table-condensed table-hover table-bordered">
+                  <thead>
+                    <th style="border-right-width: 2px;"></th>
+                    <th class="center">R&D Points</th>
+                    <th class="center">Active Users</th>
+                    <th class="center">Total Profit</th>
+                  </thead>
+                  <tbody>
+                    <% @game.projects.sort_by(&:id).each_with_index do |project,i| %>
+                      <tr>
+                        <td style="padding-left:22px; border-right-width: 2px;"><b><%= project.project_name %></b></td>  
+                        <td class="center"><%= project.rnd_total_points.sum %></td>
+                        <td class="center"><%= project.users_total[-1][2] %></td>
+                        <td class="center"><%= number_to_currency(@project_profits[i], negative_format: "(%u%n)", precision: 0) %></td>
+                      </tr>
+                    <% end %>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
           <!-- PLAYER SUMMARY -->
             <div class="content-container">
               <div class="panel-secondary">
@@ -254,19 +284,17 @@
               </div>
 
               <div class="panel-body">
-                <table class="table table-condensed table-hover">
+                <table class="table table-condensed table-hover table-bordered center">
                   <thead>
-                    <th></th>
-                    <th>Skill Level</th>
-                    <th>Skill Points</th>
-                    <th>Total Salary</th>
-                    <th>Net Project Profit</th>
+                    <th style="border-right-width: 2px;"></th>
+                    <th class="center">Skill Points</th>
+                    <th class="center">Total Salary</th>
+                    <th class="center">Net Project Profit</th>
                   </thead>
                   <tbody>
                     <% @players.sort_by(&:member_no).each_with_index do |player,i| %>
                       <tr>
-                        <td><a target="_blank" href="<%= player_path(player) %>"><%= player.player_screenname %></a></td>  
-                        <td><%= player.skill_level %></td>
+                        <td style="padding-left:10px; border-right-width: 2px;"><b><a target="_blank" href="<%= player_path(player) %>"><%= player.player_screenname %></a></b></td>
                         <td><%= player.skill_total_points.sum %></td>
                         <td><%= number_to_currency(player.salary_total, negative_format: "(%u%n)", precision: 0) %></td>
                         <td><%= number_to_currency(@player_project_profit[i], negative_format: "(%u%n)", precision: 0) %></td>
@@ -277,36 +305,50 @@
               </div>
             </div>
 
-          <!-- PROJECT SUMMARY -->
+          <!-- PLAYER SKILLS -->
             <div class="content-container">
               <div class="panel-secondary">
                 <div class="panel-title">
-                  Project Summaries
+                  Player Skills
                 </div>
               </div>
 
               <div class="panel-body">
-                <table class="table table-condensed table-hover">
+                <table class="table table-condensed table-hover" style="margin:10px 0;">
                   <thead>
-                    <th></th>
-                    <th>R&D Points</th>
-                    <th>Active Users</th>
-                    <th>Total Profit</th>
+                    <tr>
+                      <th></th>
+                      <% 4.times do |i| %>
+                        <th class="center"><%= $SKILL_NAMES[i] %></th>
+                      <% end %>
+                    </tr>
                   </thead>
+
                   <tbody>
-                    <% @game.projects.sort_by(&:id).each_with_index do |project,i| %>
+                    <% @players.sort_by(&:member_no).each do |p| %>
                       <tr>
-                        <td><%= project.project_name %></td>  
-                        <td><%= project.rnd_total_points.sum %></td>
-                        <td><%= project.users_total[-1][2] %></td>
-                        <td><%= number_to_currency(@project_profits[i], negative_format: "(%u%n)", precision: 0) %></td>
-                      </tr>
+                        <td style="padding:15px;">
+                          <b><%= p.player_screenname %></b>
+                        </td>
+                        <% 4.times do |i| %>
+                          <td class="col-md-3" style="padding:9px;">
+                            <% if p.skill_level[i] < 2 %>
+                              <div class="progress-level progress-bar-secondary center" style="line-height: 2.3; margin: 0 auto; width:80%; opacity:0.2"><%= $SKILL_LEVELS_NAMES[p.skill_level[i]][:name] %></div>
+                            <% elsif p.skill_level[i] > 3 %>
+                              <div class="progress-level progress-bar-<%= i+1 %> center" style="line-height: 2.3; margin: 0 auto; width:80%; opacity:1"><%= $SKILL_LEVELS_NAMES[p.skill_level[i]][:name] %></div>
+                            <% else %>
+                              <div class="progress-level progress-bar-<%= i+1 %> center" style="line-height: 2.3; margin: 0 auto; width:80%; opacity:0.4"><%= $SKILL_LEVELS_NAMES[p.skill_level[i]][:name] %></div>
+                            <% end %>
+                           
+                          </td>
+                        <% end %>
                     <% end %>
                   </tbody>
                 </table>
               </div>
             </div>
 
+      <!-- PLAYER LINKS -->
         <% else %>
           <div class="content-container">
             <div class="panel-secondary">

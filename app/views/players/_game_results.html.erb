@@ -1,0 +1,142 @@
+<div class="col-xs-12 col-sm-8 col-sm-offset-2">
+
+  <div class="secondary-nav secondary-nav-invert">
+    <i class="fa fa-2x fa-rocket content-list-icon-primary pull-left"></i>
+    <h2 class="font-invert"><b>Thank you for playing, <%= @player.player_screenname %>!</b></h2>
+    <h3 class="font-invert">Results Summary</h3>
+  </div>
+
+  <div class="content-container">
+    <div class="panel-body" style="margin-bottom:30px;">
+
+      <div class="h-primary">Team Vandeley had <%= @players.count %> members and <%= @projects.count %> projects</div>
+      <h3 class="center" style="margin-bottom:30px;">End of game details for each are given below.</h3> 
+      
+      <div class="panel-group" id="accordion-results" role="tablist" aria-multiselectable="true">
+
+        <!-- PROJECT SUMMARY -->
+          <div class="panel panel-default">
+            <a class="supress-a" data-toggle="collapse" data-parent="#accordion-results" href="#project_summary" aria-expanded="true" aria-controls="collapseOne">
+              <div class="panel-secondary" role="tab" >
+                <div class="panel-title">
+                  Team Vandeley Project-wise Performance
+                </div>
+              </div>
+            </a>
+
+            <div id="project_summary" class="panel-collapse" role="tabpanel">
+              <div class="panel-body">
+                <table class="table table-condensed table-hover center">
+                  <thead>
+                    <th></th>
+                    <th class="center">Active Users</th>
+                    <th class="center">Total Profit</th>
+                  </thead>
+                  <tbody>
+                    <% @player.game.projects.sort_by(&:id).each_with_index do |project,i| %>
+                      <tr>
+                        <td><b><%= project.project_name %></b></td> 
+                        <td><%= project.users_total[-1][2] %></td>
+                        <td><%= number_to_currency(@project_profits[i], negative_format: "(%u%n)", precision: 0) %></td>
+                      </tr>
+                    <% end %>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+        <!-- PLAYER SUMMARY -->
+          <div class="panel panel-default">
+            <a class="collapsed supress-a" data-toggle="collapse" data-parent="#accordion-results" href="#player_summary" aria-expanded="true" aria-controls="collapseOne">
+              <div class="panel-secondary" role="tab" >
+                <div class="panel-title">
+                  Team Vandeley Member-wise Peformance
+                  <i class="fa fa-fw fa-sort pull-right" style="margin: 3px -5px 0 0;"></i>
+                </div>
+              </div>
+            </a>
+
+            <div id="player_summary" class="panel-collapse" role="tabpanel">
+              <div class="panel-body">
+                <table class="table table-condensed table-hover center">
+                  <thead>
+                    <th></th>
+                    <th class="center">Total Wages Earned</th>
+                    <th class="center">Net Project Profit</th>
+                  </thead>
+                  <tbody>
+                    <% @players.sort_by(&:member_no).each_with_index do |player,i| %>
+                      <tr class="<%= "active" if player.user == current_user %>">
+                        <td><b><%= player.player_screenname %></b></td> 
+                        <td><%= number_to_currency(player.salary_total, negative_format: "(%u%n)", precision: 0) %></td>
+                        <td><%= number_to_currency(@player_project_profit[i], negative_format: "(%u%n)", precision: 0) %></td>
+                      </tr>
+                    <% end %>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+        <!-- PLAYER SKILLS -->
+          <div class="panel panel-default">
+            <a class="collapsed supress-a" data-toggle="collapse" data-parent="#accordion-results" href="#player_skills" aria-expanded="true" aria-controls="collapseOne">
+              <div class="panel-secondary" role="tab" >
+                <div class="panel-title">
+                  Team Vandeley Member-wise Skills
+                  <i class="fa fa-fw fa-sort pull-right" style="margin: 3px -5px 0 0;"></i>
+                </div>
+              </div>
+            </a>
+
+            <div id="player_skills" class="panel-collapse" role="tabpanel">
+              <div class="panel-body">
+                <table class="table table-condensed table-hover" style="margin:10px 0;">
+                  <thead>
+                    <tr>
+                      <th></th>
+                      <% 4.times do |i| %>
+                        <th class="center"><%= $SKILL_NAMES[i] %></th>
+                      <% end %>
+                    </tr>
+                  </thead>
+
+                  <tbody>
+                    <% @players.sort_by(&:member_no).each do |p| %>
+                      <tr class="<%= "active" if p.user == current_user %>">
+                        <td style="padding:15px;">
+                          <b><%= p.player_screenname %></b>
+                        </td>
+                        <% 4.times do |i| %>
+                          <td class="col-md-3" style="padding:9px;">
+                            <% if p.skill_level[i] < 2 %>
+                              <div class="progress-level progress-bar-secondary center" style="line-height: 2.3; margin: 0 auto; width:80%; opacity:0.2"><%= $SKILL_LEVELS_NAMES[p.skill_level[i]][:name] %></div>
+                            <% elsif p.skill_level[i] > 3 %>
+                              <div class="progress-level progress-bar-<%= i+1 %> center" style="line-height: 2.3; margin: 0 auto; width:80%; opacity:1"><%= $SKILL_LEVELS_NAMES[p.skill_level[i]][:name] %></div>
+                            <% else %>
+                              <div class="progress-level progress-bar-<%= i+1 %> center" style="line-height: 2.3; margin: 0 auto; width:80%; opacity:0.4"><%= $SKILL_LEVELS_NAMES[p.skill_level[i]][:name] %></div>
+                            <% end %>
+                           
+                          </td>
+                        <% end %>
+                    <% end %>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+      </div>
+
+      <%= form_tag "/players/#{@player.id}/go_offline" do %>
+        <div class="center col-sm-6 col-sm-offset-3 button-padding">
+          <%= button_tag(type: 'submit', class: "btn btn-block btn-red") do %>
+            I"M DONE. LOGOUT.
+          <% end %>
+        </div>
+      <% end %>
+
+    </div>
+  </div>
+</div>

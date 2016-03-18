@@ -38,7 +38,7 @@
 		              <b><%= @co_players.detect{ |x| x[0] == p_id[0] }[1] %></b>
 		            </td>
 		            <% 4.times do |i| %>
-		              <td class="col-md-3" style="padding:7px 15px;">
+		              <td class="col-md-3" style="padding:12px 15px;">
 		                <%= select_tag "input_skills[]", options_for_select(@measure_austin_options) %>
 		              </td>
 		            <% end %>

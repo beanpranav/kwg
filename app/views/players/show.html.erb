@@ -13,7 +13,7 @@
     <% elsif @player.measure_workload.is_complete == false %>
       <%= render "players/measure_workload" %>
     <% else %>
-      Results
+      <%= render "players/game_results" %>
     <% end %>
 
 <!-- GAME IN PROGRESS: SHOW GAME -->

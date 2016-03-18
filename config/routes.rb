@@ -8,6 +8,7 @@ Rails.application.routes.draw do
       post :update_measure_austin
       post :update_measure_lewis
       post :update_measure_workload
+      post :go_offline
     end
   end
   

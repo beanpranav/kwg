@@ -1,5 +1,5 @@
 class PlayersController < ApplicationController
-  before_action :set_player, only: [:show, :edit, :update, :destroy, :update_measure_austin, :update_measure_lewis, :update_measure_workload]
+  before_action :set_player, only: [:show, :edit, :update, :destroy, :update_measure_austin, :update_measure_lewis, :update_measure_workload, :go_offline]
   before_action :authenticate_user!
   before_action :authenticate_admin, only: [:index]
   before_action :correct_user, only: [:show, :edit, :update]
@@ -10,58 +10,100 @@ class PlayersController < ApplicationController
   end
 
   def show
-    if @player.game.game_status == 100
-      # austin + workload + lewis
-      @total_surveys = 2+@player.teams.count
+    # Game Completed
+      if @player.game.game_status == 100        
+        # Survery Count = austin + workload + lewis
+          @total_surveys = 2+@player.teams.count
 
-      # for austin
-      @co_players = []
-      @player.game.players.each do |p|
-        @co_players << [p.id, p.user.name]
-      end
-      @measure_austin_options = [["Novice",1],["Advanced",2],["Expert",4]]
+        # Austin
+          if @player.measure_austin.is_complete == false
+            # list all team-members
+            @co_players = []
+            @player.game.players.each do |p|
+              @co_players << [p.id, p.player_screenname]
+            end
+            @measure_austin_options = [["Novice",1],["Advanced",2],["Expert",4]]
 
-    else
-      @current_month = @player.game.game_status
-      @current_quarter = ((@current_month-1)/3)+1
+        # Lewis
+          elsif @player.measure_lewis.sort_by(&:id)[0].is_complete == false
+        
+        # Conditional Lewis 
+          elsif @player.teams.count > 1 and @player.measure_lewis.sort_by(&:id)[1].is_complete == false
+          
+        # Workload
+          elsif @player.measure_workload.is_complete == false
+          
+        # Results
+          else
 
-      quarters_count = @player.game.game_length/3
-      @quarter_reports = Array.new(quarters_count){Array.new(3,0)}
-      reports = @player.player_monthly_reports.sort_by(&:month_no) 
-      quarters_count.times do |q|
-        3.times do |m|
-          if reports.detect {|r| r.month_no == q*3+m+1}
-            @quarter_reports[q][m] = reports.select {|r| r.month_no == q*3+m+1}
+            @players = @player.game.players.sort_by(&:id)
+            @player_project_profit = [0,0,0,0,0,0,0,0,0,0,0,0]
+
+            @players.each_with_index do |p,i|
+              p.teams.each do |t|
+                t.projects.each do |prj|
+                  prj.profit_total.each do |q|
+                    @player_project_profit[i] += q[2]
+                  end
+                end
+              end
+            end
+
+            @project_profits = []
+            @projects = @player.game.projects.sort_by(&:id)
+            @projects.each do |p|
+              @project_profits << p.profit_total.map {|r,e,p| p}.sum
+            end
           end
-        end
-      end
 
-      @player_projects = []
-      @player_project_profit = 0
-      @work_on_options = []
-      
-      @player.teams.each do |team|
-        team.projects.sort_by(&:id).each do |project|
-          if @player.game.game_status > 1
-            project.profit_total.each do |q_stats|
-              @player_project_profit += q_stats[2]
-            end 
-          end  
-          @player_project_profit += $STARTING_INVESTMENT    
-          @player_projects << project
-          @work_on_options << [project.project_name,project.project_monthly_reports.sort_by(&:created_at).last.id] if @player.game.game_status > 0
-        end
-      end
+    # Game in progress
+      else
 
-      @gs_adjustment_factor = $GAME_TYPES_LOOKUP[@player.game.game_type][:group_size]
-      @work_on_options = [['APP ------',@work_on_options],['NOTHING ------',[["do nothing",-1]]]]
-      @using_skill_options = [
-                              ['DO ------',[["App Dev",1],["Marketing",2],["Support",3]]],
-                              ['DO R&D ------',[["R&D on App Dev",5],["R&D on Marketing",6],["R&D on Support",7]]],
-                              ['IMPROVE ------',[["App Dev skills",11], ["Marketing skills",12], ["Support skills",13], ["R&D skills",14]]],
-                              ['NOTHING ------',[["do nothing",-1]]]
-                            ]
-    end
+        # Organize quaterly reports
+          @current_month = @player.game.game_status
+          @current_quarter = ((@current_month-1)/3)+1
+
+          quarters_count = @player.game.game_length/3
+          @quarter_reports = Array.new(quarters_count){Array.new(3,0)}
+          reports = @player.player_monthly_reports.sort_by(&:month_no) 
+          
+          quarters_count.times do |q|
+            3.times do |m|
+              if reports.detect {|r| r.month_no == q*3+m+1}
+                @quarter_reports[q][m] = reports.select {|r| r.month_no == q*3+m+1}
+              end
+            end
+          end
+        
+        # Calculate and organize project-wise profits
+          @player_projects = []
+          @player_project_profit = 0
+          @work_on_options = []
+
+          @player.teams.each do |team|
+            team.projects.sort_by(&:id).each do |project|
+              if @player.game.game_status > 1
+                project.profit_total.each do |q_stats|
+                  @player_project_profit += q_stats[2]
+                end 
+              end  
+              @player_project_profit += $STARTING_INVESTMENT    
+              @player_projects << project
+              @work_on_options << [project.project_name,project.project_monthly_reports.sort_by(&:created_at).last.id] if @player.game.game_status > 0
+            end
+          end
+
+        # Constants for display
+          @gs_adjustment_factor = $GAME_TYPES_LOOKUP[@player.game.game_type][:group_size]
+          @work_on_options = [['APP ------',@work_on_options],['NOTHING ------',[["do nothing",-1]]]]
+          @using_skill_options = [
+                                  ['DO ------',[["App Dev",1],["Marketing",2],["Support",3]]],
+                                  ['DO R&D ------',[["R&D on App Dev",5],["R&D on Marketing",6],["R&D on Support",7]]],
+                                  ['IMPROVE ------',[["App Dev skills",11], ["Marketing skills",12], ["Support skills",13], ["R&D skills",14]]],
+                                  ['NOTHING ------',[["do nothing",-1]]]
+                                ]
+
+      end
   end
 
   def new
@@ -162,6 +204,15 @@ class PlayersController < ApplicationController
 
     flash[:notice] = "Last survey saved successfully."
     redirect_to request.referrer
+  end
+
+  def go_offline
+    u = @player.user
+    u.user_status = "offline"
+    u.save
+    flash[:notice] = "Thank you for playing!"
+    sign_out u
+    redirect_to root_path
   end
 
   private
