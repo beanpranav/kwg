@@ -23,7 +23,7 @@
 			<% team = Team.find(@player.measure_lewis.sort_by(&:id)[lewis_no].team_id) %>
 			<div class="h-primary" style="margin:20px 0 -20px;">
 				<% if team.projects.count > 1 %>
-					Team Vandeley
+					For <%= team.projects[0].project_name %> and <%= team.projects[1].project_name %> Team
 				<% else %>
 		  		For <%= team.projects[0].project_name %> Team
 		  	<% end %>

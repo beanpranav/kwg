@@ -4,7 +4,7 @@
   </div>
 </div>
 
-<div class="panel-body" style="padding-bottom:25px;">
+<div class="panel-body" style="padding-bottom:40px;">
   
   <% if @player.game.is_paused %>
 
@@ -16,7 +16,7 @@
       <div class="col-sm-4 center">
         <div class="h-primary" style="margin-bottom:27px;">PERFORMANCE</div>
 
-        <table class="table table-condensed table-hover">
+        <table class="table table-condensed">
           
           <% performance = $STARTING_INVESTMENT %>
           <% project.profit_total.each_with_index do |q_profits,i| %>

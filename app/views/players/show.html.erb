@@ -27,6 +27,8 @@
             <div class="panel-primary">
               <div class="panel-title">
                 <%= @player.player_screenname %>
+                <!-- CHAT LINK -->
+                  <a target="_blank" href="https://cmukwd.slack.com/messages/general/team/<%= @player.user.first_name %>/" class="btn btn-sm btn-invert pull-right supress-a" style = "margin: -5px -9px 0 0;"><i class="fa fa-lg fa-comments"></i> &nbsp;Chat</a>
               </div>
             </div>
           </div>
@@ -131,8 +133,8 @@
             </div>
           </div>
 
-        <!-- CHAT LINK -->
-          <a target="_blank" href="https://cmukwg.slack.com/">Link to Team Chat</a>
+          <!-- CHAT LINK -->
+          <!-- <a target="_blank" href="https://cmukwd.slack.com/messages/general/team/<%= @player.user.first_name %>/">Link to Team Chat</a> -->
       </div>
 
     <!-- MAIN CONTAINER: TABS -->
@@ -148,7 +150,7 @@
                 <div class="panel-primary">
                   <div class="panel-title">
                     Work Calendar
-                    <a href="<%= player_path(@player) %>" class="btn btn-sm btn-invert pull-right supress-a" style = "margin: -5px; -5px 0 0"><i class="fa fa-refresh"></i> &nbsp;Refresh</a>
+                    <a href="<%= player_path(@player) %>" class="btn btn-sm btn-invert pull-right supress-a" style = "margin: -5px -9px 0 0;"><i class="fa fa-refresh"></i> &nbsp;Refresh</a>
                   </div>
                 </div>
               </div>
@@ -182,35 +184,35 @@
             <!-- ACCESS MANIPULATION: MEMBERS DETAILS -->
               <% if !@player.game.is_paused %>
 
-                <!-- TREATMENT CONDITON: SHOW SKILLS -->
-                  <% if @player.game.access_treatement %>
-                    <div class="content-container">
-                      <div class="panel-secondary">
-                        <div class="panel-title">
-                          <%= project.project_name %> :: Member's skills
-                        </div>
-                      </div>
+                <div class="content-container">
+                  <div class="panel-secondary">
+                    <div class="panel-title">
+                      <%= project.project_name %> :: Member's skills
+                    </div>
+                  </div>
 
-                      <div class="panel-body">
+                  <div class="panel-body">
 
-                        <table class="table table-condensed table-hover" style="margin:10px 0;">
-                          <thead>
-                            <tr>
-                              <th></th>
-                              <% 4.times do |i| %>
-                                <th class="center"><%= $SKILL_NAMES[i] %></th>
-                              <% end %>
-                            </tr>
-                          </thead>
+                    <table class="table table-condensed" style="margin:10px 0;">
+                      <thead>
+                        <tr>
+                          <th></th>
+                          <% 4.times do |i| %>
+                            <th class="center"><%= $SKILL_NAMES[i] %></th>
+                          <% end %>
+                        </tr>
+                      </thead>
 
-                          <tbody>
-                            <% project.team.players.sort_by(&:id).each do |p| %>
-                              <tr class="<%= "active" if p.user == current_user %>">
-                                <td style="padding:15px;">
-                                  <b><%= p.player_screenname %></b>
-                                </td>
-                                <% 4.times do |i| %>
-                                  <td class="col-md-3" style="padding:9px;">
+                      <tbody>
+                        <% project.team.players.sort_by(&:id).each do |p| %>
+                          <tr>
+                            <td class="<%= "active" if p.user == current_user %>" style="padding:15px;">
+                              <b><%= p.player_screenname %></b>
+                            </td>
+                            <% 4.times do |i| %>
+                              <td class="col-md-3" style="padding:9px;">
+                                <!-- TREATMENT CONDITON: SHOW SKILLS -->
+                                  <% if @player.game.access_treatement or p.user == current_user %>
                                     <% if p.skill_level[i] < 2 %>
                                       <div class="progress-level progress-bar-secondary center" style="line-height: 2.3; margin: 0 auto; width:80%; opacity:0.2"><%= $SKILL_LEVELS_NAMES[p.skill_level[i]][:name] %></div>
                                     <% elsif p.skill_level[i] > 3 %>
@@ -218,34 +220,21 @@
                                     <% else %>
                                       <div class="progress-level progress-bar-<%= i+1 %> center" style="line-height: 2.3; margin: 0 auto; width:80%; opacity:0.4"><%= $SKILL_LEVELS_NAMES[p.skill_level[i]][:name] %></div>
                                     <% end %>
-                                   
-                                  </td>
-                                <% end %>
+
+                                <!-- CONTROL CONDITON: SHOW ONLY MEMBER NAMES -->
+                                  <% else %>
+                                    <div class="progress-level progress-bar-secondary center" style="line-height: 2.3; margin: 0 auto; width:80%; opacity:0.2">?</div>
+                                  <% end %>
+                               
+                              </td>
                             <% end %>
-                          </tbody>
-                        </table>
-
-                      </div>
-
-                    </div>
-
-                <!-- CONTROL CONDITON: SHOW ONLY MEMBER NAMES -->
-                  <% else %>
-                    <div class="content-container">
-                      <div class="panel-secondary">
-                        <div class="panel-title">
-                          <%= project.project_name %> :: Team Members
-                        </div>
-                      </div>
-
-                      <div class="panel-body">
-                        <% project.team.players.sort_by(&:id).each do |p| %>
-                          <p><b><%= p.player_screenname %></b></p>
                         <% end %>
-                      </div>
-                    </div>
+                      </tbody>
+                    </table>
 
-                  <% end %>
+                  </div>
+
+                </div>
 
               <% end %>
 

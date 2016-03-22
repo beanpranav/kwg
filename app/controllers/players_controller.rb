@@ -99,7 +99,7 @@ class PlayersController < ApplicationController
           @using_skill_options = [
                                   ['DO ------',[["App Dev",1],["Marketing",2],["Support",3]]],
                                   ['DO R&D ------',[["R&D on App Dev",5],["R&D on Marketing",6],["R&D on Support",7]]],
-                                  ['IMPROVE ------',[["App Dev skills",11], ["Marketing skills",12], ["Support skills",13], ["R&D skills",14]]],
+                                  ['IMPROVE MY SKILL ---',[["Study App Dev",11], ["Study Marketing",12], ["Study Support",13], ["Study R&D",14]]],
                                   ['NOTHING ------',[["do nothing",-1]]]
                                 ]
 
@@ -209,6 +209,9 @@ class PlayersController < ApplicationController
   def go_offline
     u = @player.user
     u.user_status = "offline"
+    u.player_name = ""
+    u.player_screenname = ""
+    u.gender = ""
     u.save
     flash[:notice] = "Thank you for playing!"
     sign_out u
