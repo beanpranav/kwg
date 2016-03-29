@@ -120,11 +120,11 @@ $SKILL_PRODUCTIVITY =
 
 $RND_STAGES = 
 {
-	1..500 => { stage_no: 1, multiplier_1: 0.30, multiplier_2: 0.20, multiplier_3: 0.50 },
-	501..1500 => { stage_no: 2, multiplier_1: 0.60, multiplier_2: 0.50, multiplier_3: 0.80 },
-	1501..3000 => { stage_no: 3, multiplier_1: 0.80, multiplier_2: 0.75, multiplier_3: 0.95 },
-	3001..6000 => { stage_no: 4, multiplier_1: 0.95, multiplier_2: 0.95, multiplier_3: 0.99 },
-	6001..10000 => { stage_no: 5, multiplier_1: 1, multiplier_2: 1, multiplier_3: 1 }
+	1..1000 => { stage_no: 1, multiplier_1: 0.30, multiplier_2: 0.20, multiplier_3: 0.50 },
+	1001..2500 => { stage_no: 2, multiplier_1: 0.60, multiplier_2: 0.50, multiplier_3: 0.80 },
+	2501..4000 => { stage_no: 3, multiplier_1: 0.80, multiplier_2: 0.75, multiplier_3: 0.95 },
+	4001..7000 => { stage_no: 4, multiplier_1: 0.95, multiplier_2: 0.95, multiplier_3: 0.99 },
+	7001..10000 => { stage_no: 5, multiplier_1: 1, multiplier_2: 1, multiplier_3: 1 }
 }
 
 $STATS_NAMES = ["Max User Capacity", "Demand Generated", "Users Supported", "R&D Area Selected"]
@@ -134,7 +134,7 @@ $RND_BENEFITS = ["Technical Stability", "App Desireability", "User Satisfaction"
 $SUPPORTED_CONVERSION = 0.9
 $UNSUPPORTED_CONVERSION = 0.2
 $MARKET_CONVERSION = 1
-$PRODUCT_UNIT_COST = 2
+$PRODUCT_UNIT_COST = 5
 $STARTING_INVESTMENT = 20000
 
 

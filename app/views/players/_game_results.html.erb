@@ -37,7 +37,7 @@
                       <tr>
                         <td><b><%= project.project_name %></b></td> 
                         <td><%= project.users_total[-1][2] %></td>
-                        <td><%= number_to_currency(@project_profits[i], negative_format: "(%u%n)", precision: 0) %></td>
+                        <td><%= number_to_currency(@project_profits[i]+$STARTING_INVESTMENT, negative_format: "(%u%n)", precision: 0) %></td>
                       </tr>
                     <% end %>
                   </tbody>
@@ -70,7 +70,7 @@
                       <tr class="<%= "active" if player.user == current_user %>">
                         <td><b><%= player.player_screenname %></b></td> 
                         <td><%= number_to_currency(player.salary_total, negative_format: "(%u%n)", precision: 0) %></td>
-                        <td><%= number_to_currency(@player_project_profit[i], negative_format: "(%u%n)", precision: 0) %></td>
+                        <td><%= number_to_currency(@player_project_profit[i]+$STARTING_INVESTMENT, negative_format: "(%u%n)", precision: 0) %></td>
                       </tr>
                     <% end %>
                   </tbody>

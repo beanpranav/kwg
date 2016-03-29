@@ -31,10 +31,10 @@ module PlayersHelper
 
   def lewis_scale
     {
-      1 =>  "6. Each team member has specialized knowledge of some aspect of our project.", 
-      2 =>  "4. I have knowledge about an aspect of the project that no other team member has.", 
+      1 =>  "6. Each team member has specialized skills for some aspect of our project.", 
+      2 =>  "4. I have skills about an aspect of the project that no other team member has.", 
       3 =>  "3. Different team members are responsible for expertise in different areas.", 
-      4 =>  "9. The specialized knowledge of different team members was needed to complete the project.",
+      4 =>  "9. The specialized skills of different team members was needed to complete the project.",
       5 =>  "11. I know which team members have expertise in specific areas.",
     
       6 =>  "14. I was comfortable accepting procedural suggestions from other team members.", 
