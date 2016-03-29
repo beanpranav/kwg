@@ -31,26 +31,48 @@ class PagesController < ApplicationController
     if (params[:a1] == "1" and params[:a2] == "1")
       user.tut1 = true
       user.save
-      flash[:notice] = "Read and complete the consent form below."
+      flash[:notice] = "Great you are on track! Let's understand the game now."
       redirect_to request.referrer
     else
       user.tut1 = false
       user.save
-      flash[:notice] = "Some of your answers were incorrect. Please retry."
+      flash[:notice] = "!!! Some of your answers were incorrect. Please retry."
       redirect_to request.referrer
     end
   end
 
   def activate_tut2
     user = User.find(params[:user_id])
+    if (params[:a3] == "1" and params[:a4] == "1")
+      user.tut2 = true
+      user.save
+      flash[:notice] = "Great you are on track! Let's understand the playing now."
+      redirect_to request.referrer
+    else
+      user.tut2 = false
+      user.save
+      flash[:notice] = "!!! Some of your answers were incorrect. Please retry."
+      redirect_to request.referrer
+    end
   end
 
   def activate_tut3
     user = User.find(params[:user_id])
-
-    if (user.valid_age and user.valid_read and user.valid_consent)
+    if (params[:a5] == "1" and params[:a6] == "1")
+      user.tut3 = true
       user.user_status = "active"
       user.save
+      flash[:notice] = "Great you are on track! Let's understand the game now."
+      redirect_to request.referrer
+    else
+      user.tut3 = false
+      user.save
+      flash[:notice] = "Some of your answers were incorrect. Please retry."
+      redirect_to request.referrer
+    end
+
+    if (user.valid_age and user.valid_read and user.valid_consent)
+      
     else
     end
   end

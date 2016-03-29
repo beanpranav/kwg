@@ -280,7 +280,7 @@
 							      <tbody>
 
 						          	<tr><td style="padding: 20px;">
-							            <b>1. Do you need to know all the technical details of App Development to be able to play the game?</b><br>
+							            <b>1. Do you need to know all the actual technical details of 'App Development process' to be able to play the game?</b><br>
 						  						<p class="form-radio">
 													  <%= radio_button_tag(:a1, 0) %> Yes 
 													  <br>
@@ -291,9 +291,9 @@
 												<tr><td style="padding: 20px;">
 							            <b>2. Whose performance is most important?</b><br>
 						  						<p class="form-radio">
-													  <%= radio_button_tag(:a1, 1) %> My Team's Performance 
+													  <%= radio_button_tag(:a2, 1) %> My Team's Performance 
 													  <br>
-													  <%= radio_button_tag(:a1, 0) %> My Personal Performance 
+													  <%= radio_button_tag(:a2, 0) %> My Personal Performance 
 													</p>
 												</tr>
 
@@ -331,9 +331,33 @@
 					  		</div>
 
 				  			<%= form_tag("/activate_tut2", method: :post) do %>
+									
+									<table class="table table-condensed table-hover" style="margin:30px 0px;">
+							      <tbody>
+
+						          	<tr><td style="padding: 20px;">
+							            <b>1. Doing App Development (Blue) for vChat increases ... </b><br>
+						  						<p class="form-radio">
+													  <%= radio_button_tag(:a3, 1) %> vChat's Maximum User Capacity (Blue)
+													  <br>
+													  <%= radio_button_tag(:a3, 0) %> vChat's Demand Generated (Red)
+													</p>
+												</tr>
+
+												<tr><td style="padding: 20px;">
+							            <b>2. Studying App Development under vPhotos increase ... </b><br>
+						  						<p class="form-radio">
+													  <%= radio_button_tag(:a4, 0) %> vPhoto's Maximum User Capacity
+													  <br>
+													  <%= radio_button_tag(:a4, 1) %> My App Development Skill and vPhotos pays your wages  
+													</p>
+												</tr>
+
+										</tbody>
+									</table>
 
 				  				<%= hidden_field_tag(:user_id, current_user.id) %>
-
+										
 									<div class="center col-sm-6 col-sm-offset-3 button-padding">
 					          <%= submit_tag "SUBMIT & NEXT", class: "btn btn-block btn-green" %>
 					        </div>
@@ -363,6 +387,29 @@
 					  		</div>
 
 				  			<%= form_tag("/activate_tut3", method: :post) do %>
+										<table class="table table-condensed table-hover" style="margin:30px 0px;">
+							      <tbody>
+
+										<tr><td style="padding: 20px;">
+					            <b>1. Profits are calculated at the end of every ... </b><br>
+				  						<p class="form-radio">
+											  <%= radio_button_tag(:a5, 1) %> Quarter
+											  <br>
+											  <%= radio_button_tag(:a5, 0) %> Month
+											</p>
+										</tr>
+
+										<tr><td style="padding: 20px;">
+					            <b>2. The goal of the game is to ... </b><br>
+				  						<p class="form-radio">
+											  <%= radio_button_tag(:a6, 1) %> Maximize App profits for this year by discussing 'who does what' with the teams I am on
+											  <br>
+											  <%= radio_button_tag(:a6, 0) %> Not discuss anything with other members and so what i want
+											</p>
+										</tr>
+
+										</tbody>
+									</table>
 
 				  				<%= hidden_field_tag(:user_id, current_user.id) %>
 
