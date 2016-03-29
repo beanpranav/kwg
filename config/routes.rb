@@ -32,6 +32,10 @@ Rails.application.routes.draw do
   get "tutorial_gameplay_results" => "pages#tutorial_gameplay_results"
 
   post "activate_user" => "pages#activate_user"
+  post "activate_tut0" => "pages#activate_tut0"
+  post "activate_tut1" => "pages#activate_tut1"
+  post "activate_tut2" => "pages#activate_tut2"
+  post "activate_tut3" => "pages#activate_tut3"
   
   root 'pages#home'
 

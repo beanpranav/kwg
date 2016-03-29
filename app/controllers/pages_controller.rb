@@ -18,6 +18,43 @@ class PagesController < ApplicationController
  	def demo_screenshots
  	end
 
+  def activate_tut0
+    user = User.find(params[:user_id])
+    user.tut0 = true
+    user.save
+    flash[:notice] = "Read and complete the consent form below."
+    redirect_to request.referrer
+  end
+
+  def activate_tut1
+    user = User.find(params[:user_id])
+    if (params[:a1] == "1" and params[:a2] == "1")
+      user.tut1 = true
+      user.save
+      flash[:notice] = "Read and complete the consent form below."
+      redirect_to request.referrer
+    else
+      user.tut1 = false
+      user.save
+      flash[:notice] = "Some of your answers were incorrect. Please retry."
+      redirect_to request.referrer
+    end
+  end
+
+  def activate_tut2
+    user = User.find(params[:user_id])
+  end
+
+  def activate_tut3
+    user = User.find(params[:user_id])
+
+    if (user.valid_age and user.valid_read and user.valid_consent)
+      user.user_status = "active"
+      user.save
+    else
+    end
+  end
+
   def activate_user
   	user = User.find(params[:user_id])
     user.player_name = params[:full_name]
@@ -29,11 +66,18 @@ class PagesController < ApplicationController
     user.save
     
     if (user.valid_age and user.valid_read and user.valid_consent)
-  	  user.user_status = "active"
-  	  user.save
+      flash[:notice] = "Let's begin the Tutorial"
   	  redirect_to request.referrer
     else
-      flash[:notice] = "Thank you for your interest."
+      user.player_name = ""
+      user.player_screenname = ""
+      user.gender = ""
+      user.valid_age = false
+      user.valid_read = false
+      user.valid_consent = false
+      user.user_status = "offline"
+      user.save
+      flash[:notice] = "Some fields were not filled properly - please refill the form and submit again."
       redirect_to request.referrer
     end
   end

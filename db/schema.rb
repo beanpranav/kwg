@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160317013411) do
+ActiveRecord::Schema.define(version: 20160329163951) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -88,14 +88,6 @@ ActiveRecord::Schema.define(version: 20160317013411) do
     t.boolean  "valid_consent",      default: false
   end
 
-  create_table "project_goals", force: true do |t|
-    t.integer  "project_id"
-    t.integer  "player_id"
-    t.string   "goal_statement"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
   create_table "project_monthly_reports", force: true do |t|
     t.integer  "project_id"
     t.datetime "created_at"
@@ -130,14 +122,6 @@ ActiveRecord::Schema.define(version: 20160317013411) do
     t.datetime "updated_at"
   end
 
-  create_table "team_strategies", force: true do |t|
-    t.integer  "team_id"
-    t.integer  "player_id"
-    t.string   "strategy_statement"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
   create_table "teams", force: true do |t|
     t.string   "team_name"
     t.integer  "game_id"
@@ -167,6 +151,10 @@ ActiveRecord::Schema.define(version: 20160317013411) do
     t.boolean  "valid_age",              default: false
     t.boolean  "valid_read",             default: false
     t.boolean  "valid_consent",          default: false
+    t.boolean  "tut0",                   default: false
+    t.boolean  "tut1",                   default: false
+    t.boolean  "tut2",                   default: false
+    t.boolean  "tut3",                   default: false
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
