@@ -152,7 +152,7 @@
 
 				  			<p>
 				  				<b>Procedures</b><br>
-				  				In this study, you will be asked to work with multiple team members across different decision making tasks over a course of 2 hours. You will be interacting with members of your team only via online team-chat, there is no face-to-face or video interaction involved. You will have the option of choosing a screen-name: It can be your first name or something else if you wish to do so. Only your chat conversations and screen-name will be visible to other participants. At the conclusion of your team’s work, you will be asked to complete a brief survey about your experiences with the team and the task.
+				  				In this study, you will be asked to work with multiple team members across different decision making tasks over a course of 2 hours. You will be interacting with members of your team only via online team-chat, there is no face-to-face or video interaction involved. You will be assigned a unique screen-name. Only your chat conversations and screen-name will be visible to other participants. At the conclusion of your team’s work, you will be asked to complete a brief survey about your experiences with the team and the task.
 				  			</p>
 
 				  			<p>
@@ -202,48 +202,53 @@
 				  		<!-- FORM ITEMS -->
 
 								<%= form_tag("/activate_user", method: :post) do %>
-									<div class="row">
-									  <div class="col-xs-12 col-sm-3">
-									    <div class="form-label"><b>Sign Full Name</b></div>
-									    <div class="form-label"><b>Choose Screen Name</b></div>
-									    <div class="form-label"><b>Your Gender</b></div>
-									  </div>
-									  <div class="col-xs-12 col-sm-9">
-											<%= text_field_tag :full_name, nil, placeholder: "full name", class: "form-control" %>
-											<%= text_field_tag :screen_name, nil, placeholder: "in-game screen name (often your first name)", class: "form-control" %>
-											<div class="form-control-select">
-								        <%= select_tag :gender, options_for_select(["Male","Female","Other"]), class: "form-control" %>
-								      </div>
-										</div>
-									</div><br>
+									
 
 									<div class="row">
+									  
+										<div class="col-xs-12 col-sm-9">
+									    <div class="form-label" style="text-align:left; padding: 10px 0 6px 30px;"><b>I am age 18 or older.</b></div>
+									    <div class="form-label" style="text-align:left; padding: 11px 0 6px 30px;"><b>I have read and understand the information above.</b></div>
+									    <div class="form-label" style="text-align:left; padding: 12px 0 6px 30px;"><b>I want to participate in this research and continue with the game.</b></div>
+									  </div>
+
 									  <div class="col-xs-12 col-sm-3">
-									  	<p class="form-radio" style="text-align:right;">
+									  	<p class="form-radio">
 											  <%= radio_button_tag(:age, true) %>
 											  <%= label_tag(:age_true, "Yes") %> &nbsp; &nbsp;
 											  <%= radio_button_tag(:age, false, true) %>
 											  <%= label_tag(:age_false, "No") %>
 											</p>
-											<p class="form-radio" style="text-align:right;">
+											<p class="form-radio">
 											  <%= radio_button_tag(:read, true) %>
 											  <%= label_tag(:read_true, "Yes") %> &nbsp; &nbsp;
 											  <%= radio_button_tag(:read, false, true) %>
 											  <%= label_tag(:read_false, "No") %>
 											</p>
-											<p class="form-radio" style="text-align:right;">
+											<p class="form-radio">
 											  <%= radio_button_tag(:consent, true) %>
 											  <%= label_tag(:consent_true, "Yes") %> &nbsp; &nbsp;
 											  <%= radio_button_tag(:consent, false, true) %>
 											  <%= label_tag(:consent_false, "No") %>
 											</p>
 										</div>
-										<div class="col-xs-12 col-sm-9">
-									    <div class="form-label" style="text-align:left; padding: 10px 0 6px 4px;">I am age 18 or older.</div>
-									    <div class="form-label" style="text-align:left; padding: 11px 0 6px 4px;">I have read and understand the information above.</div>
-									    <div class="form-label" style="text-align:left; padding: 12px 0 6px 4px;">I want to participate in this research and continue with the game.</div>
-									  </div>
 									</div>
+
+									<div class="row">
+									  <div class="col-xs-12 col-sm-3">
+									    <div class="form-label" style="text-align:left; padding-left: 30px;"><b>Your Gender</b></div>
+									    <br><br>
+									    <div class="form-label" style="text-align:left; padding-left: 30px;"><b>Sign Full Name</b></div>
+									  </div>
+									  <div class="col-xs-12 col-sm-9">
+											<div class="form-control-select">
+								        <%= select_tag :gender, options_for_select(["Male","Female","Other"]), class: "form-control" %>
+								      </div>
+								      <br><br>
+											<%= text_field_tag :full_name, nil, placeholder: "full name", class: "form-control" %>
+										</div>
+									</div><br>
+									<div class="center">Your in-game username is <b><%= current_user.player_screenname %></b></div>
 
 									<%= hidden_field_tag(:user_id, current_user.id) %>
 
@@ -345,11 +350,11 @@
 												</tr>
 
 												<tr><td style="padding: 20px;">
-							            <b>2. Studying App Development under vPhotos increase ... </b><br>
+							            <b>2. Studying App Development under vPhotos increases ... </b><br>
 						  						<p class="form-radio">
 													  <%= radio_button_tag(:a4, 0) %> vPhoto's Maximum User Capacity
 													  <br>
-													  <%= radio_button_tag(:a4, 1) %> My App Development Skill and vPhotos pays your wages  
+													  <%= radio_button_tag(:a4, 1) %> My App Development Skill and vPhotos bears my cost  
 													</p>
 												</tr>
 
@@ -391,7 +396,7 @@
 							      <tbody>
 
 										<tr><td style="padding: 20px;">
-					            <b>1. Profits are calculated at the end of every ... </b><br>
+					            <b>1. Each App's profits are calculated at the end of every ... </b><br>
 				  						<p class="form-radio">
 											  <%= radio_button_tag(:a5, 1) %> Quarter
 											  <br>
@@ -438,9 +443,14 @@
 
 						<div class="h-primary">STAGE 1 COMPLETE</div>
 
-						<h3 class="center">please let the researcher know <br>and wait for the computer to assign you a game</h3>	
+						<h3 class="center">please let the researcher know and <br>wait for the computer to assign you a game</h3>	
 						<div class="center col-sm-6 col-sm-offset-3 button-padding">
 		          <button type="button" class="btn btn-block btn-orange active">LOOKING FOR GAME ...</button>
+		          <%= link_to root_path do %>
+							<div class="button-padding">
+			          <button type="button" class="btn btn-block btn-green">REFRESH PAGE</button>
+			        </div>
+			      <% end %>
 		        </div>
 
 		      </div>

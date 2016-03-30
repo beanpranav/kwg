@@ -8,6 +8,9 @@ class PagesController < ApplicationController
 				@games_in_progress = @games_created.select { |x| x["game_status"] <= x["game_length"] }
 			else
 				@current_game_screen = current_user.players.sort_by(&:id).last
+        if current_user.user_status == "playing"
+          redirect_to player_path(@current_game_screen)
+        end
 			end
 
     else
@@ -80,19 +83,17 @@ class PagesController < ApplicationController
   def activate_user
   	user = User.find(params[:user_id])
     user.player_name = params[:full_name]
-    user.player_screenname = params[:screen_name]
     user.gender = params[:gender]
     user.valid_age = params[:age]
     user.valid_read = params[:read]
     user.valid_consent = params[:consent]
     user.save
     
-    if (user.valid_age and user.valid_read and user.valid_consent)
+    if (user.valid_age and user.valid_read and user.valid_consent and user.player_name != '')
       flash[:notice] = "Let's begin the Tutorial"
   	  redirect_to request.referrer
     else
       user.player_name = ""
-      user.player_screenname = ""
       user.gender = ""
       user.valid_age = false
       user.valid_read = false

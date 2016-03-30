@@ -95,12 +95,11 @@ class PlayersController < ApplicationController
 
         # Constants for display
           @gs_adjustment_factor = $GAME_TYPES_LOOKUP[@player.game.game_type][:group_size]
-          @work_on_options = [['APP ------',@work_on_options],['NOTHING ------',[["do nothing",-1]]]]
+          @work_on_options = [['APP ------',@work_on_options]]
           @using_skill_options = [
                                   ['DO ------',[["App Dev",1],["Marketing",2],["Support",3]]],
                                   ['DO R&D ------',[["R&D on App Dev",5],["R&D on Marketing",6],["R&D on Support",7]]],
-                                  ['IMPROVE MY SKILL ---',[["Study App Dev",11], ["Study Marketing",12], ["Study Support",13], ["Study R&D",14]]],
-                                  ['NOTHING ------',[["do nothing",-1]]]
+                                  ['IMPROVE MY SKILL ---',[["Study App Dev",11], ["Study Marketing",12], ["Study Support",13], ["Study R&D",14]]]
                                 ]
 
       end
