@@ -133,6 +133,10 @@ class GamesController < ApplicationController
         player_report = PlayerMonthlyReport.find_by(player_id: player.id, month_no: @game.game_status)
 
         player_report.work_schedules.each do |ws|
+          if ws.project_monthly_report_id == nil
+            ws.project_monthly_report_id = 0
+            ws.save
+          end
           unless ws.skill_use.to_i <= 0 or ws.project_monthly_report_id <= 0
             # set skill no used
             if ws.skill_use.to_i > 4 and ws.skill_use.to_i < 8 
