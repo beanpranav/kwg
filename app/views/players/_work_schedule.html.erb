@@ -100,7 +100,7 @@
                           end %>">
                       <div class="work-container-text">
                         <% if work_item.skill_use.to_i > 10 %>
-                          skill @<%= work_item.project_monthly_report.project.project_name %>
+                          skill @<%= work_item.project_monthly_report.project.project_name if work_item.project_monthly_report.project %>
                         <% else %>
                           <%= if work_item.project_monthly_report then work_item.project_monthly_report.project.project_name end %>
                         <% end %>
