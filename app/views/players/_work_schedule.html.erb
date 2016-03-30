@@ -99,10 +99,10 @@
                           else "work-bg-green" 
                           end %>">
                       <div class="work-container-text">
-                        <% if work_item.skill_use.to_i > 10 %>
-                          skill @<%= work_item.project_monthly_report.project.project_name if work_item.project_monthly_report.project %>
+                        <% if work_item.skill_use.to_i > 10 and work_item.project_monthly_report.project %>
+                          skill @<%= work_item.project_monthly_report.project.project_name %>
                         <% else %>
-                          <%= if work_item.project_monthly_report then work_item.project_monthly_report.project.project_name end %>
+                          <%= if work_item.project_monthly_report and work_item.project_monthly_report.project then work_item.project_monthly_report.project.project_name end %>
                         <% end %>
                       </div> 
                     </div>
