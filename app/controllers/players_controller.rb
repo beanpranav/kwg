@@ -209,8 +209,14 @@ class PlayersController < ApplicationController
     u = @player.user
     u.user_status = "offline"
     u.player_name = ""
-    u.player_screenname = ""
     u.gender = ""
+    u.valid_age = false
+    u.valid_read = false
+    u.valid_consent = false
+    u.tut0 = false
+    u.tut1 = false
+    u.tut2 = false
+    u.tut3 = false
     u.save
     flash[:notice] = "Thank you for playing!"
     sign_out u

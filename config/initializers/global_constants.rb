@@ -150,3 +150,19 @@ $HELP_TEXT =
 	1 => "Indirectly improves Demand Generated",
 	2 => "Indirectly improves Users Supported"
 }
+
+$PROTIP =
+{
+	1 => { id: 0, text: ""},
+	2 => { id: 1, text: "<b>PRO TIP 1: Balance learning with work.</b><br>More learning is good: It makes you more productive but it also makes you a costly resource. Importantly, it takes away time from revenue generating tasks. You don’t want your projects to be in debt!"},
+	3 => { id: 0, text: ""},
+	4 => { id: 1, text: "<b>PRO TIP 2: Doing R&D for projects makes your work more effective!</b><br>It acts as a multiplier to all your task efforts but too much of R&D spending and your project profits will take a hit!"},
+	5 => { id: 0, text: ""},
+	6 => { id: 1, text: "<b>PRO TIP 3: Your Active Users will need some support!</b><br>Don’t leave them hanging. Remember supported customers pay again every quarter."},
+	7 => { id: 0, text: ""},
+	8 => { id: 1, text: "<b>PRO TIP 4: Knowing what your team members are good at makes coordination easier.</b>"},
+	9 => { id: 0, text: ""},
+	10 => { id: 0, text: ""},
+	11 => { id: 0, text: ""},
+	12 => { id: 0, text: ""}
+}
