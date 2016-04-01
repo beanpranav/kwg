@@ -267,7 +267,7 @@
                         <td style="padding-left:22px; border-right-width: 2px;"><b><%= project.project_name %></b></td>  
                         <td class="center"><%= project.rnd_total_points.sum %></td>
                         <td class="center"><%= project.users_total[-1][2] %></td>
-                        <td class="center"><%= number_to_currency(@project_profits[i], negative_format: "(%u%n)", precision: 0) %></td>
+                        <td class="center"><%= number_to_currency(@project_profits[i]+$STARTING_INVESTMENT, negative_format: "(%u%n)", precision: 0) %></td>
                       </tr>
                     <% end %>
                   </tbody>
@@ -297,7 +297,7 @@
                         <td style="padding-left:10px; border-right-width: 2px;"><b><a target="_blank" href="<%= player_path(player) %>"><%= player.player_screenname %></a></b></td>
                         <td><%= player.skill_total_points.sum %></td>
                         <td><%= number_to_currency(player.salary_total, negative_format: "(%u%n)", precision: 0) %></td>
-                        <td><%= number_to_currency(@player_project_profit[i], negative_format: "(%u%n)", precision: 0) %></td>
+                        <td><%= number_to_currency(@player_project_profit[i]++$STARTING_INVESTMENT*2, negative_format: "(%u%n)", precision: 0) %></td>
                       </tr>
                     <% end %>
                   </tbody>
