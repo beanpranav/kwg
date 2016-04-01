@@ -133,7 +133,7 @@ $RND_STAGES =
 	1001..2500 => { stage_no: 2, multiplier_1: 0.60, multiplier_2: 0.50, multiplier_3: 0.80 },
 	2501..4000 => { stage_no: 3, multiplier_1: 0.80, multiplier_2: 0.75, multiplier_3: 0.95 },
 	4001..7000 => { stage_no: 4, multiplier_1: 0.95, multiplier_2: 0.95, multiplier_3: 0.99 },
-	7001..10000 => { stage_no: 5, multiplier_1: 1, multiplier_2: 1, multiplier_3: 1 }
+	7001..17000 => { stage_no: 5, multiplier_1: 1, multiplier_2: 1, multiplier_3: 1 }
 }
 
 $STATS_NAMES = ["Max User Capacity", "Demand Generated", "Users Supported", "R&D Area Selected"]
