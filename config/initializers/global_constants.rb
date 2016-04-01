@@ -1,5 +1,6 @@
 $GAME_TYPES = 
 [
+	['N = 2; GS = 2; MTM(n,v) = 2,1', 21],
 	['N = 3; GS = 3; MTM(n,v) = 2,1', 31],
 	['N = 4; GS = 2; MTM(n,v) = 2,2', 25],
 	['N = 5; GS = 5; MTM(n,v) = 2,1', 51],
@@ -11,6 +12,14 @@ $GAME_TYPES =
 
 $GAME_TYPES_LOOKUP = 
 {
+	21 => {
+				name: 'N= 2; GS= 2; MTM(n,v)=2,1', 
+				group_size: 2,
+				n: 2,
+				teams: 1,
+				project_split: [2],
+				membership_split: [[1,2]]
+				},
 	25 => {
 				name: 'N= 4; GS= 2; MTM(n,v)=2,2', 
 				group_size: 2,
@@ -153,6 +162,7 @@ $HELP_TEXT =
 
 $PROTIP =
 {
+	0 => { id: 0, text: ""},
 	1 => { id: 0, text: ""},
 	2 => { id: 1, text: "<b>PRO TIP 1: Balance learning with work.</b><br>More learning is good: It makes you more productive but it also makes you a costly resource. Importantly, it takes away time from revenue generating tasks. You don’t want your projects to be in debt!"},
 	3 => { id: 0, text: ""},

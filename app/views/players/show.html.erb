@@ -4,14 +4,14 @@
 <!-- GAME COMPLETED: ADMINISTER SURVEYS -->
   <% elsif @player.game.game_status == 100 %>
 
-    <% if @player.measure_austin.is_complete == false %>
+    <% if @player.measure_workload.is_complete == false %>
+      <%= render "players/measure_workload" %>
+    <% elsif @player.measure_austin.is_complete == false %>
       <%= render "players/measure_austin" %>
     <% elsif @player.measure_lewis.sort_by(&:id)[0].is_complete == false %>
       <%= render "players/measure_lewis", lewis_no: 0 %>
     <% elsif @player.teams.count > 1 and @player.measure_lewis.sort_by(&:id)[1].is_complete == false %>
       <%= render "players/measure_lewis", lewis_no: 1 %>
-    <% elsif @player.measure_workload.is_complete == false %>
-      <%= render "players/measure_workload" %>
     <% else %>
       <%= render "players/game_results" %>
     <% end %>
