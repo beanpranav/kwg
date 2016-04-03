@@ -86,7 +86,7 @@ $SKILL_LEVELS =
 	401..600 => 3,
 	601..800 => 4,
 	801..1100 => 5,
-	1101..6000 => 6
+	1101..5000 => 6
 }
 
 $SKILL_LEVELS_NAMES = 
@@ -124,17 +124,16 @@ $SKILL_PRODUCTIVITY =
 	1 => { 1 => 2400, 2 => 4800, 3 => 7200, 4 => 11400, 5 => 13800, 6 => 15000},
 	2 => { 1 => 2400, 2 => 4800, 3 => 7200, 4 => 11400, 5 => 13800, 6 => 15000},
 	3 => { 1 => 2400, 2 => 4800, 3 => 7200, 4 => 11400, 5 => 13800, 6 => 15000},
-	4 => { 1 => 2400, 2 => 4800, 3 => 7200, 4 => 11400, 5 => 13800, 6 => 15000}
+	4 => { 1 => 1200, 2 => 2400, 3 => 3600, 4 => 5700, 5 => 6900, 6 => 7500}
 }
 
 $RND_STAGES = 
 {
 	1..1000 => { stage_no: 1, multiplier_1: 0.30, multiplier_2: 0.20, multiplier_3: 0.50 },
 	1001..2500 => { stage_no: 2, multiplier_1: 0.60, multiplier_2: 0.50, multiplier_3: 0.80 },
-	2501..5000 => { stage_no: 3, multiplier_1: 0.80, multiplier_2: 0.75, multiplier_3: 0.95 },
-	5001..9000 => { stage_no: 4, multiplier_1: 0.95, multiplier_2: 0.95, multiplier_3: 0.99 },
-	9001..30000 => { stage_no: 5, multiplier_1: 1, multiplier_2: 1, multiplier_3: 1 }
-	30001..90000 => { stage_no: 6, multiplier_1: 1, multiplier_2: 1, multiplier_3: 1 }
+	2501..6000 => { stage_no: 3, multiplier_1: 0.80, multiplier_2: 0.75, multiplier_3: 0.95 },
+	6001..10000 => { stage_no: 4, multiplier_1: 0.95, multiplier_2: 0.95, multiplier_3: 0.99 },
+	10001..30000 => { stage_no: 5, multiplier_1: 1, multiplier_2: 1, multiplier_3: 1 }
 }
 
 $STATS_NAMES = ["Max User Capacity", "Demand Generated", "Users Supported", "R&D Area Selected"]
@@ -144,7 +143,7 @@ $RND_BENEFITS = ["Technical Stability", "App Desireability", "User Satisfaction"
 $SUPPORTED_CONVERSION = 0.9
 $UNSUPPORTED_CONVERSION = 0.2
 $MARKET_CONVERSION = 1
-$PRODUCT_UNIT_COST = 6
+$PRODUCT_UNIT_COST = 10
 $STARTING_INVESTMENT = 20000
 
 
@@ -167,13 +166,14 @@ $PROTIP =
 	1 => { id: 0, text: ""},
 	2 => { id: 1, text: "<b>PRO TIP 1: Balance learning with work.</b><br>More learning is good: It makes you more productive but it also makes you a costly resource. Importantly, it takes away time from revenue generating tasks. You don’t want your projects to be in debt!"},
 	3 => { id: 0, text: ""},
-	4 => { id: 1, text: "<b>PRO TIP 2: Doing R&D for projects makes your work more effective!</b><br>It acts as a multiplier to all your task efforts but too much of R&D spending and your project profits will take a hit!"},
+	4 => { id: 1, text: "<b>PRO TIP 2: Knowing what your team members are good at makes coordination easier.</b>"},
 	5 => { id: 0, text: ""},
 	6 => { id: 1, text: "<b>PRO TIP 3: Your Active Users will need some support!</b><br>Don’t leave them hanging. Remember supported customers pay again every quarter."},
 	7 => { id: 0, text: ""},
-	8 => { id: 1, text: "<b>PRO TIP 4: Knowing what your team members are good at makes coordination easier.</b>"},
+	8 => { id: 1, text: "<b>PRO TIP 4: Doing R&D for projects makes your work more effective!</b><br>It acts as a multiplier to all your task efforts but too much of R&D spending and your project profits will take a hit!"},
 	9 => { id: 0, text: ""},
 	10 => { id: 0, text: ""},
 	11 => { id: 0, text: ""},
-	12 => { id: 0, text: ""}
+	12 => { id: 0, text: ""},
+	13 => { id: 0, text: ""}
 }
