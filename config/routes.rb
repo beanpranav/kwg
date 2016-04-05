@@ -18,6 +18,7 @@ Rails.application.routes.draw do
       post :complete_game
       post :continue_game
       post :generate_forms
+      post :generate_results
     end
   end
 

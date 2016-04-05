@@ -1,5 +1,5 @@
 class GamesController < ApplicationController
-  before_action :set_game, only: [:show, :edit, :update, :destroy, :continue_game, :complete_game, :generate_forms]
+  before_action :set_game, only: [:show, :edit, :update, :destroy, :continue_game, :complete_game, :generate_forms, :generate_results]
   before_action :authenticate_user!
   before_action :authenticate_admin, only: [:index]
   before_action :correct_user, only: [:show, :edit, :update]
@@ -371,6 +371,13 @@ class GamesController < ApplicationController
     @game.game_status = 100
     @game.save
     flash[:notice] = "Forms Generated. Awaiting submission by players."
+    redirect_to request.referrer
+  end
+
+  def generate_results
+    @game.game_status = 101
+    @game.save
+    flash[:notice] = "Game Marked Complete and now showing results"
     redirect_to request.referrer
   end
 

@@ -136,12 +136,17 @@
 
           <% end %>
       
+      <!-- GAME COMPLETED: RESULTS -->
+        <% elsif @game.game_status == 101 %>
+          <div class="h-primary">GAME COMPLETED</div>
+          
+          <h3 class="center">Game Results</h3>
+
       <!-- GAME COMPLETED: FORMS -->
         <% else %>
           <div class="h-primary">GAME COMPLETED</div>
           
           <h3 class="center">Forms and other data.</h3>
-          <!-- button for next steps -->
           
           <% if @game.game_status != 100 %>
             <%= form_tag "/games/#{@game.id}/generate_forms" do %>
@@ -156,21 +161,22 @@
             <table class="table table-condensed col-sm-8 col-sm-offset-2" style="width: 70%; margin-top:20px;">
               <thead>
                 <th></th>
+                <th class="center">Workload Scale</th>
                 <th class="center">Austin Scale</th>
                 <th class="center">Lewis Scale</th>
-                <th class="center">Workload Scale</th>
               </thead>
               <tbody>
                 <% @players.sort_by(&:member_no).each do |player| %>
                   <tr>
                     <td><b><%= player.player_screenname %></b></td>  
+                    <td class="center <%= if player.measure_workload.is_complete then "font-green" else "font-invert" end %>"><i class="fa fa-lg fa-check"></i></td>
                     <td class="center <%= if player.measure_austin.is_complete then "font-green" else "font-invert" end %>"><i class="fa fa-lg fa-check"></i></td>
                     <% if player.teams.count > 1 %>
                       <td class="center <%= if player.measure_lewis[0].is_complete and player.measure_lewis[1].is_complete then "font-green" else "font-invert" end %>"><i class="fa fa-lg fa-check"></i></td>
                     <% else %>
                       <td class="center <%= if player.measure_lewis[0].is_complete then "font-green" else "font-invert" end %>"><i class="fa fa-lg fa-check"></i></td>
                     <% end %>
-                    <td class="center <%= if player.measure_workload.is_complete then "font-green" else "font-invert" end %>"><i class="fa fa-lg fa-check"></i></td>
+                    
                   </tr>
                 <% end %>
               </tbody>
@@ -178,9 +184,18 @@
 
             <div class="center col-sm-6 col-sm-offset-3 button-padding">
               <%= link_to "REFRESH", game_path(@game), class: "btn btn-block btn-green" %>
+
+              <%= form_tag "/games/#{@game.id}/generate_results" do %>
+                <div class="button-padding">
+                  <%= button_tag(type: 'submit', class: "btn btn-block btn-red") do %>
+                    ALL FORMS SUBMITTED: GENERATE RESULTS
+                  <% end %>
+                </div>
+              <% end %>
             </div>
           <% end %>
 
+        
         <% end %>
 
       </div>
@@ -230,7 +245,6 @@
             </div>
           </div>
         </div>
-
 
     <% elsif @game.game_status >= 0 %>
 
@@ -286,6 +300,57 @@
 
           </div>
         </div>
+
+      <!-- GAME END RESULTS -->
+        <% if @game.game_status == 101 %>
+
+            <!-- PLAYER-WISE LEWIS MATRIX -->
+              <div class="content-container">
+                <div class="panel-secondary">
+                  <div class="panel-title">
+                    Player-wise LEWIS Matrix
+                  </div>
+                </div>
+
+                <div class="panel-body">
+                  
+                  <table class="table table-condensed table-hover table-bordered">
+                    <thead>
+                      <tr>
+                        <th style="border-right-width: 2px;"></th>
+                        <% @game.players.sort_by(&:member_no).each do |player| %>
+                          <th class="center"><%= player.player_screenname %></th>
+                        <% end %>
+                      </tr>
+                    </thead>
+
+                    <tbody>
+                      <% @game.teams.sort_by(&:id).each do |team| %>
+                        <tr>
+                          <td style="padding-left:10px; border-right-width: 2px;">
+                            <b><% team.team_name %></b>
+                            <% team.projects.sort_by(&:id).each do |project| %>
+                              <div>&nbsp;&nbsp;&nbsp;<b><%= project.project_name %></b></div>
+                            <% end %>
+                          </td>
+                          <% @game.players.sort_by(&:member_no).each_with_index do |player,i| %>
+                            <td class="center font-red">
+                              <% if team.players.detect{|p| p.id == player.id} %>
+                                <% player.measure_lewis.sort_by(&:team_id).each do |tms| %>
+                                  [<%= tms.responses_specialization.sum %>+<%= tms.responses_credibility.sum %>+<%= tms.responses_coordination.sum %>]<br>
+                                  <b><%= tms.responses_specialization.sum + tms.responses_credibility.sum + tms.responses_coordination.sum %></b>
+                                <% end %>
+                              <% end %>
+                            </td>
+                          <% end %>
+                        </tr>
+                      <% end %>
+                    </tbody>
+                  </table>
+
+                </div>
+              </div>
+        <% end %>
 
       <!-- PERFORMANCE DETAILS -->
         <% if @game.game_status > 1 %>
