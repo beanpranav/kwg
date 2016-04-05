@@ -12,6 +12,7 @@ class GamesController < ApplicationController
   def show
     if @game.game_status == -1
       @active_users = User.where(user_status: "active")
+      @offline_users = User.where(user_status: "offline", tut0: true)
     else
       @player_project_totals = [0,0,0,0,0,0,0,0,0,0,0,0]
     end

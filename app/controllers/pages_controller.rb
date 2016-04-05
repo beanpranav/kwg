@@ -65,7 +65,7 @@ class PagesController < ApplicationController
       user.tut3 = true
       user.user_status = "active"
       user.save
-      flash[:notice] = "Great you are done with Stage 1 of the study!."
+      flash[:notice] = "Great you are done with Stage 1 of the study!"
       redirect_to request.referrer
     else
       user.tut3 = false

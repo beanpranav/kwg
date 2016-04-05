@@ -187,7 +187,52 @@
     </div>
 
   <!-- GAME DETAILS -->
-    <% if @game.game_status >= 0 %>
+    <% if @game.game_status == -1 %>
+    
+      <!-- SHOW USER TUTORIAL STATUS -->
+        <div class="content-container">
+          <div class="panel-secondary">
+            <div class="panel-title">
+              Online Players
+            </div>
+          </div>
+
+          <div class="panel-body">
+            <table class="table table-condensed table-hover table-bordered">
+              <thead>
+                <th style="border-right-width: 2px;"></th>
+                <th class="center">Overview</th>
+                <th class="center">Consent</th>
+                <th class="center">Tut 1</th>
+                <th class="center">Tut 2</th>
+                <th class="center">Tut 3</th>
+              </thead>
+              <tbody>
+                <% @offline_users.sort_by(&:updated_at).each do |player| %>
+                  <tr>
+                    <td style="padding-left:22px; border-right-width: 2px;"><b><%= player.player_screenname %></b></td>
+                    <td class="center <%= if player.tut0 then "font-green" else "font-invert" end %>"><i class="fa fa-lg fa-check"></i></td>
+                    <td class="center <%= if player.valid_consent then "font-green" else "font-invert" end %>"><i class="fa fa-lg fa-check"></i></td>
+                    <td class="center <%= if player.tut1 then "font-green" else "font-invert" end %>"><i class="fa fa-lg fa-check"></i></td>
+                    <td class="center <%= if player.tut2 then "font-green" else "font-invert" end %>"><i class="fa fa-lg fa-check"></i></td>
+                    <td class="center <%= if player.tut3 then "font-green" else "font-invert" end %>"><i class="fa fa-lg fa-check"></i></td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+
+            <div class="center col-sm-6 col-sm-offset-3">
+              <%= link_to game_path(@game) do %>
+                <div class="button-padding">
+                  <button type="button" class="btn btn-block btn-green">REFRESH PAGE</button>
+                </div>
+              <% end %>
+            </div>
+          </div>
+        </div>
+
+
+    <% elsif @game.game_status >= 0 %>
 
       <!-- ASSIGNMENT MATRIX -->
         <div class="content-container">
@@ -350,6 +395,7 @@
 
       <!-- PLAYER LINKS -->
         <% else %>
+
           <div class="content-container">
             <div class="panel-secondary">
               <div class="panel-title">
