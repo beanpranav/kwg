@@ -102,11 +102,11 @@
             <div class="progress-level progress-bar-4 center">
               <% case i %>
               <% when 0 %>
-              <%= (($RND_STAGES.detect { |points,stage| points === project.rnd_total_points[i] }.last[:multiplier_1])*100).to_i %>
+              <%= (($RND_STAGES.detect { |points,stage| points === project.rnd_total_points[i] }.last[:multiplier_1])*100).to_i %><span style="font-size:10px; font-weight: lighter;">%</span>
               <% when 1 %>
-              <%= (($RND_STAGES.detect { |points,stage| points === project.rnd_total_points[i] }.last[:multiplier_2])*100).to_i %>
+              <%= (($RND_STAGES.detect { |points,stage| points === project.rnd_total_points[i] }.last[:multiplier_2])*100).to_i %><span style="font-size:10px; font-weight: lighter;">%</span>
               <% when 2 %>
-              <%= (($RND_STAGES.detect { |points,stage| points === project.rnd_total_points[i] }.last[:multiplier_3])*100).to_i %>
+              <%= (($RND_STAGES.detect { |points,stage| points === project.rnd_total_points[i] }.last[:multiplier_3])*100).to_i %><span style="font-size:10px; font-weight: lighter;">%</span>
               <% end %>
             </div>
             <div class="progress" style="margin-bottom:2px;">

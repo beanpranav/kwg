@@ -31,7 +31,7 @@ class PagesController < ApplicationController
 
   def activate_tut1
     user = User.find(params[:user_id])
-    if (params[:a1] == "1" and params[:a2] == "1")
+    if (params[:a1] == "1" and params[:a2] == "1" and params[:b1] == "1" and params[:b2] == "1")
       user.tut1 = true
       user.save
       flash[:notice] = "Great you are on track! Let's understand the game now."
@@ -39,7 +39,7 @@ class PagesController < ApplicationController
     else
       user.tut1 = false
       user.save
-      flash[:notice] = "!!! Some of your answers were incorrect. Please retry."
+      flash[:notice] = "!!! Some of your answers were incorrect. Please answer carefully."
       redirect_to request.referrer
     end
   end
@@ -54,23 +54,23 @@ class PagesController < ApplicationController
     else
       user.tut2 = false
       user.save
-      flash[:notice] = "!!! Some of your answers were incorrect. Please retry."
+      flash[:notice] = "!!! Some of your answers were incorrect. Please answer carefully."
       redirect_to request.referrer
     end
   end
 
   def activate_tut3
     user = User.find(params[:user_id])
-    if (params[:a5] == "1" and params[:a6] == "1")
+    if (params[:a5] == "1" and params[:a6] == "1" and params[:a7] == "1")
       user.tut3 = true
       user.user_status = "active"
       user.save
-      flash[:notice] = "Great you are on track! Let's understand the game now."
+      flash[:notice] = "Great you are done with Stage 1 of the study!."
       redirect_to request.referrer
     else
       user.tut3 = false
       user.save
-      flash[:notice] = "Some of your answers were incorrect. Please retry."
+      flash[:notice] = "Some of your answers were incorrect. Please answer carefully."
       redirect_to request.referrer
     end
 

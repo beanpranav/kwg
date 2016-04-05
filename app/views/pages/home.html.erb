@@ -99,216 +99,34 @@
 
 		<!-- OFFLINE MODE: CONSENT FORM -->
 			<% if current_user.user_status == "offline" %>
-
-				<% if current_user.tut0 == false %>
-
-					<div class="secondary-nav secondary-nav-invert">
-						<i class="fa fa-2x fa-rocket content-list-icon-primary pull-left"></i>
-						<h2 class="font-invert"><b>Hi <%= current_user.first_name %>!</b></h2>
-						<h3 class="font-invert">Here is an introduction video to get you started.</h3>
-					</div>
-
-					<div class="content-container">
-						<div class="panel-body" style="margin-bottom:30px;">
-
-			  			<div class="h-primary">INTRODUCTION VIDEO</div>
-			  			<br>
-			  			<div class="row">  
-					  			<div class="videoWrapper">
-										<iframe src="https://www.youtube.com/embed/sl6oNBhUjTc" frameborder="0" allowfullscreen></iframe>
-					  			</div>
-				  		</div>
-				  		<div class="center"><br>Please use headphones. <br>Use fullscreen video mode if details are hard to see.</div>
-
-			  			<%= form_tag("/activate_tut0", method: :post) do %>
-
-			  				<%= hidden_field_tag(:user_id, current_user.id) %>
-
-								<div class="center col-sm-6 col-sm-offset-3 button-padding">
-				          <%= submit_tag "GO TO CONSENT FORM", class: "btn btn-block btn-green" %>
-				        </div>
-							<% end %>
-
-			  		</div>
-
-					</div>
-
-				<% elsif current_user.valid_consent == false %>
-
-					<div class="secondary-nav secondary-nav-invert">
-						<i class="fa fa-2x fa-clipboard content-list-icon-primary pull-left"></i>
-						<h2 class="font-invert"><b>Hi <%= current_user.first_name %>!</b></h2>
-						<h3 class="font-invert">Before we begin, please read carefully and sign the consent form below.</h3>
-					</div>
 				
-					<div class="content-container">
-			  		<div class="panel-body" style="margin-bottom:30px;">
-
-			  			<div class="h-primary">CONSENT FORM</div>
-
-							<!-- CONSENT FORM TEXT -->
-				  			<br><p>This online-game is part of a research study conducted by Pranav Gupta at Carnegie Mellon University.</p>
-				  			<p>The purpose of the research is to investigate how people make decisions when working simultaneously on multiple projects and how this affects performance.</p>
-
-				  			<p>
-				  				<b>Procedures</b><br>
-				  				In this study, you will be asked to work with multiple team members across different decision making tasks over a course of 2 hours. You will be interacting with members of your team only via online team-chat, there is no face-to-face or video interaction involved. You will be assigned a unique screen-name. Only your chat conversations and screen-name will be visible to other participants. At the conclusion of your team’s work, you will be asked to complete a brief survey about your experiences with the team and the task.
-				  			</p>
-
-				  			<p>
-				  				<b>Participant Requirements</b><br>
-				  				Participation in this study is limited to individuals age 18 and older who are fluent english speakers and comfortable with using computers.
-				  			</p>
-
-				  			<p>
-				  				<b>Risks</b><br>
-				  				The risks and discomfort associated with participation in this study are no greater than those ordinarily encountered in daily life or during other online activities.
-				  			</p>
-
-				  			<p>
-				  				<b>Benefits</b><br>
-				  				There may be no personal benefit from your participation in the study but the knowledge received may be of value to humanity.
-				  			</p>
-
-				  			<p>
-				  				<b>Compensation & Costs</b><br>
-				  				You will receive $10/hr upon completion of the study. For example, for a 2hr study you will recieve $20.
-				  			</p>
-
-				  			<p>
-				  				<b>Confidentiality</b><br>
-				  				By participating in this research, you understand and agree that Carnegie Mellon may be required to disclose your consent form, data and other personally identifiable information as required by law, regulation, subpoena or court order. Otherwise, your confidentiality will be maintained in the following manner:
-				  			</p>
-
-				  			<p>Your data and consent form will be kept separate. Your consent form will be stored in a locked location on Carnegie Mellon property and will not be disclosed to third parties. Sharing of data with other researchers will only be done in such a manner that you will not be identified.</p>
-
-				  			<p>By participating, you understand and agree that the data and information gathered during this study may be used by Carnegie Mellon and published and/or disclosed by Carnegie Mellon to others outside of Carnegie Mellon. However, your name or contact information in your consent form will not be mentioned in any such publication or dissemination of the research data and/or results by Carnegie Mellon.</p>
-
-				  			<p>
-				  				<b>Right to Ask Questions & Contact Information</b><br>
-				  				If you have any questions about this study, you should feel free to ask them by contacting the Principal Investigator Pranav Gupta at: <em>Tepper School of Business, Carnegie Mellon University, 5000 Forbes Avenue, Pittsburgh, PA 15217; Tel. 412-961-5793; Email: pranavgu@andrew.cmu.edu</em>
-				  				<br>If you have questions later, desire additional information, or wish to withdraw your participation please contact the Principal Investigator by mail, phone or e-mail in accordance with the contact information listed above.
-				  			</p>
-
-				  			<p>If you have questions pertaining to your rights as a research participant; or to report concerns to this study, you should contact the Office of Research integrity and Compliance at Carnegie Mellon University. <em>Email: irb-review@andrew.cmu.edu; Phone: 412-268-1901 or 412-268-5460.</em></p>
-
-				  			<p>
-				  				<b>Voluntary Participation</b><br>
-				  				Your participation in this research is voluntary. You may discontinue participation at any time during the research activity.
-				  			</p>
-
-				  			<br><br>
-
-				  		<!-- FORM ITEMS -->
-
-								<%= form_tag("/activate_user", method: :post) do %>
-									
-
-									<div class="row">
-									  
-										<div class="col-xs-12 col-sm-9">
-									    <div class="form-label" style="text-align:left; padding: 10px 0 6px 30px;"><b>I am age 18 or older.</b></div>
-									    <div class="form-label" style="text-align:left; padding: 11px 0 6px 30px;"><b>I have read and understand the information above.</b></div>
-									    <div class="form-label" style="text-align:left; padding: 12px 0 6px 30px;"><b>I want to participate in this research and continue with the game.</b></div>
-									  </div>
-
-									  <div class="col-xs-12 col-sm-3">
-									  	<p class="form-radio">
-											  <%= radio_button_tag(:age, true) %>
-											  <%= label_tag(:age_true, "Yes") %> &nbsp; &nbsp;
-											  <%= radio_button_tag(:age, false, true) %>
-											  <%= label_tag(:age_false, "No") %>
-											</p>
-											<p class="form-radio">
-											  <%= radio_button_tag(:read, true) %>
-											  <%= label_tag(:read_true, "Yes") %> &nbsp; &nbsp;
-											  <%= radio_button_tag(:read, false, true) %>
-											  <%= label_tag(:read_false, "No") %>
-											</p>
-											<p class="form-radio">
-											  <%= radio_button_tag(:consent, true) %>
-											  <%= label_tag(:consent_true, "Yes") %> &nbsp; &nbsp;
-											  <%= radio_button_tag(:consent, false, true) %>
-											  <%= label_tag(:consent_false, "No") %>
-											</p>
-										</div>
-									</div>
-
-									<div class="row">
-									  <div class="col-xs-12 col-sm-3">
-									    <div class="form-label" style="text-align:left; padding-left: 30px;"><b>Your Gender</b></div>
-									    <br><br>
-									    <div class="form-label" style="text-align:left; padding-left: 30px;"><b>Sign Full Name</b></div>
-									  </div>
-									  <div class="col-xs-12 col-sm-9">
-											<div class="form-control-select">
-								        <%= select_tag :gender, options_for_select(["Male","Female","Other"]), class: "form-control" %>
-								      </div>
-								      <br><br>
-											<%= text_field_tag :full_name, nil, placeholder: "full name", class: "form-control" %>
-										</div>
-									</div><br>
-									<div class="center">Your in-game username is <b><%= current_user.player_screenname %></b></div>
-
-									<%= hidden_field_tag(:user_id, current_user.id) %>
-
-									<div class="center col-sm-6 col-sm-offset-3 button-padding">
-					          <%= submit_tag "I'M READY TO START TUTORIAL", class: "btn btn-block btn-green" %>
-					        </div>
-								<% end %>
-
-						</div>
-					</div>
-
-				<% elsif current_user.tut1 == false %>
+				<!-- VIDEO 0: OVERVIEW -->
+					<% if current_user.tut0 == false %>
 
 						<div class="secondary-nav secondary-nav-invert">
 							<i class="fa fa-2x fa-rocket content-list-icon-primary pull-left"></i>
-							<h2 class="font-invert"><b>Hi <%= current_user.player_screenname %>!</b></h2>
-							<h3 class="font-invert">Tutorial Video 1/3.</h3>
+							<h2 class="font-invert"><b>Hi <%= current_user.first_name %>!</b></h2>
+							<h3 class="font-invert">Here is an introduction video to get you started.</h3>
 						</div>
 
 						<div class="content-container">
 							<div class="panel-body" style="margin-bottom:30px;">
 
-				  			<div class="h-primary">[1/3] GAME GOALS</div>
+				  			<div class="h-primary">INTRODUCTION VIDEO</div>
 				  			<br>
 				  			<div class="row">  
 						  			<div class="videoWrapper">
-											<iframe src="https://www.youtube.com/embed/h3EFnCh37bE" frameborder="0" allowfullscreen></iframe>
+						  				<iframe src="https://www.youtube.com/embed/jjneVYnGT5Y" frameborder="0" allowfullscreen></iframe>
 						  			</div>
 					  		</div>
+					  		<div class="center"><br>Please use headphones. <br>Use fullscreen video mode if details are hard to see.</div>
 
-				  			<%= form_tag("/activate_tut1", method: :post) do %>
-
-									<table class="table table-condensed table-hover" style="margin:30px 0px;">
-							      <tbody>
-
-						          	<tr><td style="padding: 20px;">
-							            <b>1. Do you need to know all the actual technical details of 'App Development process' to be able to play the game?</b><br>
-						  						<p class="form-radio">
-													  <%= radio_button_tag(:a1, 0) %> Yes 
-													  <br>
-													  <%= radio_button_tag(:a1, 1) %> No 
-													</p>
-												</tr>
-
-												<tr><td style="padding: 20px;">
-							            <b>2. Whose performance is most important?</b><br>
-						  						<p class="form-radio">
-													  <%= radio_button_tag(:a2, 1) %> My Team's Performance 
-													  <br>
-													  <%= radio_button_tag(:a2, 0) %> My Personal Performance 
-													</p>
-												</tr>
-
-										</tbody>
-									</table>
+				  			<%= form_tag("/activate_tut0", method: :post) do %>
 
 				  				<%= hidden_field_tag(:user_id, current_user.id) %>
 
 									<div class="center col-sm-6 col-sm-offset-3 button-padding">
-					          <%= submit_tag "SUBMIT & NEXT", class: "btn btn-block btn-green" %>
+					          <%= submit_tag "LET'S BEGIN! GO TO CONSENT FORM", class: "btn btn-block btn-green" %>
 					        </div>
 								<% end %>
 
@@ -316,118 +134,348 @@
 
 						</div>
 
-				<% elsif current_user.tut2 == false %>
+				<!-- CONSENT FORM -->
+					<% elsif current_user.valid_consent == false %>
 
 						<div class="secondary-nav secondary-nav-invert">
-							<i class="fa fa-2x fa-rocket content-list-icon-primary pull-left"></i>
-							<h2 class="font-invert"><b>Hi <%= current_user.player_screenname %>!</b></h2>
-							<h3 class="font-invert">Tutorial Video 2/3.</h3>
+							<i class="fa fa-2x fa-clipboard content-list-icon-primary pull-left"></i>
+							<h2 class="font-invert"><b>Hi <%= current_user.first_name %>!</b></h2>
+							<h3 class="font-invert">Before we begin, please read carefully and sign the consent form below.</h3>
 						</div>
-
+					
 						<div class="content-container">
-							<div class="panel-body" style="margin-bottom:30px;">
+				  		<div class="panel-body" style="margin-bottom:30px;">
 
-				  			<div class="h-primary">[2/3] GAME LAYOUT & BASICS</div>
-				  			<br>
-				  			<div class="row">  
-						  			<div class="videoWrapper">
-											<iframe src="https://www.youtube.com/embed/0L8p4cHP5p0" frameborder="0" allowfullscreen></iframe>
-						  			</div>
-					  		</div>
+				  			<div class="h-primary">CONSENT FORM</div>
 
-				  			<%= form_tag("/activate_tut2", method: :post) do %>
-									
-									<table class="table table-condensed table-hover" style="margin:30px 0px;">
-							      <tbody>
+								<!-- CONSENT FORM TEXT -->
+					  			<br><p>This online-game is part of a research study conducted by Pranav Gupta at Carnegie Mellon University.</p>
+					  			<p>The purpose of the research is to investigate how people make decisions when working simultaneously on multiple projects and how this affects performance.</p>
 
-						          	<tr><td style="padding: 20px;">
-							            <b>1. Doing App Development (Blue) for vChat increases ... </b><br>
-						  						<p class="form-radio">
-													  <%= radio_button_tag(:a3, 1) %> vChat's Maximum User Capacity (Blue)
-													  <br>
-													  <%= radio_button_tag(:a3, 0) %> vChat's Demand Generated (Red)
-													</p>
-												</tr>
+					  			<p>
+					  				<b>Procedures</b><br>
+					  				In this study, you will be asked to work with multiple team members across different decision making tasks over a course of 2 hours. You will be interacting with members of your team only via online team-chat, there is no face-to-face or video interaction involved. You will be assigned a unique screen-name. Only your chat conversations and screen-name will be visible to other participants. At the conclusion of your team’s work, you will be asked to complete a brief survey about your experiences with the team and the task.
+					  			</p>
 
-												<tr><td style="padding: 20px;">
-							            <b>2. Studying App Development under vPhotos increases ... </b><br>
-						  						<p class="form-radio">
-													  <%= radio_button_tag(:a4, 0) %> vPhoto's Maximum User Capacity
-													  <br>
-													  <%= radio_button_tag(:a4, 1) %> My App Development Skill and vPhotos bears my cost  
-													</p>
-												</tr>
+					  			<p>
+					  				<b>Participant Requirements</b><br>
+					  				Participation in this study is limited to individuals age 18 and older who are fluent english speakers and comfortable with using computers.
+					  			</p>
 
-										</tbody>
-									</table>
+					  			<p>
+					  				<b>Risks</b><br>
+					  				The risks and discomfort associated with participation in this study are no greater than those ordinarily encountered in daily life or during other online activities.
+					  			</p>
 
-				  				<%= hidden_field_tag(:user_id, current_user.id) %>
+					  			<p>
+					  				<b>Benefits</b><br>
+					  				There may be no personal benefit from your participation in the study but the knowledge received may be of value to humanity.
+					  			</p>
+
+					  			<p>
+					  				<b>Compensation & Costs</b><br>
+					  				You will receive $10/hr upon completion of the study. For example, for a 2hr study you will recieve $20.
+					  			</p>
+
+					  			<p>
+					  				<b>Confidentiality</b><br>
+					  				By participating in this research, you understand and agree that Carnegie Mellon may be required to disclose your consent form, data and other personally identifiable information as required by law, regulation, subpoena or court order. Otherwise, your confidentiality will be maintained in the following manner:
+					  			</p>
+
+					  			<p>Your data and consent form will be kept separate. Your consent form will be stored in a locked location on Carnegie Mellon property and will not be disclosed to third parties. Sharing of data with other researchers will only be done in such a manner that you will not be identified.</p>
+
+					  			<p>By participating, you understand and agree that the data and information gathered during this study may be used by Carnegie Mellon and published and/or disclosed by Carnegie Mellon to others outside of Carnegie Mellon. However, your name or contact information in your consent form will not be mentioned in any such publication or dissemination of the research data and/or results by Carnegie Mellon.</p>
+
+					  			<p>
+					  				<b>Right to Ask Questions & Contact Information</b><br>
+					  				If you have any questions about this study, you should feel free to ask them by contacting the Principal Investigator Pranav Gupta at: <em>Tepper School of Business, Carnegie Mellon University, 5000 Forbes Avenue, Pittsburgh, PA 15217; Tel. 412-961-5793; Email: pranavgu@andrew.cmu.edu</em>
+					  				<br>If you have questions later, desire additional information, or wish to withdraw your participation please contact the Principal Investigator by mail, phone or e-mail in accordance with the contact information listed above.
+					  			</p>
+
+					  			<p>If you have questions pertaining to your rights as a research participant; or to report concerns to this study, you should contact the Office of Research integrity and Compliance at Carnegie Mellon University. <em>Email: irb-review@andrew.cmu.edu; Phone: 412-268-1901 or 412-268-5460.</em></p>
+
+					  			<p>
+					  				<b>Voluntary Participation</b><br>
+					  				Your participation in this research is voluntary. You may discontinue participation at any time during the research activity.
+					  			</p>
+
+					  			<br><br>
+
+					  		<!-- FORM ITEMS -->
+
+									<%= form_tag("/activate_user", method: :post) do %>
 										
-									<div class="center col-sm-6 col-sm-offset-3 button-padding">
-					          <%= submit_tag "SUBMIT & NEXT", class: "btn btn-block btn-green" %>
-					        </div>
-								<% end %>
 
-				  		</div>
+										<div class="row">
+										  
+											<div class="col-xs-12 col-sm-9">
+										    <div class="form-label" style="text-align:left; padding: 10px 0 6px 30px;"><b>I am age 18 or older.</b></div>
+										    <div class="form-label" style="text-align:left; padding: 11px 0 6px 30px;"><b>I have read and understand the information above.</b></div>
+										    <div class="form-label" style="text-align:left; padding: 12px 0 6px 30px;"><b>I want to participate in this research and continue with the game.</b></div>
+										  </div>
 
+										  <div class="col-xs-12 col-sm-3">
+										  	<p class="form-radio">
+												  <%= radio_button_tag(:age, true) %>
+												  <%= label_tag(:age_true, "Yes") %> &nbsp; &nbsp;
+												  <%= radio_button_tag(:age, false, true) %>
+												  <%= label_tag(:age_false, "No") %>
+												</p>
+												<p class="form-radio">
+												  <%= radio_button_tag(:read, true) %>
+												  <%= label_tag(:read_true, "Yes") %> &nbsp; &nbsp;
+												  <%= radio_button_tag(:read, false, true) %>
+												  <%= label_tag(:read_false, "No") %>
+												</p>
+												<p class="form-radio">
+												  <%= radio_button_tag(:consent, true) %>
+												  <%= label_tag(:consent_true, "Yes") %> &nbsp; &nbsp;
+												  <%= radio_button_tag(:consent, false, true) %>
+												  <%= label_tag(:consent_false, "No") %>
+												</p>
+											</div>
+										</div>
+
+										<div class="row">
+										  <div class="col-xs-12 col-sm-3">
+										    <div class="form-label" style="text-align:left; padding-left: 30px;"><b>Your Gender</b></div>
+										    <br><br>
+										    <div class="form-label" style="text-align:left; padding-left: 30px;"><b>Sign Full Name</b></div>
+										  </div>
+										  <div class="col-xs-12 col-sm-9">
+												<div class="form-control-select">
+									        <%= select_tag :gender, options_for_select(["Male","Female","Other"]), class: "form-control" %>
+									      </div>
+									      <br><br>
+												<%= text_field_tag :full_name, nil, placeholder: "full name", class: "form-control" %>
+											</div>
+										</div><br>
+										<div class="center">Your in-game username is <b><%= current_user.player_screenname %></b></div>
+
+										<%= hidden_field_tag(:user_id, current_user.id) %>
+
+										<div class="center col-sm-6 col-sm-offset-3 button-padding">
+						          <%= submit_tag "I'M READY TO START TUTORIAL", class: "btn btn-block btn-green" %>
+						        </div>
+									<% end %>
+
+							</div>
 						</div>
-	
-				<% else %>
 
-					<div class="secondary-nav secondary-nav-invert">
-							<i class="fa fa-2x fa-rocket content-list-icon-primary pull-left"></i>
-							<h2 class="font-invert"><b>Hi <%= current_user.player_screenname %>!</b></h2>
-							<h3 class="font-invert">Tutorial Video 3/3.</h3>
-						</div>
+				<!-- VIDEO 1: GAME GOALS -->
+					<% elsif current_user.tut1 == false %>
 
-						<div class="content-container">
-							<div class="panel-body" style="margin-bottom:30px;">
+							<div class="secondary-nav secondary-nav-invert">
+								<i class="fa fa-2x fa-rocket content-list-icon-primary pull-left"></i>
+								<h2 class="font-invert"><b>Hi <%= current_user.player_screenname %>!</b></h2>
+								<h3 class="font-invert">Tutorial Video 1/3.</h3>
+							</div>
 
-				  			<div class="h-primary">[3/3] HOW TO PLAY THE GAME?</div>
-				  			<br>
-				  			<div class="row">  
-						  			<div class="videoWrapper">
-											<iframe src="https://www.youtube.com/embed/yNtFV5LBToA" frameborder="0" allowfullscreen></iframe>
-						  			</div>
+							<div class="content-container">
+								<div class="panel-body" style="margin-bottom:30px;">
+
+					  			<div class="h-primary">[1/3] GAME GOALS</div>
+					  			<br>
+					  			<div class="row">  
+							  			<div class="videoWrapper">
+							  				<iframe src="https://www.youtube.com/embed/nroBGcJl3Jc" frameborder="0" allowfullscreen></iframe>
+							  			</div>
+						  		</div>
+
+					  			<%= form_tag("/activate_tut1", method: :post) do %>
+
+										<table class="table table-condensed table-hover" style="margin:30px 0px;">
+								      <tbody>
+
+							          	<tr><td style="padding: 20px;">
+								            <b>1. Do you need to know all the actual technical details of 'App Development process' to be able to play the game?</b><br>
+							  						<p class="form-radio">
+														  <%= radio_button_tag(:a1, 0) %> Yes 
+														  <br>
+														  <%= radio_button_tag(:a1, 1) %> No 
+														</p>
+													</tr>
+
+													<tr><td style="padding: 20px;">
+								            <b>2. The Goal of the game is to maximize ...</b><br>
+							  						<p class="form-radio">
+														  <%= radio_button_tag(:a2, 1) %> All my Teams' Profits
+														  <br>
+														  <%= radio_button_tag(:a2, 0) %> My Personal Performance 
+														</p>
+													</tr>
+
+													<tr><td style="padding: 20px;">
+								            <b>3. The most important 'Profit making tasks' for an app are ...</b><br>
+							  						<p class="form-radio">
+														  <%= radio_button_tag(:b1, 1) %> App Development, Marketing and Support 
+														  <br>
+														  <%= radio_button_tag(:b1, 0) %> App R&D and Personal Learning 
+														</p>
+													</tr>
+
+													<tr><td style="padding: 20px;">
+								            <b>4. To be successful I will have to <br>&nbsp;&nbsp;"Collectively figure out how much time we allocate to individual and team tasks" ...</b><br>
+							  						<p class="form-radio">
+														  <%= radio_button_tag(:b2, 0) %> By focusing solely on immediate profit-making tasks
+														  <br>
+														  <%= radio_button_tag(:b2, 0) %> By focusing majory on long term R&D and learning tasks
+														  <br>
+														  <%= radio_button_tag(:b2, 1) %> By balancing the immediate profit-making tasks with long term R&D and learning tasks
+														</p>
+													</tr>
+
+											</tbody>
+										</table>
+
+					  				<%= hidden_field_tag(:user_id, current_user.id) %>
+
+										<div class="center col-sm-6 col-sm-offset-3 button-padding">
+						          <%= submit_tag "SUBMIT & NEXT", class: "btn btn-block btn-green" %>
+						          <br>this tutorial will reload unless <br>you answer all questions correctly
+						        </div>
+
+									<% end %>
+
 					  		</div>
 
-				  			<%= form_tag("/activate_tut3", method: :post) do %>
+							</div>
+
+				<!-- VIDEO 2: GAME LAYOUT AND BASICS -->
+					<% elsif current_user.tut2 == false %>
+
+							<div class="secondary-nav secondary-nav-invert">
+								<i class="fa fa-2x fa-rocket content-list-icon-primary pull-left"></i>
+								<h2 class="font-invert"><b>Hi <%= current_user.player_screenname %>!</b></h2>
+								<h3 class="font-invert">Tutorial Video 2/3.</h3>
+							</div>
+
+							<div class="content-container">
+								<div class="panel-body" style="margin-bottom:30px;">
+
+					  			<div class="h-primary">[2/3] GAME LAYOUT & BASICS</div>
+					  			<br>
+					  			<div class="row">  
+							  			<div class="videoWrapper">
+												<iframe src="https://www.youtube.com/embed/0L8p4cHP5p0" frameborder="0" allowfullscreen></iframe>
+							  			</div>
+						  		</div>
+
+					  			<%= form_tag("/activate_tut2", method: :post) do %>
+										
 										<table class="table table-condensed table-hover" style="margin:30px 0px;">
-							      <tbody>
+								      <tbody>
 
-										<tr><td style="padding: 20px;">
-					            <b>1. Each App's profits are calculated at the end of every ... </b><br>
-				  						<p class="form-radio">
-											  <%= radio_button_tag(:a5, 1) %> Quarter
-											  <br>
-											  <%= radio_button_tag(:a5, 0) %> Month
-											</p>
-										</tr>
+							          	<tr><td style="padding: 20px;">
+								            <b>1. Doing App Development (Blue) for vChat increases ... </b><br>
+							  						<p class="form-radio">
+														  <%= radio_button_tag(:a3, 0) %> vPhoto's Maximum User Capacity (Blue)
+														  <br>
+														  <%= radio_button_tag(:a3, 1) %> vChat's Maximum User Capacity (Blue)
+														  <br>
+														  <%= radio_button_tag(:a3, 0) %> vChat's Demand Generated (Red)
+														</p>
+													</tr>
 
-										<tr><td style="padding: 20px;">
-					            <b>2. The goal of the game is to ... </b><br>
-				  						<p class="form-radio">
-											  <%= radio_button_tag(:a6, 1) %> Maximize App profits for this year by discussing 'who does what' with the teams I am on
-											  <br>
-											  <%= radio_button_tag(:a6, 0) %> Not discuss anything with other members and so what i want
-											</p>
-										</tr>
+													<tr><td style="padding: 20px;">
+								            <b>2. Studying App Development under vPhotos increases ... </b><br>
+							  						<p class="form-radio">
+														  <%= radio_button_tag(:a4, 0) %> vPhoto's Maximum User Capacity
+														  <br>
+														  <%= radio_button_tag(:a4, 0) %> My App Development Skill and no one bears the expenses 
+														  <br>
+														  <%= radio_button_tag(:a4, 1) %> My App Development Skill and vPhotos bears the expenses 
+														</p>
+													</tr>
 
-										</tbody>
-									</table>
+											</tbody>
+										</table>
 
-				  				<%= hidden_field_tag(:user_id, current_user.id) %>
+					  				<%= hidden_field_tag(:user_id, current_user.id) %>
+											
+										<div class="center col-sm-6 col-sm-offset-3 button-padding">
+						          <%= submit_tag "SUBMIT & NEXT", class: "btn btn-block btn-green" %>
+						          <br>this tutorial will reload unless <br>you answer all questions correctly
+						        </div>
+									<% end %>
 
-									<div class="center col-sm-6 col-sm-offset-3 button-padding">
-					          <%= submit_tag "SUBMIT & NEXT", class: "btn btn-block btn-green" %>
-					        </div>
-								<% end %>
+					  		</div>
 
-				  		</div>
+							</div>
+		
+				<!-- VIDEO 3: HOW TO PLAY -->
+					<% else %>
 
-						</div>
+						<div class="secondary-nav secondary-nav-invert">
+								<i class="fa fa-2x fa-rocket content-list-icon-primary pull-left"></i>
+								<h2 class="font-invert"><b>Hi <%= current_user.player_screenname %>!</b></h2>
+								<h3 class="font-invert">Tutorial Video 3/3.</h3>
+							</div>
 
-				<% end %>
+							<div class="content-container">
+								<div class="panel-body" style="margin-bottom:30px;">
+
+					  			<div class="h-primary">[3/3] HOW TO PLAY THE GAME?</div>
+					  			<br>
+					  			<div class="row">  
+							  			<div class="videoWrapper">
+												<iframe src="https://www.youtube.com/embed/yNtFV5LBToA" frameborder="0" allowfullscreen></iframe>
+							  			</div>
+						  		</div>
+
+					  			<%= form_tag("/activate_tut3", method: :post) do %>
+											<table class="table table-condensed table-hover" style="margin:30px 0px;">
+								      <tbody>
+
+											<tr><td style="padding: 20px;">
+						            <b>1. Each App's profits are calculated at the end of every ... </b><br>
+					  						<p class="form-radio">
+												  <%= radio_button_tag(:a5, 1) %> Quarter
+												  <br>
+												  <%= radio_button_tag(:a5, 0) %> Month
+												</p>
+											</tr>
+
+											<tr><td style="padding: 20px;">
+						            <b>2. The goal of the game is to ... </b><br>
+					  						<p class="form-radio">
+												  <%= radio_button_tag(:a6, 1) %> Maximize App profits for this year by discussing 'who does what' with the teams I am on
+												  <br>
+												  <%= radio_button_tag(:a6, 0) %> Not discuss anything with other members and do what i want
+												</p>
+											</tr>
+
+											<tr><td style="padding: 20px;">
+						            <b>3. Which of the following will help you me do better at the game? </b><br>
+					  						<p class="form-radio">
+												  <%= radio_button_tag(:a7, 0) %> Knowing the current status of both apps
+												  <br>
+												  <%= radio_button_tag(:a7, 0) %> Knowing my and my team members' skills across both apps 
+												  <br>
+												  <%= radio_button_tag(:a7, 0) %> Discussing and planning what tasks to do next in each app 
+												  <br>
+												  <%= radio_button_tag(:a7, 0) %> Discussing and planning who should develop which skills next
+												  <br>
+												  <%= radio_button_tag(:a7, 1) %> All of the above
+												</p>
+											</tr>
+
+											</tbody>
+										</table>
+
+					  				<%= hidden_field_tag(:user_id, current_user.id) %>
+
+										<div class="center col-sm-6 col-sm-offset-3 button-padding">
+						          <%= submit_tag "SUBMIT & COMPLETE", class: "btn btn-block btn-green" %>
+						          <br>this tutorial will reload unless <br>you answer all questions correctly
+						        </div>
+									<% end %>
+
+					  		</div>
+
+							</div>
+
+					<% end %>
 
 		<!-- ACTIVE MODE: AWAITING GAME ASSIGNMENT -->
 			<% elsif current_user.user_status == "active" %>
@@ -443,14 +491,14 @@
 
 						<div class="h-primary">STAGE 1 COMPLETE</div>
 
-						<h3 class="center">please let the researcher know and <br>wait for the computer to assign you a game</h3>	
+						<h3 class="center">PLEASE GO TO CHAT AND LET THE RESEARCHER KNOW<br><br>waiting for the computer to assign you a game</h3>	
 						<div class="center col-sm-6 col-sm-offset-3 button-padding">
 		          <button type="button" class="btn btn-block btn-orange active">LOOKING FOR GAME ...</button>
 		          <%= link_to root_path do %>
-							<div class="button-padding">
-			          <button type="button" class="btn btn-block btn-green">REFRESH PAGE</button>
-			        </div>
-			      <% end %>
+								<div class="button-padding">
+				          <button type="button" class="btn btn-block btn-green">REFRESH PAGE</button>
+				        </div>
+				      <% end %>
 		        </div>
 
 		      </div>

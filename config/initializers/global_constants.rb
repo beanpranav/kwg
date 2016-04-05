@@ -84,9 +84,9 @@ $SKILL_LEVELS =
 	1..200 => 1,
 	201..400 => 2,
 	401..600 => 3,
-	601..800 => 4,
-	801..1100 => 5,
-	1101..5000 => 6
+	601..900 => 4,
+	901..1200 => 5,
+	1201..5000 => 6
 }
 
 $SKILL_LEVELS_NAMES = 
@@ -131,8 +131,8 @@ $RND_STAGES =
 {
 	1..1000 => { stage_no: 1, multiplier_1: 0.30, multiplier_2: 0.20, multiplier_3: 0.50 },
 	1001..2500 => { stage_no: 2, multiplier_1: 0.60, multiplier_2: 0.50, multiplier_3: 0.80 },
-	2501..6000 => { stage_no: 3, multiplier_1: 0.80, multiplier_2: 0.75, multiplier_3: 0.95 },
-	6001..10000 => { stage_no: 4, multiplier_1: 0.95, multiplier_2: 0.95, multiplier_3: 0.99 },
+	2501..5500 => { stage_no: 3, multiplier_1: 0.80, multiplier_2: 0.75, multiplier_3: 0.95 },
+	5501..10000 => { stage_no: 4, multiplier_1: 0.95, multiplier_2: 0.95, multiplier_3: 0.99 },
 	10001..30000 => { stage_no: 5, multiplier_1: 1, multiplier_2: 1, multiplier_3: 1 }
 }
 
@@ -143,7 +143,7 @@ $RND_BENEFITS = ["Technical Stability", "App Desireability", "User Satisfaction"
 $SUPPORTED_CONVERSION = 0.9
 $UNSUPPORTED_CONVERSION = 0.2
 $MARKET_CONVERSION = 1
-$PRODUCT_UNIT_COST = 10
+$PRODUCT_UNIT_COST = 6
 $STARTING_INVESTMENT = 20000
 
 
@@ -166,14 +166,14 @@ $PROTIP =
 	1 => { id: 0, text: ""},
 	2 => { id: 1, text: "<b>PRO TIP 1: Balance learning with work.</b><br>More learning is good: It makes you more productive but it also makes you a costly resource. Importantly, it takes away time from revenue generating tasks. You don’t want your projects to be in debt!"},
 	3 => { id: 0, text: ""},
-	4 => { id: 1, text: "<b>PRO TIP 2: Knowing what your team members are good at makes coordination easier.</b>"},
+	4 => { id: 1, text: "<b>PRO TIP 2: Knowing which skills your team members are good at makes coordination easier.</b>"},
 	5 => { id: 0, text: ""},
-	6 => { id: 1, text: "<b>PRO TIP 3: Your Active Users will need some support!</b><br>Don’t leave them hanging. Remember supported customers pay again every quarter."},
+	6 => { id: 1, text: "<b>PRO TIP 3: Your Active Users will need some support!</b><br>Don’t leave them hanging. Remember supported customers are more likely to pay every quarter."},
 	7 => { id: 0, text: ""},
-	8 => { id: 1, text: "<b>PRO TIP 4: Doing R&D for projects makes your work more effective!</b><br>It acts as a multiplier to all your task efforts but too much of R&D spending and your project profits will take a hit!"},
+	8 => { id: 1, text: "<b>PRO TIP 4: Doing R&D for projects makes your work more effective!</b><br>It acts as a multiplier to all your task efforts but too much of R&D spending and your project profits will tank!"},
 	9 => { id: 0, text: ""},
 	10 => { id: 0, text: ""},
-	11 => { id: 0, text: ""},
+	11 => { id: 0, text: "<b>PRO TIP 5: Last Quarter Focus</b><br>Work on tasks that will get you profits - don't spend money on learning or R&D!"},
 	12 => { id: 0, text: ""},
 	13 => { id: 0, text: ""}
 }
