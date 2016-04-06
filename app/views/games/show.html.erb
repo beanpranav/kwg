@@ -370,6 +370,7 @@
                   <thead>
                     <th style="border-right-width: 2px;"></th>
                     <th class="center">R&D Points</th>
+                    <th class="center">Max Capacity</th>
                     <th class="center">Active Users</th>
                     <th class="center">Total Profit</th>
                   </thead>
@@ -378,6 +379,7 @@
                       <tr>
                         <td style="padding-left:22px; border-right-width: 2px;"><b><%= project.project_name %></b></td>  
                         <td class="center"><%= project.rnd_total_points.sum %></td>
+                        <td class="center"><%= project.stats_total[0] %></td>
                         <td class="center"><%= project.users_total[-1][2] %></td>
                         <td class="center"><%= number_to_currency(@project_profits[i]+$STARTING_INVESTMENT, negative_format: "(%u%n)", precision: 0) %></td>
                       </tr>

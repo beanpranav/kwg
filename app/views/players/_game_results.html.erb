@@ -29,13 +29,15 @@
                 <table class="table table-condensed table-hover center">
                   <thead>
                     <th></th>
+                    <th class="center">Max Capacity</th>
                     <th class="center">Active Users</th>
                     <th class="center">Total Profit</th>
                   </thead>
                   <tbody>
                     <% @player.game.projects.sort_by(&:id).each_with_index do |project,i| %>
                       <tr>
-                        <td><b><%= project.project_name %></b></td> 
+                        <td><b><%= project.project_name %></b></td>
+                        <td><%= project.stats_total[0] %></td>
                         <td><%= project.users_total[-1][2] %></td>
                         <td><%= number_to_currency(@project_profits[i]+$STARTING_INVESTMENT, negative_format: "(%u%n)", precision: 0) %></td>
                       </tr>
