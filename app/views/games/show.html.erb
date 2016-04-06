@@ -336,9 +336,11 @@
                           <% @game.players.sort_by(&:member_no).each_with_index do |player,i| %>
                             <td class="center font-red">
                               <% if team.players.detect{|p| p.id == player.id} %>
-                                <% player.measure_lewis.sort_by(&:team_id).each do |tms| %>
-                                  [<%= tms.responses_specialization.sum %>+<%= tms.responses_credibility.sum %>+<%= tms.responses_coordination.sum %>]<br>
-                                  <b><%= tms.responses_specialization.sum + tms.responses_credibility.sum + tms.responses_coordination.sum %></b>
+                                <% player.measure_lewis.each do |tms| %>
+                                  <% if tms.team_id == team.id %>
+                                  [<%= tms.responses_specialization.sum %>+<%= tms.responses_credibility.sum %>+<%= tms.responses_coordination.sum %>]
+                                  <b><%= tms.responses_specialization.sum + tms.responses_credibility.sum + tms.responses_coordination.sum %></b><br>
+
                                 <% end %>
                               <% end %>
                             </td>
