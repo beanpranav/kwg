@@ -193,5 +193,7 @@ $PROTIP =
 	10 => { id: 0, text: ""},
 	11 => { id: 1, text: "<b>PRO TIP 7: Last Quarter Focus</b><br>Work on tasks that will get you profits - DON'T spend time and money on learning or R&D tasks!"},
 	12 => { id: 0, text: ""},
-	13 => { id: 0, text: ""}
+	13 => { id: 0, text: ""},
+	100 => { id: 0, text: ""},
+	101 => { id: 0, text: ""}
 }
