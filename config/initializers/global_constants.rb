@@ -163,17 +163,17 @@ $HELP_TEXT =
 $PROTIP =
 {
 	0 => { id: 0, text: ""},
-	1 => { id: 0, text: ""},
-	2 => { id: 1, text: "<b>PRO TIP 1: Balance learning with work.</b><br>More learning is good: It makes you more productive but it also makes you a costly resource. Importantly, it takes away time from revenue generating tasks. You don’t want your projects to be in debt!"},
-	3 => { id: 0, text: ""},
-	4 => { id: 1, text: "<b>PRO TIP 2: Knowing which skills your team members are good at makes coordination easier.</b>"},
-	5 => { id: 0, text: ""},
-	6 => { id: 1, text: "<b>PRO TIP 3: Your Active Users will need some support!</b><br>Don’t leave them hanging. Remember supported customers are more likely to pay every quarter."},
+	1 => { id: 1, text: "<b>PRO TIP 1: Make sure you are talking to all your team members - else you will be handicapped.</b>"},
+	2 => { id: 1, text: "<b>PRO TIP 2: Q1 needs no Support!</b><br>You only need to support your active users. You'll have active users only after Q1 ends."},
+	3 => { id: 1, text: "<b>PRO TIP 3: Balance learning with task work.</b><br>More learning is good: It makes you more productive BUT it also makes you a costly resource. Importantly, it takes away time from revenue generating tasks. You don’t want your projects to be in debt!"},
+	4 => { id: 0, text: ""},
+	5 => { id: 1, text: "<b>PRO TIP 4: Develop and coordinate skill expertise across your team!</b><br>Some of you might choose to become experts on specific skills, while others might choose to be 'jack of all trades, master of none'. BUT Knowing which skills your team members ARE GOOD at makes coordination easier. </b>"},
+	6 => { id: 1, text: "<b>PRO TIP 5: Optimize your support!</b><br>Remember supported customers are more likely to pay every quarter. So don't leave them hanging. BUT, putting in more support time than active users will just be a waste of your time and your team's money"},
 	7 => { id: 0, text: ""},
-	8 => { id: 1, text: "<b>PRO TIP 4: Doing R&D for projects makes your work more effective!</b><br>It acts as a multiplier to all your task efforts but too much of R&D spending and your project profits will tank!"},
+	8 => { id: 1, text: "<b>PRO TIP 6: Doing R&D for projects makes your work more effective!</b><br>It acts as a multiplier to all your task efforts BUT too much of R&D spending and your project profits will tank!"},
 	9 => { id: 0, text: ""},
 	10 => { id: 0, text: ""},
-	11 => { id: 0, text: "<b>PRO TIP 5: Last Quarter Focus</b><br>Work on tasks that will get you profits - don't spend money on learning or R&D!"},
+	11 => { id: 1, text: "<b>PRO TIP 7: Last Quarter Focus</b><br>Work on tasks that will get you profits - DON'T spend time and money on learning or R&D tasks!"},
 	12 => { id: 0, text: ""},
 	13 => { id: 0, text: ""}
 }
