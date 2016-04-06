@@ -37,6 +37,8 @@ Rails.application.routes.draw do
   post "activate_tut1" => "pages#activate_tut1"
   post "activate_tut2" => "pages#activate_tut2"
   post "activate_tut3" => "pages#activate_tut3"
+  post "go_offline_now" => "pages#go_offline_now"
+  post "inactivate_user" => "pages#inactivate_user"
   
   root 'pages#home'
 

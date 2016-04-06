@@ -4,7 +4,9 @@ $GAME_TYPES =
 	['N = 3; GS = 3; MTM(n,v) = 2,1', 31],
 	['N = 4; GS = 2; MTM(n,v) = 2,2', 25],
 	['N = 5; GS = 5; MTM(n,v) = 2,1', 51],
-	['N = 6; GS = 3; MTM(n,v) = 2,2', 35]
+	['N = 6; GS = 3; MTM(n,v) = 2,2', 35],
+	['N = 8; GS = 3,2; MTM(n,v) = 2,both -- PILOT only', 89],
+	['N = 9; GS = 3; MTM(n,v) = 2,both', 99]
 	# ['GS = 3; N = 4; MTM(n,v) = 3,3', 36],
 	# ['GS = 4; N = 4; MTM(n,v) = 3,1', 41],
 	# ['GS = 4; N = 8; MTM(n,v) = 3,3', 46],
@@ -75,6 +77,22 @@ $GAME_TYPES_LOOKUP =
 				teams: 1, 
 				project_split: [2], 
 				membership_split: [[1,2,3,4,5]]
+				},
+	89 => {
+				name: 'N= 8; GS= 3,2; MTM(n,v)=2,both', 
+				group_size: 3,
+				n: 8,
+				teams: 5,
+				project_split: [1,1,1,1,2],
+				membership_split: [[1,2,6],[1,4,5],[2,3,5],[3,4,6],[7,8]]
+				},
+	99 => {
+				name: 'N= 9; GS= 3; MTM(n,v)=2,both', 
+				group_size: 3,
+				n: 9,
+				teams: 5,
+				project_split: [1,1,1,1,2],
+				membership_split: [[1,2,6],[1,4,5],[2,3,5],[3,4,6],[7,8,9]]
 				}
 }
 
@@ -165,12 +183,12 @@ $PROTIP =
 	0 => { id: 0, text: ""},
 	1 => { id: 1, text: "<b>PRO TIP 1: Make sure you are talking to all your team members - else you will be handicapped.</b>"},
 	2 => { id: 1, text: "<b>PRO TIP 2: Q1 needs no Support!</b><br>You only need to support your active users. You'll have active users only after Q1 ends."},
-	3 => { id: 1, text: "<b>PRO TIP 3: Balance learning with task work.</b><br>More learning is good: It makes you more productive BUT it also makes you a costly resource. Importantly, it takes away time from revenue generating tasks. You don’t want your projects to be in debt!"},
+	3 => { id: 1, text: "<b>PRO TIP 4: Develop and coordinate skill expertise across your team!</b><br>Some of you might choose to become experts on specific skills, while others might choose to be 'jack of all trades, master of none'. BUT Knowing which skills your team members ARE GOOD at makes coordination easier. </b>"},
 	4 => { id: 0, text: ""},
-	5 => { id: 1, text: "<b>PRO TIP 4: Develop and coordinate skill expertise across your team!</b><br>Some of you might choose to become experts on specific skills, while others might choose to be 'jack of all trades, master of none'. BUT Knowing which skills your team members ARE GOOD at makes coordination easier. </b>"},
+	5 => { id: 1, text: "<b>PRO TIP 3: Balance learning with task work.</b><br>More learning is good: It makes you more productive BUT it also makes you a costly resource. Importantly, it takes away time from revenue generating tasks. You don’t want your projects to be in debt!"},
 	6 => { id: 1, text: "<b>PRO TIP 5: Optimize your support!</b><br>Remember supported customers are more likely to pay every quarter. So don't leave them hanging. BUT, putting in more support time than active users will just be a waste of your time and your team's money"},
 	7 => { id: 0, text: ""},
-	8 => { id: 1, text: "<b>PRO TIP 6: Doing R&D for projects makes your work more effective!</b><br>It acts as a multiplier to all your task efforts BUT too much of R&D spending and your project profits will tank!"},
+	8 => { id: 1, text: "<b>PRO TIP 6: Optimize your R&D efforts!</b><br>R&D acts as a multiplier to your respective task efforts BUT too much of R&D spending and your project profits will tank!"},
 	9 => { id: 0, text: ""},
 	10 => { id: 0, text: ""},
 	11 => { id: 1, text: "<b>PRO TIP 7: Last Quarter Focus</b><br>Work on tasks that will get you profits - DON'T spend time and money on learning or R&D tasks!"},
