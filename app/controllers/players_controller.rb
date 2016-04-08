@@ -22,7 +22,7 @@ class PlayersController < ApplicationController
             @player.game.players.each do |p|
               @co_players << [p.id, p.player_screenname]
             end
-            @measure_austin_options = [["Novice",1],["Advanced",2],["Expert",4]]
+            @measure_austin_options = [["Novice (N)",1],["Advanced (A1, A2)",2],["Expert (E1, E2, E3)",4]]
 
         # Lewis
           elsif @player.measure_lewis.sort_by(&:id)[0].is_complete == false
