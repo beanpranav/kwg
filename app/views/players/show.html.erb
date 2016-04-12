@@ -157,20 +157,6 @@
 
             <!-- SHOW PLAYER SCHEDULE -->
               <div class="content-container">
-
-                <!-- SHOW PRO TIP -->
-                  <% if $PROTIP[@current_month][:id] == 1 %> 
-                    <div class="row unrow">
-                      <button type="button" class="close" data-dismiss="alert" style="margin: 16px 14px 0 0;">
-                        <span aria-hidden="true">&times;</span>
-                        <span class="sr-only">Close</span>
-                      </button>
-                      <div class="alert alert-success" style="margin-bottom:2px;padding-right: 30px;">
-                        <%= $PROTIP[@current_month][:text].html_safe %>
-                      </div>
-                    </div>
-                  <% end %>
-
                 <%= render "players/work_schedule" %>
               </div>
 
@@ -185,7 +171,7 @@
                 <div class="panel-primary">
                   <div class="panel-title">
                     <%= project.project_name %>
-                    <a href="<%= player_path(@player) %>" class="btn btn-sm btn-invert pull-right supress-a" style = "margin: -5px; -5px 0 0"><i class="fa fa-refresh"></i> &nbsp;Refresh</a>
+                    <a href="<%= player_path(@player) %>" class="btn btn-sm btn-invert pull-right supress-a" style = "margin: -5px; -9px 0 0"><i class="fa fa-refresh"></i> &nbsp;Refresh</a>
                   </div>
                 </div>
               </div>

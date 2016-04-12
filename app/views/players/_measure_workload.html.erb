@@ -1,96 +1,136 @@
 <div class="col-xs-12 col-sm-8 col-sm-offset-2">
-	<div class="secondary-nav secondary-nav-invert">
-		<i class="fa fa-2x fa-clipboard content-list-icon-primary pull-left"></i>
-		<h2 class="font-invert"><b>End of Game Surveys (1/<%= @total_surveys %>)</b></h2>
-		<h3 class="font-invert">Survey</h3>
+	<div class="tab-content">
+          
+    <!-- TAB 1: SURVEY MESSAGE -->
+      <div role="tabpanel" class="tab-pane active" id="message">
+        
+        <div class="secondary-nav secondary-nav-invert">
+					<i class="fa fa-2x fa-clipboard content-list-icon-primary pull-left"></i>
+					<h2 class="font-invert"><b>End of Game Survey</b></h2>
+					<h3 class="font-invert">Feedback Survey</h3>
+				</div>
+
+        <div class="content-container">
+        	<div class="panel-body" style="margin-bottom:30px; padding:15px 40px;">
+
+        		<div class="h-primary">The Game has ended<br>Great job everyone!</div>
+		        	 
+		        	<br><br>
+		        	<p>If things went as planned, you must be excited to find the results and kinda exhausted by the hour long game. But before we show you the results, please fill out these surveys individually - Solely based on your memory and gameplay experience. <b>This is for research purposes only - It won’t affect your game profits.</b>
+		        	</p>
+		        	<br>
+		        	<p><b>IMPORTANT: Do not ask each other. Talking now messes with our research :(</b></p>
+		        	<p>Once you are done - The results of your game will show up! And you can go back to the chat and discuss them with your teammates :)</p>
+
+		        	<br><br><p class="center"><%= @total_surveys %> Surveys should take you upto 5-7 mins</p>
+
+						<div class="center col-sm-6 col-sm-offset-3 button-padding">
+							<a href="#workload" aria-controls="workload" role="tab" data-toggle="tab" class="btn btn-block btn-green">BEGIN SURVEY</a>
+						</div>
+
+					</div>
+        </div>
+
+      </div>
+
+    <!-- TAB 2: WORKLOAD SURVEY -->
+      <div role="tabpanel" class="tab-pane" id="workload">
+
+				<div class="secondary-nav secondary-nav-invert">
+					<i class="fa fa-2x fa-clipboard content-list-icon-primary pull-left"></i>
+					<h2 class="font-invert"><b>End of Game Surveys (1/<%= @total_surveys %>)</b></h2>
+					<h3 class="font-invert">Feedback Survey</h3>
+				</div>
+
+				<div class="content-container">
+				  <div class="panel-secondary">
+				    <div class="panel-title">
+				      Your Workload
+				    </div>
+				  </div>
+
+				  <div class="panel-body">
+
+				  	<div class="center" style="margin:10px 0;">
+				  		<b>Answer the below questions keeping in mind your Personal experience.</b> 
+				  		<br>Your responses here will not affect your game performance in any way.
+				  		<br>Please try to answer to the best of your ability. 
+				  	</div>
+
+						<%= form_tag "/players/#{@player.id}/update_measure_workload" do %>
+					    <table class="table table-condensed table-hover" style="margin:30px 0px;">
+					      <tbody>
+
+				          	<tr><td style="padding: 20px;">
+					            <b><%= get_workload_items(1) %></b><br>
+					            <% (0..1).each do |i| %>
+					              &nbsp; &nbsp; &nbsp;<%= radio_button_tag(:workload_1, i+1) %> &nbsp;<%= get_high_low_likert_option(i) %> &nbsp; &nbsp;
+					            <% end %>
+											&nbsp; &nbsp; &nbsp;<%= radio_button_tag(:workload_1, 2, true) %> &nbsp;<%= get_high_low_likert_option(2) %> &nbsp; &nbsp;
+					            <% (3..4).each do |i| %>
+					              &nbsp; &nbsp; &nbsp;<%= radio_button_tag(:workload_1, i+1) %> &nbsp;<%= get_high_low_likert_option(i) %> &nbsp; &nbsp;
+					            <% end %>
+										</td></tr>
+
+				          	<tr><td style="padding: 20px;">
+					            <b><%= get_workload_items(2) %></b><br>
+					            <% (0..1).each do |i| %>
+					              &nbsp; &nbsp; &nbsp;<%= radio_button_tag(:workload_2, i+1) %> &nbsp;<%= get_high_low_likert_option(i) %> &nbsp; &nbsp;
+					            <% end %>
+											&nbsp; &nbsp; &nbsp;<%= radio_button_tag(:workload_2, 2, true) %> &nbsp;<%= get_high_low_likert_option(2) %> &nbsp; &nbsp;
+					            <% (3..4).each do |i| %>
+					              &nbsp; &nbsp; &nbsp;<%= radio_button_tag(:workload_2, i+1) %> &nbsp;<%= get_high_low_likert_option(i) %> &nbsp; &nbsp;
+					            <% end %>
+										</td></tr>
+
+				          	<tr><td style="padding: 20px;">
+					            <b><%= get_workload_items(3) %></b><br>
+					            <% (0..1).each do |i| %>
+					              &nbsp; &nbsp; &nbsp;<%= radio_button_tag(:workload_3, i+1) %> &nbsp;<%= get_high_low_likert_option(i) %> &nbsp; &nbsp;
+					            <% end %>
+											&nbsp; &nbsp; &nbsp;<%= radio_button_tag(:workload_3, 2, true) %> &nbsp;<%= get_high_low_likert_option(2) %> &nbsp; &nbsp;
+					            <% (3..4).each do |i| %>
+					              &nbsp; &nbsp; &nbsp;<%= radio_button_tag(:workload_3, i+1) %> &nbsp;<%= get_high_low_likert_option(i) %> &nbsp; &nbsp;
+					            <% end %>
+										</td></tr>
+
+				          	<tr><td style="padding: 20px;">
+					            <b><%= get_workload_items(4) %></b><br>
+					            <% (0..1).each do |i| %>
+					              &nbsp; &nbsp; &nbsp;<%= radio_button_tag(:workload_4, i+1) %> &nbsp;<%= get_high_low_likert_option(i) %> &nbsp; &nbsp;
+					            <% end %>
+											&nbsp; &nbsp; &nbsp;<%= radio_button_tag(:workload_4, 2, true) %> &nbsp;<%= get_high_low_likert_option(2) %> &nbsp; &nbsp;
+					            <% (3..4).each do |i| %>
+					              &nbsp; &nbsp; &nbsp;<%= radio_button_tag(:workload_4, i+1) %> &nbsp;<%= get_high_low_likert_option(i) %> &nbsp; &nbsp;
+					            <% end %>
+										</td></tr>
+
+				          	<tr><td style="padding: 20px;">
+					            <b><%= get_workload_items(5) %></b><br>
+					            <% (0..1).each do |i| %>
+					              &nbsp; &nbsp; &nbsp;<%= radio_button_tag(:workload_5, i+1) %> &nbsp;<%= get_high_low_likert_option(i) %> &nbsp; &nbsp;
+					            <% end %>
+											&nbsp; &nbsp; &nbsp;<%= radio_button_tag(:workload_5, 2, true) %> &nbsp;<%= get_high_low_likert_option(2) %> &nbsp; &nbsp;
+					            <% (3..4).each do |i| %>
+					              &nbsp; &nbsp; &nbsp;<%= radio_button_tag(:workload_5, i+1) %> &nbsp;<%= get_high_low_likert_option(i) %> &nbsp; &nbsp;
+					            <% end %>
+										</td></tr>
+
+					      </tbody>
+					    </table>
+
+						  <div class="center col-sm-6 col-sm-offset-3">
+						    <%= button_tag(type: 'submit', class: "btn btn-block btn-green") do %>
+						      SAVE & SUBMIT
+						    <% end %>
+						  </div>
+
+						<% end %>
+
+					</div>
+				</div>
+
+			</div>
+
 	</div>
-
-	<div class="content-container">
-	  <div class="panel-secondary">
-	    <div class="panel-title">
-	      Your Workload
-	    </div>
-	  </div>
-
-	  <div class="panel-body">
-
-	  	<div class="center" style="margin:10px 0;">
-	  		<b>Answer the below questions keeping in mind your Personal experience.</b> 
-	  		<br>Your responses here will not affect your game performance in any way.
-	  		<br>Please try to answer to the best of your ability. 
-	  	</div>
-
-			<%= form_tag "/players/#{@player.id}/update_measure_workload" do %>
-		    <table class="table table-condensed table-hover" style="margin:30px 0px;">
-		      <tbody>
-
-	          	<tr><td style="padding: 20px;">
-		            <b><%= get_workload_items(1) %></b><br>
-		            <% (0..1).each do |i| %>
-		              &nbsp; &nbsp; &nbsp;<%= radio_button_tag(:workload_1, i+1) %> &nbsp;<%= get_high_low_likert_option(i) %> &nbsp; &nbsp;
-		            <% end %>
-								&nbsp; &nbsp; &nbsp;<%= radio_button_tag(:workload_1, 2, true) %> &nbsp;<%= get_high_low_likert_option(2) %> &nbsp; &nbsp;
-		            <% (3..4).each do |i| %>
-		              &nbsp; &nbsp; &nbsp;<%= radio_button_tag(:workload_1, i+1) %> &nbsp;<%= get_high_low_likert_option(i) %> &nbsp; &nbsp;
-		            <% end %>
-							</td></tr>
-
-	          	<tr><td style="padding: 20px;">
-		            <b><%= get_workload_items(2) %></b><br>
-		            <% (0..1).each do |i| %>
-		              &nbsp; &nbsp; &nbsp;<%= radio_button_tag(:workload_2, i+1) %> &nbsp;<%= get_high_low_likert_option(i) %> &nbsp; &nbsp;
-		            <% end %>
-								&nbsp; &nbsp; &nbsp;<%= radio_button_tag(:workload_2, 2, true) %> &nbsp;<%= get_high_low_likert_option(2) %> &nbsp; &nbsp;
-		            <% (3..4).each do |i| %>
-		              &nbsp; &nbsp; &nbsp;<%= radio_button_tag(:workload_2, i+1) %> &nbsp;<%= get_high_low_likert_option(i) %> &nbsp; &nbsp;
-		            <% end %>
-							</td></tr>
-
-	          	<tr><td style="padding: 20px;">
-		            <b><%= get_workload_items(3) %></b><br>
-		            <% (0..1).each do |i| %>
-		              &nbsp; &nbsp; &nbsp;<%= radio_button_tag(:workload_3, i+1) %> &nbsp;<%= get_high_low_likert_option(i) %> &nbsp; &nbsp;
-		            <% end %>
-								&nbsp; &nbsp; &nbsp;<%= radio_button_tag(:workload_3, 2, true) %> &nbsp;<%= get_high_low_likert_option(2) %> &nbsp; &nbsp;
-		            <% (3..4).each do |i| %>
-		              &nbsp; &nbsp; &nbsp;<%= radio_button_tag(:workload_3, i+1) %> &nbsp;<%= get_high_low_likert_option(i) %> &nbsp; &nbsp;
-		            <% end %>
-							</td></tr>
-
-	          	<tr><td style="padding: 20px;">
-		            <b><%= get_workload_items(4) %></b><br>
-		            <% (0..1).each do |i| %>
-		              &nbsp; &nbsp; &nbsp;<%= radio_button_tag(:workload_4, i+1) %> &nbsp;<%= get_high_low_likert_option(i) %> &nbsp; &nbsp;
-		            <% end %>
-								&nbsp; &nbsp; &nbsp;<%= radio_button_tag(:workload_4, 2, true) %> &nbsp;<%= get_high_low_likert_option(2) %> &nbsp; &nbsp;
-		            <% (3..4).each do |i| %>
-		              &nbsp; &nbsp; &nbsp;<%= radio_button_tag(:workload_4, i+1) %> &nbsp;<%= get_high_low_likert_option(i) %> &nbsp; &nbsp;
-		            <% end %>
-							</td></tr>
-
-	          	<tr><td style="padding: 20px;">
-		            <b><%= get_workload_items(5) %></b><br>
-		            <% (0..1).each do |i| %>
-		              &nbsp; &nbsp; &nbsp;<%= radio_button_tag(:workload_5, i+1) %> &nbsp;<%= get_high_low_likert_option(i) %> &nbsp; &nbsp;
-		            <% end %>
-								&nbsp; &nbsp; &nbsp;<%= radio_button_tag(:workload_5, 2, true) %> &nbsp;<%= get_high_low_likert_option(2) %> &nbsp; &nbsp;
-		            <% (3..4).each do |i| %>
-		              &nbsp; &nbsp; &nbsp;<%= radio_button_tag(:workload_5, i+1) %> &nbsp;<%= get_high_low_likert_option(i) %> &nbsp; &nbsp;
-		            <% end %>
-							</td></tr>
-
-		      </tbody>
-		    </table>
-
-			  <div class="center col-sm-6 col-sm-offset-3">
-			    <%= button_tag(type: 'submit', class: "btn btn-block btn-green") do %>
-			      SAVE & SUBMIT
-			    <% end %>
-			  </div>
-
-			<% end %>
-
-		</div>
-	</div>
-
 </div>

@@ -41,6 +41,13 @@
             <td class="right"><b><%= number_to_currency(performance, negative_format: "(%u%n)", precision: 0) %></b></td>
           </tr>
         </table>
+  
+        <% if @current_month == 4 or @current_month == 7 or @current_month == 10 %>
+          <div class="alert alert-info" style="margin-bottom:2px;">
+            Last quarter <br><b><%= project.project_name %> made <%= project.profit_total[@current_quarter-2][0]/10 %> sales!</b>
+          </div>
+        <% end %>
+
       </div>
 
     <!-- STATS -->

@@ -210,6 +210,8 @@ class PlayersController < ApplicationController
     u.user_status = "offline"
     u.player_name = ""
     u.gender = ""
+    u.age = 18
+    u.failed_attempt_count = 0
     u.valid_age = false
     u.valid_read = false
     u.valid_consent = false

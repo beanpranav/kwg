@@ -39,6 +39,7 @@ class PagesController < ApplicationController
       redirect_to request.referrer
     else
       user.tut1 = false
+      user.failed_attempt_count += 1
       user.save
       flash[:notice] = "!!! Some of your answers were incorrect. Please answer carefully."
       redirect_to request.referrer
@@ -54,6 +55,7 @@ class PagesController < ApplicationController
       redirect_to request.referrer
     else
       user.tut2 = false
+      user.failed_attempt_count += 1
       user.save
       flash[:notice] = "!!! Some of your answers were incorrect. Please answer carefully."
       redirect_to request.referrer
@@ -70,14 +72,10 @@ class PagesController < ApplicationController
       redirect_to request.referrer
     else
       user.tut3 = false
+      user.failed_attempt_count += 1
       user.save
-      flash[:notice] = "Some of your answers were incorrect. Please answer carefully."
+      flash[:notice] = "!!! Some of your answers were incorrect. Please answer carefully."
       redirect_to request.referrer
-    end
-
-    if (user.valid_age and user.valid_read and user.valid_consent)
-      
-    else
     end
   end
 
@@ -85,6 +83,7 @@ class PagesController < ApplicationController
   	user = User.find(params[:user_id])
     user.player_name = params[:full_name]
     user.gender = params[:gender]
+    user.age = params[:actual_age]
     user.valid_age = params[:age]
     user.valid_read = params[:read]
     user.valid_consent = params[:consent]
@@ -96,6 +95,7 @@ class PagesController < ApplicationController
     else
       user.player_name = ""
       user.gender = ""
+      user.age = 18
       user.valid_age = false
       user.valid_read = false
       user.valid_consent = false
@@ -119,6 +119,8 @@ class PagesController < ApplicationController
     u.user_status = "offline"
     u.player_name = ""
     u.gender = ""
+    u.age = 18
+    u.failed_attempt_count = 0
     u.valid_age = false
     u.valid_read = false
     u.valid_consent = false

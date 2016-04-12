@@ -182,10 +182,10 @@ $PROTIP =
 {
 	0 => { id: 0, text: ""},
 	1 => { id: 1, text: "<b>PRO TIP 1: Make sure you are talking to all your team members - else you will be handicapped.</b>"},
-	2 => { id: 1, text: "<b>PRO TIP 2: Q1 needs no Support!</b><br>You only need to support your active users. You'll have active users only after Q1 ends."},
-	3 => { id: 1, text: "<b>PRO TIP 4: Develop and coordinate skill expertise across your team!</b><br>Some of you might choose to become experts on specific skills, while others might choose to be 'jack of all trades, master of none'. BUT Knowing which skills your team members ARE GOOD at makes coordination easier. </b>"},
+	2 => { id: 1, text: "<b>PRO TIP 2: Q1 needs no Support!</b><br>You only need to support your active users. You'll have active users only after Q1 ends when you convert your demand into active users for the first time."},
+	3 => { id: 1, text: "<b>PRO TIP 3: Develop and coordinate skill expertise across your team!</b><br>Some of you might choose to become experts on specific skills, while others might choose to be 'jack of all trades, master of none'. BUT Knowing which skills your team members ARE GOOD at makes coordination easier. </b>"},
 	4 => { id: 0, text: ""},
-	5 => { id: 1, text: "<b>PRO TIP 3: Balance learning with task work.</b><br>More learning is good: It makes you more productive BUT it also makes you a costly resource. Importantly, it takes away time from revenue generating tasks. You don’t want your projects to be in debt!"},
+	5 => { id: 1, text: "<b>PRO TIP 4: Balance learning with task work.</b><br>More learning is good: It makes you more productive BUT it also makes you a costly resource. Importantly, it takes away time from revenue generating tasks. You don’t want your projects to be in debt!"},
 	6 => { id: 1, text: "<b>PRO TIP 5: Optimize your support!</b><br>Remember supported customers are more likely to pay every quarter. So don't leave them hanging. BUT, putting in more support time than active users will just be a waste of your time and your team's money"},
 	7 => { id: 0, text: ""},
 	8 => { id: 1, text: "<b>PRO TIP 6: Optimize your R&D efforts!</b><br>R&D acts as a multiplier to your respective task efforts BUT too much of R&D spending and your project profits will tank!"},

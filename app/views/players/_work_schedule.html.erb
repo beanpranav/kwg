@@ -12,6 +12,22 @@
         </div>
       </a>
 
+      <!-- SHOW PRO TIP -->
+        <% if @current_quarter == quarter_no %>
+          <% if $PROTIP[@current_month][:id] == 1 %> 
+            <div class="row unrow">
+              <button type="button" class="close" data-dismiss="alert" style="margin: 16px 14px 0 0;">
+                <span aria-hidden="true">&times;</span>
+                <span class="sr-only">Close</span>
+              </button>
+              <div class="alert alert-info" style="margin:4px 2px 2px; padding-right: 30px;">
+                <%= $PROTIP[@current_month][:text].html_safe %>
+              </div>
+            </div>
+          <% end %>
+        <% end %>
+      
+
       <div id="quarter-<%= quarter_no %>" class="panel-collapse <%= if @current_quarter != quarter_no then "collapse" end %>" role="tabpanel">
         <div class="panel-body">
           <% quarter.each.with_index(1) do |monthly_report, q_month_no| %>
@@ -122,6 +138,8 @@
           <% end %>
         </div>
       </div>
+
+      
     </div>
 
   <% end %>

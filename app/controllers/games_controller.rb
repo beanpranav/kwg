@@ -85,7 +85,7 @@ class GamesController < ApplicationController
     active_users.each.with_index(1) do |user, index|
       user.user_status = "playing"
       user.save
-      p = Player.new(user_id: user.id, game_id: params[:game_id], member_no: index, salary_total: 0, skill_level: [1,1,1,1], skill_total_points: [1,1,1,1], player_name: user.player_name, player_screenname: user.player_screenname, gender: user.gender, valid_age: user.valid_age, valid_read: user.valid_read, valid_consent: user.valid_consent)
+      p = Player.new(user_id: user.id, game_id: params[:game_id], member_no: index, salary_total: 0, skill_level: [1,1,1,1], skill_total_points: [1,1,1,1], player_name: user.player_name, player_screenname: user.player_screenname, gender: user.gender, valid_age: user.valid_age, valid_read: user.valid_read, valid_consent: user.valid_consent, age: user.age, failed_attempt_count: user.failed_attempt_count)
       p.save
     end
     
