@@ -22,7 +22,7 @@ module GamesHelper
     [
       "vChat", "vPhotos", "vTunes", "vMaps", 
       "vGames", "vWeather", "vChat", "vPhotos",
-      "vNews", "vMoney"
+      "vBooks", "vMoney"
     ]
   end
 

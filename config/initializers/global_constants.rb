@@ -181,7 +181,7 @@ $HELP_TEXT =
 $PROTIP =
 {
 	0 => { id: 0, text: ""},
-	1 => { id: 1, text: "<b>PRO TIP 1: Make sure you are talking to all your team members - else you will be handicapped.</b>"},
+	1 => { id: 1, text: "<b>PRO TIP 1: Make sure you are talking to all your team members. This is a team game - learn from each other and help each other!</b>"},
 	2 => { id: 1, text: "<b>PRO TIP 2: Q1 needs no Support!</b><br>You only need to support your active users. You'll have active users only after Q1 ends when you convert your demand into active users for the first time."},
 	3 => { id: 1, text: "<b>PRO TIP 3: Develop and coordinate skill expertise across your team!</b><br>Some of you might choose to become experts on specific skills, while others might choose to be 'jack of all trades, master of none'. BUT Knowing which skills your team members ARE GOOD at makes coordination easier. </b>"},
 	4 => { id: 0, text: ""},
