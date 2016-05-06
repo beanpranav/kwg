@@ -221,6 +221,7 @@
                 <th class="center">Tut 1</th>
                 <th class="center">Tut 2</th>
                 <th class="center">Tut 3</th>
+                <th class="center">Attempts</th>
               </thead>
               <tbody>
                 <% @offline_users.sort_by(&:updated_at).each do |player| %>
@@ -231,6 +232,7 @@
                     <td class="center <%= if player.tut1 then "font-green" else "font-invert" end %>"><i class="fa fa-lg fa-check"></i></td>
                     <td class="center <%= if player.tut2 then "font-green" else "font-invert" end %>"><i class="fa fa-lg fa-check"></i></td>
                     <td class="center <%= if player.tut3 then "font-green" else "font-invert" end %>"><i class="fa fa-lg fa-check"></i></td>
+                    <td class="center"><%= player.failed_attempt_count %></td>
                   </tr>
                 <% end %>
               </tbody>

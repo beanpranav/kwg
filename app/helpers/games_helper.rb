@@ -1,8 +1,8 @@
 module GamesHelper
 
 	def generate_project_name(index,teams)
-    if teams > 1
-      project_names[2+index]
+    if teams > 2
+      project_names[4+index]
     else
       project_names[index]
     end
@@ -20,9 +20,9 @@ module GamesHelper
 
   def project_names
     [
-      "vChat", "vPhotos", "vTunes", "vMaps", 
-      "vGames", "vWeather", "vChat", "vPhotos",
-      "vBooks", "vMoney"
+      "vChat", "vPhotos", "vBooks", "vMoney", 
+      "vTunes", "vMaps", "vGames", "vWeather", 
+      "vChat", "vPhotos", "vBooks", "vMoney"
     ]
   end
 

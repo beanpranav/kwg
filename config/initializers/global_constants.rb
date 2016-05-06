@@ -1,11 +1,12 @@
 $GAME_TYPES = 
 [
-	['N = 2; GS = 2; MTM(n,v) = 2,1', 21],
+	# ['N = 2; GS = 2; MTM(n,v) = 2,1', 21],
 	['N = 3; GS = 3; MTM(n,v) = 2,1', 31],
-	['N = 4; GS = 2; MTM(n,v) = 2,2', 25],
-	['N = 5; GS = 5; MTM(n,v) = 2,1', 51],
+	# ['N = 4; GS = 2; MTM(n,v) = 2,2', 25],
+	# ['N = 5; GS = 5; MTM(n,v) = 2,1', 51],
 	['N = 6; GS = 3; MTM(n,v) = 2,2', 35],
-	['N = 8; GS = 3,2; MTM(n,v) = 2,both -- PILOT only', 89],
+	['N = 6; GS = 3; MTM(n,v) = 2,1', 39],
+	# ['N = 8; GS = 3,2; MTM(n,v) = 2,both -- PILOT only', 89],
 	['N = 9; GS = 3; MTM(n,v) = 2,both', 99],
 	['N = 12; GS = 3; MTM(n,v) = 2,both', 129]
 	# ['GS = 3; N = 4; MTM(n,v) = 3,3', 36],
@@ -54,6 +55,14 @@ $GAME_TYPES_LOOKUP =
 				teams: 4,
 				project_split: [1,1,1,1],
 				membership_split: [[1,2,3],[1,2,4],[1,3,4],[2,3,4]]
+				},
+	39 => {
+				name: 'N= 6; GS= 3; MTM(n,v)=2,1', 
+				group_size: 3,
+				n: 6,
+				teams: 2, 
+				project_split: [2,2], 
+				membership_split: [[1,2,3],[4,5,6]]
 				},
 	41 => {
 				name: 'N= 4; GS= 4; MTM(n,v)=3,1', 
