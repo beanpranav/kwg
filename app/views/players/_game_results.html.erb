@@ -30,6 +30,7 @@
                   <thead>
                     <th></th>
                     <th class="center">Max Capacity</th>
+                    <th class="center">Total R&D points</th>
                     <th class="center">Active Users</th>
                     <th class="center">Total Profit</th>
                   </thead>
@@ -37,6 +38,7 @@
                     <% @player.game.projects.sort_by(&:id).each_with_index do |project,i| %>
                       <tr>
                         <td><b><%= project.project_name %></b></td>
+                        <td><%= project.rnd_total_points.sum %></td>
                         <td><%= project.stats_total[0] %></td>
                         <td><%= project.users_total[-1][2] %></td>
                         <td><%= number_to_currency(@project_profits[i]+$STARTING_INVESTMENT, negative_format: "(%u%n)", precision: 0) %></td>
@@ -133,9 +135,8 @@
 
 
       <p class="center" style="margin:10px 30px;">
-        <em>Take notice that neither the highest individual earners nor the ‘experts’ make the best team! 
-        <br>The best team is comprised of people who can balance and coordinate across both.</em>
-        <br><br>
+        <em>Take notice that the best team is comprised of people who can balance and coordinate across both apps.</em>
+        <br>
         <em>The team that focuses on getting more users and serving them do better! Also, teams that focus on team R&D over their personal skills get better gains. Personal skills are useless if your app is substandard.</em>
       </p>
 
