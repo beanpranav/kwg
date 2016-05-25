@@ -1,3 +1,4 @@
+# rubocop:disable Metrics/LineLength, ClassLength
 class PlayersController < ApplicationController
   before_action :set_player, only: [:show, :edit, :update, :destroy, :update_measure_austin, :update_measure_lewis, :update_measure_workload, :go_offline]
   before_action :authenticate_user!
@@ -11,98 +12,99 @@ class PlayersController < ApplicationController
 
   def show
     # Game Completed
-      if @player.game.game_status == 100        
-        # Survery Count = austin + workload + lewis
-          @total_surveys = 2+@player.teams.count
+    if @player.game.game_status == 100
+      # Survery Count = austin + workload + lewis
+      @total_surveys = 2 + @player.teams.count
 
-        # Austin
-          if @player.measure_austin.is_complete == false
-            # list all team-members
-            @co_players = []
-            @player.game.players.each do |p|
-              @co_players << [p.id, p.player_screenname]
-            end
-            @measure_austin_options = [["Novice (N)",1],["Advanced (A1, A2)",2],["Expert (E1, E2, E3)",4]]
+      # Austin
+      if @player.measure_austin.is_complete == false
+        # list all team-members
+        @co_players = []
+        @player.game.players.each do |p|
+          @co_players << [p.id, p.player_screenname]
+        end
+        @measure_austin_options = [['Novice (N)', 1], ['Advanced (A1, A2)', 2], ['Expert (E1, E2, E3)', 4]]
 
-        # Lewis
-          elsif @player.measure_lewis.sort_by(&:id)[0].is_complete == false
-        
-        # Conditional Lewis 
-          elsif @player.teams.count > 1 and @player.measure_lewis.sort_by(&:id)[1].is_complete == false
-          
-        # Workload
-          elsif @player.measure_workload.is_complete == false
-          
-        # Results
-          else
+      # Lewis
+      elsif @player.measure_lewis.sort_by(&:id)[0].is_complete == false
 
-            @players = @player.game.players.sort_by(&:id)
-            @player_project_profit = [0,0,0,0,0,0,0,0,0,0,0,0]
+      # Conditional Lewis
+      elsif @player.teams.count > 1 && @player.measure_lewis.sort_by(&:id)[1].is_complete == false
 
-            @players.each_with_index do |p,i|
-              p.teams.each do |t|
-                t.projects.each do |prj|
-                  prj.profit_total.each do |q|
-                    @player_project_profit[i] += q[2]
-                  end
-                end
-              end
-            end
+      # Workload
+      elsif @player.measure_workload.is_complete == false
 
-            @project_profits = []
-            @projects = @player.game.projects.sort_by(&:id)
-            @projects.each do |p|
-              @project_profits << p.profit_total.map {|r,e,p| p}.sum
-            end
-          end
-
-    # Game in progress
+      # Results
       else
 
-        # Organize quaterly reports
-          @current_month = @player.game.game_status
-          @current_quarter = ((@current_month-1)/3)+1
+        @players = @player.game.players.sort_by(&:id)
+        @player_project_profit = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 
-          quarters_count = @player.game.game_length/3
-          @quarter_reports = Array.new(quarters_count){Array.new(3,0)}
-          reports = @player.player_monthly_reports.sort_by(&:month_no) 
-          
-          quarters_count.times do |q|
-            3.times do |m|
-              if reports.detect {|r| r.month_no == q*3+m+1}
-                @quarter_reports[q][m] = reports.select {|r| r.month_no == q*3+m+1}
+        @players.each_with_index do |p, i|
+          p.teams.each do |t|
+            t.projects.each do |prj|
+              prj.profit_total.each do |q|
+                @player_project_profit[i] += q[2]
               end
             end
           end
-        
-        # Calculate and organize project-wise profits
-          @player_projects = []
-          @player_project_profit = 0
-          @work_on_options = []
+        end
 
-          @player.teams.each do |team|
-            team.projects.sort_by(&:id).each do |project|
-              if @player.game.game_status > 1
-                project.profit_total.each do |q_stats|
-                  @player_project_profit += q_stats[2]
-                end 
-              end  
-              @player_project_profit += $STARTING_INVESTMENT    
-              @player_projects << project
-              @work_on_options << [project.project_name,project.project_monthly_reports.sort_by(&:created_at).last.id] if @player.game.game_status > 0
+        @project_profits = []
+        @projects = @player.game.projects.sort_by(&:id)
+        @projects.each do |p|
+          @project_profits << p.profit_total.map { |_r, _e, profit| profit }.sum
+        end
+      end
+
+    # Game in progress
+    else
+
+      # Organize quaterly reports
+      @current_month = @player.game.game_status
+      @current_quarter = ((@current_month - 1) / 3) + 1
+
+      quarters_count = @player.game.game_length / 3
+      @quarter_reports = Array.new(quarters_count) { Array.new(3, 0) }
+      reports = @player.player_monthly_reports.sort_by(&:month_no)
+
+      quarters_count.times do |q|
+        3.times do |m|
+          if reports.detect { |r| r.month_no == q * 3 + m + 1 }
+            @quarter_reports[q][m] = reports.select { |r| r.month_no == q * 3 + m + 1 }
+          end
+        end
+      end
+    
+      # Calculate and organize project-wise profits
+      @player_projects = []
+      @player_project_profit = 0
+      @work_on_options = []
+
+      @player.teams.each do |team|
+        team.projects.sort_by(&:id).each do |project|
+          if @player.game.game_status > 1
+            project.profit_total.each do |q_stats|
+              @player_project_profit += q_stats[2]
             end
           end
-
-        # Constants for display
-          @gs_adjustment_factor = $GAME_TYPES_LOOKUP[@player.game.game_type][:group_size]
-          @work_on_options = [['APP ------',@work_on_options]]
-          @using_skill_options = [
-                                  ['DO ------',[["App Dev",1],["Marketing",2],["Support",3]]],
-                                  ['DO R&D ------',[["R&D on App Dev",5],["R&D on Marketing",6],["R&D on Support",7]]],
-                                  ['IMPROVE MY SKILL ---',[["Study App Dev",11], ["Study Marketing",12], ["Study Support",13], ["Study R&D",14]]]
-                                ]
-
+          @player_project_profit += $STARTING_INVESTMENT
+          @player_projects << project
+          @work_on_options << [project.project_name, project.project_monthly_reports.sort_by(&:created_at).last.id] if @player.game.game_status > 0
+        end
       end
+
+      # Constants for display
+      @gs_adjustment_factor = $GAME_TYPES_LOOKUP[@player.game.game_type][:group_size]
+      @work_on_options = [['APP ------', @work_on_options]]
+      @using_skill_options = [['DO ------', [['App Dev', 1], ['Marketing', 2], ['Support', 3]]],
+                              ['DO R&D ------', [['R&D on App Dev', 5], ['R&D on Marketing', 6],
+                                                 ['R&D on Support', 7]]],
+                              ['IMPROVE MY SKILL ---', [['Study App Dev', 11], ['Study Marketing', 12],
+                                                        ['Study Support', 13], ['Study R&D', 14]]]
+                             ]
+
+    end
   end
 
   def new
@@ -147,23 +149,23 @@ class PlayersController < ApplicationController
       work_item.project_monthly_report_id = params[:project_monthly_report_ids][i]
       work_item.skill_use = params[:skill_uses][i]
       work_item.save
-    end 
+    end
     redirect_to request.referrer
   end
 
   def update_measure_austin
     m = @player.measure_austin
-    players_count = params[:input_skills].count/4
+    players_count = params[:input_skills].count / 4
 
     skill_1_levels = []
     skill_2_levels = []
     skill_3_levels = []
     skill_4_levels = []
     players_count.times do |i|
-      skill_1_levels << [m.skill_1_player_levels[i][0],params[:input_skills][i*4]]
-      skill_2_levels << [m.skill_1_player_levels[i][0],params[:input_skills][i*4+1]]
-      skill_3_levels << [m.skill_1_player_levels[i][0],params[:input_skills][i*4+2]]
-      skill_4_levels << [m.skill_1_player_levels[i][0],params[:input_skills][i*4+3]]
+      skill_1_levels << [m.skill_1_player_levels[i][0], params[:input_skills][i * 4]]
+      skill_2_levels << [m.skill_1_player_levels[i][0], params[:input_skills][i * 4 + 1]]
+      skill_3_levels << [m.skill_1_player_levels[i][0], params[:input_skills][i * 4 + 2]]
+      skill_4_levels << [m.skill_1_player_levels[i][0], params[:input_skills][i * 4 + 3]]
     end
     m.skill_1_player_levels = skill_1_levels
     m.skill_1_player_levels_will_change!
@@ -177,39 +179,41 @@ class PlayersController < ApplicationController
     m.is_complete = true
     m.save
 
-    flash[:notice] = "Survey 1 saved successfully."
+    flash[:notice] = 'Survey 1 saved successfully.'
     redirect_to request.referrer
   end
 
   def update_measure_lewis
     m = @player.measure_lewis.sort_by(&:id)[params[:lewis_no].to_i]
-    m.responses_specialization = [params[:lewis_1],params[:lewis_2],params[:lewis_3],params[:lewis_4],params[:lewis_5]]
-    m.responses_credibility = [params[:lewis_6],params[:lewis_7],params[:lewis_8],6-params[:lewis_9].to_i,6-params[:lewis_10].to_i]
-    m.responses_coordination = [params[:lewis_11],params[:lewis_12],6-params[:lewis_13].to_i,params[:lewis_14],6-params[:lewis_15].to_i]
+    m.responses_specialization = [params[:lewis_1], params[:lewis_2], params[:lewis_3],
+                                  params[:lewis_4], params[:lewis_5]]
+    m.responses_credibility = [params[:lewis_6], params[:lewis_7], params[:lewis_8],
+                               6 - params[:lewis_9].to_i, 6 - params[:lewis_10].to_i]
+    m.responses_coordination = [params[:lewis_11], params[:lewis_12], 6 - params[:lewis_13].to_i,
+                                params[:lewis_14], 6 - params[:lewis_15].to_i]
 
     m.is_complete = true
     m.save
 
-    flash[:notice] = "Survey #{2+params[:lewis_no].to_i} saved successfully."
+    flash[:notice] = "Survey #{2 + params[:lewis_no].to_i} saved successfully."
     redirect_to request.referrer
   end
 
   def update_measure_workload
     m = @player.measure_workload
-    m.responses = [params[:workload_1],params[:workload_2],params[:workload_3].to_i,params[:workload_4],params[:workload_5].to_i]
-
+    m.responses = [params[:workload_1], params[:workload_2], params[:workload_3].to_i,
+                   params[:workload_4], params[:workload_5].to_i]
     m.is_complete = true
     m.save
-
-    flash[:notice] = "Last survey saved successfully."
+    flash[:notice] = 'Last survey saved successfully.'
     redirect_to request.referrer
   end
 
   def go_offline
     u = @player.user
-    u.user_status = "offline"
-    u.player_name = ""
-    u.gender = ""
+    u.user_status = 'offline'
+    u.player_name = ''
+    u.gender = ''
     u.age = 18
     u.failed_attempt_count = 0
     u.valid_age = false
@@ -220,29 +224,30 @@ class PlayersController < ApplicationController
     u.tut2 = false
     u.tut3 = false
     u.save
-    flash[:notice] = "Thank you for playing!"
+    flash[:notice] = 'Thank you for playing!'
     sign_out u
     redirect_to root_path
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_player
-      @player = Player.find(params[:id])
-    end
 
-    def correct_user
-      if  @player.user == current_user or @player.game.user_id == current_user.id
+  # Use callbacks to share common setup or constraints between actions.
+  def set_player
+    @player = Player.find(params[:id])
+  end
+
+  def correct_user
+    if @player.user == current_user || @player.game.user_id == current_user.id
       # current user's game
-        true
-      else
+      true
+    else
       # no access
-        redirect_to root_path, notice: "You don't have permission to view this page.".html_safe
-      end
+      redirect_to root_path, notice: 'You don\'t have permission to view this page.'.html_safe
     end
+  end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def player_params
-      params.require(:player).permit(:user_id, :game_id, :salary_total, :skill_level, :skill_total_points, :member_no)
-    end
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def player_params
+    params.require(:player).permit(:user_id, :game_id, :salary_total, :skill_level, :skill_total_points, :member_no)
+  end
 end

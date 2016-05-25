@@ -1,12 +1,13 @@
-$GAME_TYPES = 
-[
+# rubocop:disable all
+$GAME_TYPES = [ 
 	# ['N = 2; GS = 2; MTM(n,v) = 2,1', 21],
 	['N = 3; GS = 3; MTM(n,v) = 2,1', 31],
 	# ['N = 4; GS = 2; MTM(n,v) = 2,2', 25],
 	# ['N = 5; GS = 5; MTM(n,v) = 2,1', 51],
-	['N = 6; GS = 3; MTM(n,v) = 2,2', 35],
 	['N = 6; GS = 3; MTM(n,v) = 2,1', 39],
+	['N = 6; GS = 3; MTM(n,v) = 2,2', 35],
 	# ['N = 8; GS = 3,2; MTM(n,v) = 2,both -- PILOT only', 89],
+	['N = 9; GS = 3; MTM(n,v) = 2,1', 93],
 	['N = 9; GS = 3; MTM(n,v) = 2,both', 99],
 	['N = 12; GS = 3; MTM(n,v) = 2,both', 129]
 	# ['GS = 3; N = 4; MTM(n,v) = 3,3', 36],
@@ -95,6 +96,14 @@ $GAME_TYPES_LOOKUP =
 				teams: 5,
 				project_split: [1,1,1,1,2],
 				membership_split: [[1,2,6],[1,4,5],[2,3,5],[3,4,6],[7,8]]
+				},
+	93 => {
+				name: 'N= 9; GS= 3; MTM(n,v)=2,1', 
+				group_size: 3,
+				n: 9,
+				teams: 3,
+				project_split: [2,2,2],
+				membership_split: [[1,2,3],[4,5,6],[7,8,9]]
 				},
 	99 => {
 				name: 'N= 9; GS= 3; MTM(n,v)=2,both', 

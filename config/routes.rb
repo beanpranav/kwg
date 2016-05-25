@@ -22,15 +22,9 @@ Rails.application.routes.draw do
     end
   end
 
-  devise_for :users, :path => '', :path_names => {:sign_in => 'login', :sign_out => 'logout', :sign_up => 'create_account'}
+  devise_for :users, :path => '', :path_names => { :sign_in => 'login', :sign_out => 'logout', :sign_up => 'create_account' }
   
   get "demo_screenshots" => "pages#demo_screenshots"
-  get "tutorial" => "pages#tutorial"
-  get "tutorial_personal_dashboard" => "pages#tutorial_personal_dashboard"
-  get "tutorial_work_calendar" => "pages#tutorial_work_calendar"
-  get "tutorial_project_information" => "pages#tutorial_project_information"
-  get "tutorial_gameplay_choices" => "pages#tutorial_gameplay_choices"
-  get "tutorial_gameplay_results" => "pages#tutorial_gameplay_results"
 
   post "activate_user" => "pages#activate_user"
   post "activate_tut0" => "pages#activate_tut0"

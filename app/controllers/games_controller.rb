@@ -1,3 +1,4 @@
+# rubocop:disable Metrics/LineLength, ClassLength
 class GamesController < ApplicationController
   before_action :set_game, only: [:show, :edit, :update, :destroy, :continue_game, :complete_game, :generate_forms, :generate_results]
   before_action :authenticate_user!
@@ -14,15 +15,15 @@ class GamesController < ApplicationController
       @active_users = User.where(user_status: "active")
       @offline_users = User.where(user_status: "offline", tut0: true)
     else
-      @player_project_totals = [0,0,0,0,0,0,0,0,0,0,0,0]
+      @player_project_totals = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
     end
 
     @players = @game.players.sort_by(&:id)
 
     if @game.game_status > 1
-      @player_project_profit = [0,0,0,0,0,0,0,0,0,0,0,0]
+      @player_project_profit = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 
-      @players.each_with_index do |p,i|
+      @players.each_with_index do |p, i|
         p.teams.each do |t|
           t.projects.each do |prj|
             prj.profit_total.each do |q|
@@ -34,12 +35,9 @@ class GamesController < ApplicationController
 
       @project_profits = []
       @game.projects.sort_by(&:id).each do |p|
-        @project_profits << p.profit_total.map {|r,e,p| p}.sum
+        @project_profits << p.profit_total.map { |_r, _e, profit| profit }.sum
       end
     end
-
-    
-
   end
 
   def new
@@ -85,7 +83,11 @@ class GamesController < ApplicationController
     active_users.each.with_index(1) do |user, index|
       user.user_status = "playing"
       user.save
-      p = Player.new(user_id: user.id, game_id: params[:game_id], member_no: index, salary_total: 0, skill_level: [1,1,1,1], skill_total_points: [1,1,1,1], player_name: user.player_name, player_screenname: user.player_screenname, gender: user.gender, valid_age: user.valid_age, valid_read: user.valid_read, valid_consent: user.valid_consent, age: user.age, failed_attempt_count: user.failed_attempt_count)
+      p = Player.new(user_id: user.id, game_id: params[:game_id], member_no: index, salary_total: 0,
+                     skill_level: [1, 1, 1, 1], skill_total_points: [1, 1, 1, 1], player_name: user.player_name,
+                     player_screenname: user.player_screenname, gender: user.gender, valid_age: user.valid_age,
+                     valid_read: user.valid_read, valid_consent: user.valid_consent, age: user.age,
+                     failed_attempt_count: user.failed_attempt_count)
       p.save
     end
     
@@ -105,18 +107,19 @@ class GamesController < ApplicationController
 
       # create projects
       $GAME_TYPES_LOOKUP[@game.game_type][:project_split][i].times do
-        pj = Project.new(team_id: @t.id, game_id: @game.id, project_name: generate_project_name(project_counter,$GAME_TYPES_LOOKUP[@game.game_type][:teams]), stats_total: [0,0,0], rnd_stage: [1,1,1], rnd_total_points: [1,1,1], profit_total: [])
+        pj = Project.new(team_id: @t.id, game_id: @game.id, project_name: generate_project_name(project_counter, $GAME_TYPES_LOOKUP[@game.game_type][:teams]),
+                         stats_total: [0, 0, 0], rnd_stage: [1, 1, 1], rnd_total_points: [1, 1, 1], profit_total: [])
         pj.save
         project_counter += 1
       end
 
       # assign membership
       $GAME_TYPES_LOOKUP[@game.game_type][:membership_split][i].each do |member_no|
-        tm = TeamMembership.new(team_id: @t.id, player_id: @players.select{|p| p[1] == member_no}[0][0])
+        tm = TeamMembership.new(team_id: @t.id, player_id: @players.select { |p| p[1] == member_no }[0][0])
         tm.save
       end
     end
-    
+
     # return
     flash[:notice] = "#{params[:n]} Players are successfully assigned to this game."
     redirect_to request.referrer
@@ -129,64 +132,63 @@ class GamesController < ApplicationController
 
     # Do caluclations for current month and update all reports
     unless @game.game_status == 0
-      
+
       # convert work schedule to player: salary, skills and project: expense, productivity
       players.each do |player|
-
         player_report = PlayerMonthlyReport.find_by(player_id: player.id, month_no: @game.game_status)
 
         player_report.work_schedules.each do |ws|
-          if ws.project_monthly_report_id == nil or ws.skill_use == ''
+          if ws.project_monthly_report_id.nil? || ws.skill_use == ''
             ws.project_monthly_report_id = 0
             ws.skill_use = 0
             ws.save
           end
-          unless ws.skill_use.to_i <= 0 or ws.project_monthly_report_id <= 0
+          unless ws.skill_use.to_i <= 0 || ws.project_monthly_report_id <= 0
             # set skill no used
-            if ws.skill_use.to_i > 4 and ws.skill_use.to_i < 8 
-              skill_no = 4 
-            else 
-              skill_no = ws.skill_use.to_i 
+            if ws.skill_use.to_i > 4 && ws.skill_use.to_i < 8
+              skill_no = 4
+            else
+              skill_no = ws.skill_use.to_i
             end
-            
+
             gs_adjustment_factor = $GAME_TYPES_LOOKUP[@game.game_type][:group_size]
 
             # player salary and project expense
             project_report = ws.project_monthly_report
             if skill_no < 5
-              player_report.salary_generated += ($SKILL_SALARY[skill_no][player.skill_level[skill_no-1].to_i]/gs_adjustment_factor).to_i
-              project_report.expense_generated += ($SKILL_SALARY[skill_no][player.skill_level[skill_no-1].to_i]/gs_adjustment_factor).to_i
+              player_report.salary_generated += ($SKILL_SALARY[skill_no][player.skill_level[skill_no - 1].to_i] / gs_adjustment_factor).to_i
+              project_report.expense_generated += ($SKILL_SALARY[skill_no][player.skill_level[skill_no - 1].to_i] / gs_adjustment_factor).to_i
             else
-              player_report.salary_generated += ($SKILL_SALARY[skill_no-10][player.skill_level[skill_no-11].to_i]/gs_adjustment_factor).to_i
-              project_report.expense_generated += ($SKILL_SALARY[skill_no-10][player.skill_level[skill_no-11].to_i]/gs_adjustment_factor).to_i
+              player_report.salary_generated += ($SKILL_SALARY[skill_no - 10][player.skill_level[skill_no - 11].to_i] / gs_adjustment_factor).to_i
+              project_report.expense_generated += ($SKILL_SALARY[skill_no - 10][player.skill_level[skill_no - 11].to_i] / gs_adjustment_factor).to_i
             end
 
             # player skill points
             case skill_no
-            when 1,11
+            when 1, 11
               player_report.skill_points_generated_1 += $SKILL_POINTS[skill_no]
-            when 2,12
+            when 2, 12
               player_report.skill_points_generated_2 += $SKILL_POINTS[skill_no]
-            when 3,13
+            when 3, 13
               player_report.skill_points_generated_3 += $SKILL_POINTS[skill_no]
-            when 4,14
+            when 4, 14
               player_report.skill_points_generated_4 += $SKILL_POINTS[skill_no]
             end
 
             # project productivity
             case ws.skill_use.to_i
             when 1
-              project_report.skill_1_stats_generated += ($SKILL_PRODUCTIVITY[1][player.skill_level[0].to_i]/gs_adjustment_factor).to_i
+              project_report.skill_1_stats_generated += ($SKILL_PRODUCTIVITY[1][player.skill_level[0].to_i] / gs_adjustment_factor).to_i
             when 2
-              project_report.skill_2_stats_generated += ($SKILL_PRODUCTIVITY[2][player.skill_level[1].to_i]/gs_adjustment_factor).to_i
+              project_report.skill_2_stats_generated += ($SKILL_PRODUCTIVITY[2][player.skill_level[1].to_i] / gs_adjustment_factor).to_i
             when 3
-              project_report.skill_3_stats_generated += ($SKILL_PRODUCTIVITY[3][player.skill_level[2].to_i]/gs_adjustment_factor).to_i
+              project_report.skill_3_stats_generated += ($SKILL_PRODUCTIVITY[3][player.skill_level[2].to_i] / gs_adjustment_factor).to_i
             when 5
-              project_report.skill_4_stats_1_generated += ($SKILL_PRODUCTIVITY[4][player.skill_level[3].to_i]/gs_adjustment_factor).to_i
+              project_report.skill_4_stats_1_generated += ($SKILL_PRODUCTIVITY[4][player.skill_level[3].to_i] / gs_adjustment_factor).to_i
             when 6
-              project_report.skill_4_stats_2_generated += ($SKILL_PRODUCTIVITY[4][player.skill_level[3].to_i]/gs_adjustment_factor).to_i
+              project_report.skill_4_stats_2_generated += ($SKILL_PRODUCTIVITY[4][player.skill_level[3].to_i] / gs_adjustment_factor).to_i
             when 7
-              project_report.skill_4_stats_3_generated += ($SKILL_PRODUCTIVITY[4][player.skill_level[3].to_i]/gs_adjustment_factor).to_i
+              project_report.skill_4_stats_3_generated += ($SKILL_PRODUCTIVITY[4][player.skill_level[3].to_i] / gs_adjustment_factor).to_i
             end
 
             project_report.save
@@ -198,10 +200,10 @@ class GamesController < ApplicationController
         # update Player salary, skill points and levels
         player.salary_total += player_report.salary_generated
         player.skill_total_points = [
-          player.skill_total_points[0]+player_report.skill_points_generated_1,
-          player.skill_total_points[1]+player_report.skill_points_generated_2,
-          player.skill_total_points[2]+player_report.skill_points_generated_3,
-          player.skill_total_points[3]+player_report.skill_points_generated_4
+          player.skill_total_points[0] + player_report.skill_points_generated_1,
+          player.skill_total_points[1] + player_report.skill_points_generated_2,
+          player.skill_total_points[2] + player_report.skill_points_generated_3,
+          player.skill_total_points[3] + player_report.skill_points_generated_4
         ]
         player.skill_total_points_will_change!
         player.skill_level = [
@@ -212,26 +214,23 @@ class GamesController < ApplicationController
         ]
         player.skill_level_will_change!
         player.save
-
-        
       end
 
-      # update project 
+      # update project
       projects.each do |project|
-
         # update expense, stats, rnd points and stages
         project_report = ProjectMonthlyReport.find_by(project_id: project.id, month_no: @game.game_status)
 
         if @game.game_status % 3 == 1
-          project.profit_total << [0,project_report.expense_generated,0]
+          project.profit_total << [0, project_report.expense_generated, 0]
         else
-          project.profit_total[-1] = [project.profit_total[-1][0],project.profit_total[-1][1]+project_report.expense_generated,0]
+          project.profit_total[-1] = [project.profit_total[-1][0], project.profit_total[-1][1] + project_report.expense_generated, 0]
         end
         project.profit_total_will_change!
         project.rnd_total_points = [
-          project.rnd_total_points[0]+project_report.skill_4_stats_1_generated,
-          project.rnd_total_points[1]+project_report.skill_4_stats_2_generated,
-          project.rnd_total_points[2]+project_report.skill_4_stats_3_generated
+          project.rnd_total_points[0] + project_report.skill_4_stats_1_generated,
+          project.rnd_total_points[1] + project_report.skill_4_stats_2_generated,
+          project.rnd_total_points[2] + project_report.skill_4_stats_3_generated
         ]
         project.rnd_total_points_will_change!
         project.rnd_stage = [
@@ -252,31 +251,31 @@ class GamesController < ApplicationController
         # Quaterly actions
         if @game.game_status % 3 == 0
           # Calculate users, revenue and profits
-          if project.users_total[-1][2] > project.stats_total[2] 
+          if project.users_total[-1][2] > project.stats_total[2]
             supported_users = project.stats_total[2]
-            unsupported_users = project.users_total[-1][2]-project.stats_total[2]
-          else 
+            unsupported_users = project.users_total[-1][2] - project.stats_total[2]
+          else
             supported_users = project.users_total[-1][2]
             unsupported_users = 0
           end
           
-          old_users = (supported_users*$SUPPORTED_CONVERSION + unsupported_users*$UNSUPPORTED_CONVERSION).to_i
-          new_users = (project.stats_total[1]*$MARKET_CONVERSION).to_i
-          active_users = if project.stats_total[0] < old_users+new_users then project.stats_total[0] else old_users+new_users end
+          old_users = (supported_users * $SUPPORTED_CONVERSION + unsupported_users * $UNSUPPORTED_CONVERSION).to_i
+          new_users = (project.stats_total[1] * $MARKET_CONVERSION).to_i
+          active_users = project.stats_total[0] < old_users + new_users ? project.stats_total[0] : old_users + new_users
           
           project.users_total << [old_users, new_users, active_users]
           project.users_total_will_change!
 
           q_revenue = active_users*$PRODUCT_UNIT_COST
       
-          project.profit_total[-1] = [q_revenue, project.profit_total[-1][1], q_revenue-project.profit_total[-1][1]]
+          project.profit_total[-1] = [q_revenue, project.profit_total[-1][1], q_revenue - project.profit_total[-1][1]]
           project.profit_total_will_change!
 
           # reset quaterly project stats
-          project.stats_total = [project.stats_total[0],0,0]
-          project.stats_total_will_change! 
-        
-          project.save  
+          project.stats_total = [project.stats_total[0], 0, 0]
+          project.stats_total_will_change!
+
+          project.save
         end
       end
 
@@ -311,19 +310,19 @@ class GamesController < ApplicationController
     if @game.game_status < @game.game_length
       # create each player's monthly reports
       players.each do |player|
-        @pr = PlayerMonthlyReport.new(player_id: player.id, month_no: @game.game_status+1, salary_generated: 0)
+        @pr = PlayerMonthlyReport.new(player_id: player.id, month_no: @game.game_status + 1, salary_generated: 0)
         @pr.save
-        
+
         # create 4 work schedules for each report
         4.times do |i|
-          ws = WorkSchedule.new(player_monthly_report_id: @pr.id, rank: i+1)
+          ws = WorkSchedule.new(player_monthly_report_id: @pr.id, rank: i + 1)
           ws.save
         end
       end
 
       # create each project's monthly report
       projects.each do |project|
-        pjr = ProjectMonthlyReport.new(project_id: project.id, month_no: @game.game_status+1)
+        pjr = ProjectMonthlyReport.new(project_id: project.id, month_no: @game.game_status + 1)
         pjr.save
       end
     end
@@ -350,12 +349,12 @@ class GamesController < ApplicationController
       player.teams.each do |team|
         co_players << team.players.pluck(:id)
       end
-      
+
       empty_array = []
       co_players.flatten.uniq.sort.each do |co_p_id|
-        empty_array << [co_p_id,1]
+        empty_array << [co_p_id, 1]
       end
-      
+
       m_austin = MeasureAustin.new(player_id: player.id, skill_1_player_levels: empty_array, skill_2_player_levels: empty_array, skill_3_player_levels: empty_array, skill_4_player_levels: empty_array)
       m_austin.save
 
@@ -366,7 +365,6 @@ class GamesController < ApplicationController
 
       m_workload = MeasureWorkload.new(player_id: player.id)
       m_workload.save
-
     end
 
     # set game status and return
@@ -384,23 +382,24 @@ class GamesController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_game
-      @game = Game.find(params[:id])
-    end
 
-    def correct_user
-      if  @game.user_id == current_user.id
+  # Use callbacks to share common setup or constraints between actions.
+  def set_game
+    @game = Game.find(params[:id])
+  end
+
+  def correct_user
+    if @game.user_id == current_user.id
       # current user's game
-        true
-      else
+      true
+    else
       # no access
-        redirect_to root_path, notice: "You don't have permission to view this page.".html_safe
-      end
+      redirect_to root_path, notice: "You don't have permission to view this page.".html_safe
     end
+  end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def game_params
-      params.require(:game).permit(:user_id, :game_type, :game_length, :game_status, :access_treatement, :session_name, :game_codename, :is_paused)
-    end
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def game_params
+    params.require(:game).permit(:user_id, :game_type, :game_length, :game_status, :access_treatement, :session_name, :game_codename, :is_paused)
+  end
 end
