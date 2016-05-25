@@ -31,5 +31,4 @@ module GamesHelper
       'Purple', 'Black', 'Orange', 'Yellow'
     ]
   end
-  
 end

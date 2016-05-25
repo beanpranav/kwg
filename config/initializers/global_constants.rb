@@ -9,6 +9,7 @@ $GAME_TYPES = [
 	# ['N = 8; GS = 3,2; MTM(n,v) = 2,both -- PILOT only', 89],
 	['N = 9; GS = 3; MTM(n,v) = 2,1', 93],
 	['N = 9; GS = 3; MTM(n,v) = 2,both', 99],
+	['N = 12; GS = 3; MTM(n,v) = 2,1', 123],
 	['N = 12; GS = 3; MTM(n,v) = 2,both', 129]
 	# ['GS = 3; N = 4; MTM(n,v) = 3,3', 36],
 	# ['GS = 4; N = 4; MTM(n,v) = 3,1', 41],
@@ -112,6 +113,14 @@ $GAME_TYPES_LOOKUP =
 				teams: 5,
 				project_split: [1,1,1,1,2],
 				membership_split: [[1,2,6],[1,4,5],[2,3,5],[3,4,6],[7,8,9]]
+				},
+	123 => {
+				name: 'N= 12; GS= 3; MTM(n,v)=2,1', 
+				group_size: 3,
+				n: 12,
+				teams: 4,
+				project_split: [2,2,2,2],
+				membership_split: [[1,2,3],[4,5,6],[7,8,9],[10,11,12]]
 				},
 	129 => {
 				name: 'N= 12; GS= 3; MTM(n,v)=2,both', 
