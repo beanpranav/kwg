@@ -52,7 +52,6 @@ class PagesController < ApplicationController
       user.tut2 = true
       user.save
       flash[:notice] = 'Great you are on track! Let\'s understand the playing now.'
-      redirect_to request.referrer
     else
       user.tut2 = false
       user.failed_attempt_count += 1
