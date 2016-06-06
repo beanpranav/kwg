@@ -1,6 +1,5 @@
 # rubocop:disable Metrics/LineLength, ClassLength
 class PagesController < ApplicationController
-  
   def home
     if user_signed_in?
       if current_user.user_type == 'researcher'
