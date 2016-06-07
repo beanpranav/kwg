@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  
+
   resources :measure_austins
 
   resources :players do
@@ -11,7 +11,7 @@ Rails.application.routes.draw do
       post :go_offline
     end
   end
-  
+
   resources :games do
     member do
       post :assign_players
@@ -22,7 +22,7 @@ Rails.application.routes.draw do
     end
   end
 
-  devise_for :users, :path => '', :path_names => { :sign_in => 'login', :sign_out => 'logout', :sign_up => 'create_account' }
+  devise_for :users, path: '', :path_names => { :sign_in => 'login', :sign_out => 'logout', :sign_up => 'create_account' }
   
   get "demo_screenshots" => "pages#demo_screenshots"
 
@@ -35,5 +35,4 @@ Rails.application.routes.draw do
   post "inactivate_user" => "pages#inactivate_user"
   
   root 'pages#home'
-
 end

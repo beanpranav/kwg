@@ -163,6 +163,17 @@
 					  		</div>
 					  		<div class="center"><br>Please use headphones. <br>Use fullscreen video mode if details are hard to see.</div>
 
+					  		<div class="alert alert-success" style="margin-top:20px;">
+					  		  <b>Note for Into to OB students [Evelyn's Class]:</b><br><br>
+					  		  Hi! I am Pranav Gupta, and I will conducting the Game in your class on wednesday, June 8th.<br><br>
+					  		  As shown in the Overview Video above, you will be completing only 'stage 1', the 30 min game tutorial now. While, we will play the actual game, 'stage 2' in class. <br><br>
+					  		  Because of the structure of the game - only those who complete this tutorial can play the game in stage 2. It is important that you understand the game to the best of your ability, so that we all enjoy playing together as a team!<br><br>
+
+					  		  Click on the button below once you are ready.<br>
+					  		  If you have questions or get stuck, email me: pranavgu@andrew.cmu.edu<br> 
+					  		  Thanks!
+					  		</div>
+
 				  			<%= form_tag("/activate_tut0", method: :post) do %>
 
 				  				<%= hidden_field_tag(:user_id, current_user.id) %>
@@ -542,14 +553,20 @@
 						<h3 class="center">PLEASE GO TO CHAT AND LET THE RESEARCHER KNOW<br><br>waiting for the computer to assign you a game</h3>	
 						<div class="center col-sm-6 col-sm-offset-3 button-padding">
 		          <button type="button" class="btn btn-block btn-orange active">LOOKING FOR GAME ...</button>
-		          <%= link_to root_path do %>
+		          <!-- <%= link_to root_path do %>
 								<div class="button-padding">
 				          <button type="button" class="btn btn-block btn-green">REFRESH PAGE</button>
 				        </div>
-				      <% end %>
+				      <% end %> -->
+		        </div>
+
+		        <div class="alert alert-success" style="margin-top:80px;">
+		          <b>Note for Into to OB students [Evelyn's Class]:</b><br>
+		          You are done. See you in class!
 		        </div>
 
 		      </div>
+
 		    </div>
 
 		<!-- INACTIVE MODE: GAME NOT ASSIGNMENT -->
