@@ -19,7 +19,7 @@ module GamesHelper
 
   def project_names
     [
-      'vChat', 'vPhotos', 'vBooks', 'vMoney',
+      'vTunes', 'vMaps', 'vGames', 'vWeather',
       'vTunes', 'vMaps', 'vGames', 'vWeather',
       'vChat', 'vPhotos', 'vBooks', 'vMoney'
     ]
