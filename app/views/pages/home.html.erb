@@ -553,17 +553,21 @@
 						<h3 class="center">PLEASE GO TO CHAT AND LET THE RESEARCHER KNOW<br><br>waiting for the computer to assign you a game</h3>	
 						<div class="center col-sm-6 col-sm-offset-3 button-padding">
 		          <button type="button" class="btn btn-block btn-orange active">LOOKING FOR GAME ...</button>
-		          <!-- <%= link_to root_path do %>
+		          <%= link_to root_path do %>
 								<div class="button-padding">
 				          <button type="button" class="btn btn-block btn-green">REFRESH PAGE</button>
 				        </div>
-				      <% end %> -->
+				      <% end %>
 		        </div>
 
-		        <div class="alert alert-success" style="margin-top:80px;">
-		          <b>Note for Into to OB students [Evelyn's Class]:</b><br>
-		          You are done. See you in class!
-		        </div>
+		        <div class="center col-sm-6 col-sm-offset-3 button-padding" style="margin-top:50px;">
+              <!-- CHAT LINK -->
+              <a target="_blank" href="https://cmukwd.slack.com/messages/general<%= current_user.first_name %>/" class="btn btn-block btn-green" style = "margin: -5px -9px 0 0;"><i class="fa fa-lg fa-comments"></i> &nbsp;Go to Chat</a>
+
+		        	<br><br><b>Welcome <%= current_user.player_screenname %>!</b><br><br>
+		        	For Chat<br>	
+		        	<b>Login email:</b> <%= current_user.first_name.downcase %>.kwd@gmail.com <br>
+		        	<b>Password:</b> CMU_<%= current_user.first_name.downcase %>
 
 		      </div>
 
