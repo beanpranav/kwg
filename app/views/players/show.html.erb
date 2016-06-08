@@ -2,7 +2,7 @@
   <% if @player.game.game_status == -1 %>
 
 <!-- GAME COMPLETED: ADMINISTER SURVEYS -->
-  <% elsif @player.game.game_status == 100 %>
+  <% elsif @player.game.game_status >= 100 %>
 
     <% if @player.measure_workload.is_complete == false %>
       <%= render "players/measure_workload" %>
