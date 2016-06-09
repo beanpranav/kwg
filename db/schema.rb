@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160412163318) do
+ActiveRecord::Schema.define(version: 20160609160506) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -27,7 +27,10 @@ ActiveRecord::Schema.define(version: 20160412163318) do
     t.string   "session_name"
     t.string   "game_codename"
     t.boolean  "is_paused"
+    t.integer  "study_id"
   end
+
+  add_index "games", ["study_id"], name: "index_games_on_study_id", using: :btree
 
   create_table "measure_austins", force: true do |t|
     t.integer  "player_id"
@@ -115,6 +118,15 @@ ActiveRecord::Schema.define(version: 20160412163318) do
     t.datetime "updated_at"
     t.string   "project_name"
     t.integer  "users_total",      default: [[0, 0, 0]], array: true
+  end
+
+  create_table "studies", force: true do |t|
+    t.string   "title"
+    t.boolean  "completed"
+    t.string   "slug"
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "team_memberships", force: true do |t|

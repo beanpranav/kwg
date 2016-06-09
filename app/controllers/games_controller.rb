@@ -41,7 +41,7 @@ class GamesController < ApplicationController
   end
 
   def new
-    @game = Game.new(user_id: params[:user_id], access_treatement: false, game_status: -1, is_paused: false)
+    @game = Game.new(user_id: current_user.id, study_id: params[:study_id], access_treatement: false, game_status: -1, is_paused: false)
   end
 
   def edit
@@ -302,7 +302,6 @@ class GamesController < ApplicationController
   end
 
   def continue_game
-    
     # NEXT MONTH ACTIONS
     players = @game.players.sort_by(&:id)
     projects = @game.projects.sort_by(&:id)
@@ -370,14 +369,14 @@ class GamesController < ApplicationController
     # set game status and return
     @game.game_status = 100
     @game.save
-    flash[:notice] = "Forms Generated. Awaiting submission by players."
+    flash[:notice] = 'Forms Generated. Awaiting submission by players.'
     redirect_to request.referrer
   end
 
   def generate_results
     @game.game_status = 101
     @game.save
-    flash[:notice] = "Game Marked Complete and now showing results"
+    flash[:notice] = 'Game Marked Complete and now showing results'
     redirect_to request.referrer
   end
 
@@ -400,6 +399,6 @@ class GamesController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def game_params
-    params.require(:game).permit(:user_id, :game_type, :game_length, :game_status, :access_treatement, :session_name, :game_codename, :is_paused)
+    params.require(:game).permit(:user_id, :study_id, :game_type, :game_length, :game_status, :access_treatement, :session_name, :game_codename, :is_paused)
   end
 end

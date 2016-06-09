@@ -1,0 +1,34 @@
+<%= form_for(@study) do |f| %>
+  <% if @study.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@study.errors.count, "error") %> prohibited this study from being saved:</h2>
+
+      <ul>
+      <% @study.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <%= f.hidden_field :user_id %>
+
+  <div class="row">
+    <div class="col-xs-12 col-sm-3">
+      <div class="form-label">Study Title</div>
+      <div class="form-label">Study Complete?</div>
+    </div>
+    <div class="col-xs-12 col-sm-9">
+      <%= f.text_field :title, placeholder: "title", class: "form-control" %>
+      <p class="form-radio">
+        <%= f.check_box :completed %> Yes
+      </p>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="center col-sm-6 col-sm-offset-3 button-padding">
+      <%= f.submit class: "btn btn-block btn-green" %>
+    </div>
+  </div>
+<% end %>

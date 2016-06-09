@@ -2,64 +2,18 @@
 <!-- RESEARCHER HOME -->
 	<% if current_user.user_type == "researcher" %>
 		
-		<div class="col-xs-12 col-sm-8 col-sm-offset-2">
+		<div class="col-sm-12 col-md-8 col-md-offset-2">
 			<div class="secondary-nav secondary-nav-invert">
 				<i class="fa fa-2x fa-rocket content-list-icon-primary pull-left"></i>
 				<h2 class="font-invert"><b>Hi <%= current_user.first_name %>!</b></h2>
-				<h3 class="font-invert">As a researcher you have hosted <%= pluralize( @games_created.count, 'game' ) %>.</h3>
+				<h3 class="font-invert">As a researcher you have hosted <%= pluralize( current_user.studies.count, 'study' ) %>.</h3>
 			</div>
 
-			<!-- CURRENT GAMES -->
-				<div class="content-container">
-					<div class="panel-secondary">
-		  		  <div class="panel-title">
-		  			  Current: <%= pluralize( @games_in_progress.count, 'Game' ) %>
-		  		  </div>
-		  		</div>
-
-		  		<div class="panel-body">
-
-		  			<table class="table table-condensed table-hover">
-		  			  <thead>
-		  			    <tr>
-		  			      <th>Created on</th>
-		  			      <th>Session Name</th>
-		  			      <th>Codename</th>
-		  			      <th>MTM Type</th>
-		  			      <th colspan="1">Condition</th>
-		  			      <th colspan="1"></th>
-		  			    </tr>
-		  			  </thead>
-
-		  			  <tbody>
-		  			    <% @games_in_progress.sort_by(&:created_at).reverse.each.with_index do |game, i| %>
-		  			      <tr>
-		  			        <td><%= game.created_at.strftime("%b %d, %Y") %></td>
-		  			        <td class="one-line-cell"><%= game.session_name %></td>
-		  			        <td><%= game.game_codename %></td>
-		  			        <td><%= $GAME_TYPES_LOOKUP[game.game_type][:name] %></td>
-		  			        <td><%= if game.access_treatement then "Treatment" else "Control" end %></td>
-		  			        <td class="center <%= if game.game_status > 0 then "panel-green" elsif game.game_status == 0 then "panel-orange" end %>"><a href="<%= game_path(game) %>"><i class="fa fa-arrow-right"></a></td>
-		  			      </tr>
-		  			    <% end %>
-		  			  </tbody>
-		  			</table>
-
-		  			<%= link_to controller: "games", action: "new", user_id: current_user.id do %>
-							<div class="center col-sm-6 col-sm-offset-3">
-			          <button type="button" class="btn btn-block btn-green">+ ADD GAME</button>
-			        </div>
-						<% end %>
-
-		  		</div>
-				</div>
-
-			<!-- UNASSIGNED ACTIVE PLAYERS -->
-				<% if @active_users.count > 0 %>
+			<!-- RESEARCHER'S STUDIES -->
 					<div class="content-container">
 						<div class="panel-secondary">
 			  		  <div class="panel-title">
-			  			  Unassigned ACTIVE: <%= pluralize( @active_users.count, 'Player' ) %>
+			  			  Study List
 			  		  </div>
 			  		</div>
 
@@ -68,70 +22,35 @@
 			  			<table class="table table-condensed table-hover">
 			  			  <thead>
 			  			    <tr>
-			  			      <th>Name</th>
-			  			      <th>Username</th>
+			  			      <th>Created on</th>
+			  			      <th>Study Title</th>
+			  			      <th>No. of Games</th>
+			  			      <th>Status</th>
 			  			      <th colspan="1"></th>
 			  			    </tr>
 			  			  </thead>
 
 			  			  <tbody>
-			  			    <% @active_users.each do |user| %>
+			  			    <% current_user.studies.sort_by(&:created_at).reverse.each do |study| %>
 			  			      <tr>
-			  			        <td><%= user.player_name %></td>
-			  			        <td><%= user.player_screenname %></td>
-			  			        <td>
-			        	  			<%= form_tag("/inactivate_user", method: :post) do %>
-			        	  				<%= hidden_field_tag(:user_id, user.id) %>
-			        		        <%= submit_tag "DEACTIVATE", class: "btn btn-sm btn-block btn-red" %>
-			        					<% end %>
-			  			        </td>
+			  			        <td><%= study.created_at.strftime("%b %d, %Y") %></td>
+			  			        <td class="one-line-cell"><%= study.title %></td>
+			  			        <td><%= study.games.count %></td>
+			  			        <td><%= if study.completed then "Completed" else "In Progress" end %></td>
+			  			        <td class="center <%= if !study.completed then "panel-green" end %>"><a href="<%= study_path(study) %>"><i class="fa fa-arrow-right"></a></td>
 			  			      </tr>
 			  			    <% end %>
 			  			  </tbody>
 			  			</table>
 
+			  			<%= link_to controller: "studies", action: "new" do %>
+								<div class="center col-sm-6 col-sm-offset-3">
+				          <button type="button" class="btn btn-block btn-green">+ ADD STUDY</button>
+				        </div>
+							<% end %>
+
 			  		</div>
 					</div>
-				<% end %>
-
-			<!-- COMPLETED GAMES -->
-				<div class="content-container">
-					<div class="panel-secondary">
-		  		  <div class="panel-title">
-		  			  Completed: <%= pluralize( @games_completed.count, 'Game' ) %>
-		  		  </div>
-		  		</div>
-
-		  		<div class="panel-body">
-
-		  			<table class="table table-condensed table-hover">
-		  			  <thead>
-		  			    <tr>
-		  			      <th>Created on</th>
-		  			      <th>Session Name</th>
-		  			      <th>Codename</th>
-		  			      <th>MTM Type</th>
-		  			      <th colspan="1">Condition</th>
-		  			      <th colspan="1"></th>
-		  			    </tr>
-		  			  </thead>
-
-		  			  <tbody>
-		  			    <% @games_completed.sort_by(&:created_at).reverse.each.with_index do |game, i| %>
-		  			      <tr>
-		  			        <td><%= game.created_at.strftime("%b %d, %Y") %></td>
-		  			        <td class="one-line-cell"><%= game.session_name %></td>
-		  			        <td><%= game.game_codename %></td>
-		  			        <td><%= $GAME_TYPES_LOOKUP[game.game_type][:name] %></td>
-		  			        <td><%= if game.access_treatement then "Treatment" else "Control" end %></td>
-		  			        <td><a href="<%= game_path(game) %>"><i class="fa fa-arrow-right"></a></td>
-		  			      </tr>
-		  			    <% end %>
-		  			  </tbody>
-		  			</table>
-
-		  		</div>
-				</div>
 		</div>
 	
 <!-- PARTICIPANT HOME -->

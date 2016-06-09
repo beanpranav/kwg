@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+  resources :studies
+
   resources :measure_austins
 
   resources :players do

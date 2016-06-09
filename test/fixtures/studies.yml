@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  title: MyString
+  completed: false
+  slug: MyString
+  user_id: 1
+
+two:
+  title: MyString
+  completed: false
+  slug: MyString
+  user_id: 1
