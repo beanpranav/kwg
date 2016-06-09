@@ -1,7 +1,7 @@
 <div class="col-sm-12 col-md-8 col-md-offset-2">
 	<div class="secondary-nav secondary-nav-invert">
 		<a href="<%= root_path %>"><i class="fa fa-2x fa-home content-list-icon-primary pull-left"></i></a>
-		<h2 class="font-invert"><b><%= @study.title %>!</b></h2>
+		<h2 class="font-invert"><b><%= @study.title %></b></h2>
 		<h3 class="font-invert">This study has <%= pluralize( @study.games.count, 'games' ) %>.</h3>
 	</div>
 
@@ -129,27 +129,109 @@
   		</div>
 		</div>
 
+	<!-- Projects Distribution -->
+		<div class="content-container">
+			<div class="panel-secondary">
+  		  <div class="panel-title">
+  			  Distribution of Projects (N)
+  		  </div>
+  		</div>
+
+  		<div class="panel-body">
+  			<table class="table table-condensed table-hover table-bordered center">
+  			  <tbody>
+  			    <tr>
+  			      <td class="table-right-border" style="width:25%;"></td>
+  			      <td class="center" style="width:25%;"><b>No Access</b></td>
+  			      <td class="center table-right-border" style="width:25%;"><b>Access</b></td>
+  			      <td></td>
+  			    </tr>
+
+			      <tr>
+			        <td class="table-top-border table-right-border"><b>Low MTM variety</b></td>
+			        <td class="table-top-border"><%= @pc_lmtm %></td>
+			        <td class="table-top-border table-right-border"><%= @pt_lmtm %></td>
+			        <td class="table-top-border"><%= @pc_lmtm + @pt_lmtm %></td>
+			      </tr>
+
+			      <tr>
+			        <td class="table-right-border"><b>High MTM variety</b></td>
+			        <td><%= @pc_hmtm %></td>
+			        <td class="table-right-border"><%= @pt_hmtm %></td>
+			        <td><%= @pc_hmtm + @pt_hmtm %></td>
+			      </tr>
+
+			      <tr>
+			      	<td class="table-top-border table-right-border"></td>
+			      	<td class="table-top-border"><%= @projects_control %></td>
+			      	<td class="table-top-border table-right-border"><%= @projects_treatment %></td>
+			      	<td class="table-top-border"><b><%= @projects_control + @projects_treatment %></b></td>
+			      </tr>
+  			  </tbody>
+  			</table>
+  		</div>
+		</div>
+
+	<!-- Profits Distribution -->
+		<div class="content-container">
+			<div class="panel-secondary">
+  		  <div class="panel-title">
+  			  Distribution of Profits (DV)
+  		  </div>
+  		</div>
+
+  		<div class="panel-body">
+  			<table class="table table-condensed table-hover table-bordered center">
+  			  <tbody>
+  			    <tr>
+  			      <td class="table-right-border" style="width:25%;"></td>
+  			      <td class="center" style="width:25%;"><b>No Access</b></td>
+  			      <td class="center table-right-border" style="width:25%;"><b>Access</b></td>
+  			      <td></td>
+  			    </tr>
+
+			      <tr>
+			        <td class="table-top-border table-right-border"><b>Low MTM variety</b></td>
+			        <td class="table-top-border">
+			        	<%= @pc_lmtm_profits/@pc_lmtm unless @pc_lmtm == 0 %>
+			        </td>
+			        <td class="table-top-border table-right-border">
+			        	<%= @pt_lmtm_profits/@pt_lmtm unless @pt_lmtm == 0 %>
+			        </td>
+			        <td class="table-top-border">
+			        	<%= (@pc_lmtm_profits + @pt_lmtm_profits)/(@pc_lmtm + @pt_lmtm) unless @pc_lmtm + @pt_lmtm == 0 %>
+			        </td>
+			      </tr>
+
+			      <tr>
+			        <td class="table-right-border"><b>High MTM variety</b></td>
+			        <td>
+			        	<%= @pc_hmtm_profits/@pc_hmtm unless @pc_hmtm == 0 %>
+			        </td>
+			        <td class="table-right-border">
+			        	<%= @pt_hmtm_profits/@pt_hmtm unless @pt_hmtm == 0 %>
+			        </td>
+			        <td>
+			        	<%= (@pc_hmtm_profits + @pt_hmtm_profits)/(@pc_hmtm + @pt_hmtm) unless @pc_hmtm + @pt_hmtm == 0 %>
+			        </td>
+			      </tr>
+
+			      <tr>
+			      	<td class="table-top-border table-right-border"></td>
+			      	<td class="table-top-border">
+			      		<%= (@pc_lmtm_profits + @pc_hmtm_profits)/@projects_control unless @projects_control == 0 %>
+			      	</td>
+			      	<td class="table-top-border table-right-border">
+			      		<%= (@pt_lmtm_profits + @pt_hmtm_profits)/@projects_treatment unless @projects_treatment == 0 %>
+			      	</td>
+			      	<td class="table-top-border">
+			      		<b><%= (@pc_lmtm_profits + @pc_hmtm_profits + @pt_lmtm_profits + @pt_hmtm_profits)/(@projects_control + @projects_treatment) unless @projects_control + @projects_treatment == 0 %></b>
+			      	</td>
+			      </tr>
+  			  </tbody>
+  			</table>
+  		</div>
+		</div>
 
 
-<p>
-  <strong>Title:</strong>
-  <%= @study.title %>
-</p>
-
-<p>
-  <strong>Completed:</strong>
-  <%= @study.completed %>
-</p>
-
-<p>
-  <strong>Slug:</strong>
-  <%= @study.slug %>
-</p>
-
-<p>
-  <strong>User:</strong>
-  <%= @study.user_id %>
-</p>
-
-<%= link_to 'Edit', edit_study_path(@study) %> |
-<%= link_to 'Back', studies_path %>
+<%= link_to 'Edit Study', edit_study_path(@study) %>

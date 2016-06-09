@@ -10,10 +10,62 @@ class StudiesController < ApplicationController
   end
 
   def show
-    @games_created = @study.games
-    @games_completed = @games_created.select { |x| x['game_status'] > x['game_length'] }
-    @games_in_progress = @games_created.select { |x| x['game_status'] <= x['game_length'] }
+    @total_games = @study.games
+    @games_completed = @total_games.select { |x| x.game_status > x.game_length }
+    @games_in_progress = @total_games.select { |x| x.game_status <= x.game_length }
     @active_users = User.where(user_status: 'active')
+
+    @games_control = @total_games.select { |x| !x.access_treatement }
+    @projects_control = 0
+    @pc_lmtm = 0
+    @pc_lmtm_profits = 0
+    @pc_hmtm = 0
+    @pc_hmtm_profits = 0
+    @games_control.each do |game|
+      @projects_control += game.projects.count
+      project_list = game.projects.sort_by(&:id)
+      l_set = 0
+      $GAME_TYPES_LOOKUP[game.game_type][:project_split].each_with_index do |p, i|
+        if p > 1
+          # low MTM project
+          @pc_lmtm += p
+          p.times do |k|
+            @pc_lmtm_profits += project_list[i + l_set * (p - 1) + k].profit_total.map { |_r, _e, profit| profit }.sum
+          end
+          l_set += 1
+        else
+          #  High MTM project
+          @pc_hmtm += p
+          @pc_hmtm_profits += project_list[i].profit_total.map { |_r, _e, profit| profit }.sum
+        end
+      end
+    end
+
+    @games_treatment = @total_games.select(&:access_treatement)
+    @projects_treatment = 0
+    @pt_lmtm = 0
+    @pt_lmtm_profits = 0
+    @pt_hmtm = 0
+    @pt_hmtm_profits = 0
+    @games_treatment.each do |game|
+      @projects_treatment += game.projects.count
+      project_list = game.projects.sort_by(&:id)
+      l_set = 0
+      $GAME_TYPES_LOOKUP[game.game_type][:project_split].each_with_index do |p, i|
+        if p > 1
+          # low MTM project
+          @pt_lmtm += p
+          p.times do |k|
+            @pt_lmtm_profits += project_list[i + l_set * (p - 1) + k].profit_total.map { |_r, _e, profit| profit }.sum
+          end
+          l_set += 1
+        else
+          #  High MTM project
+          @pt_hmtm += p
+          @pt_hmtm_profits += project_list[i].profit_total.map { |_r, _e, profit| profit }.sum
+        end
+      end
+    end
   end
 
   def new
