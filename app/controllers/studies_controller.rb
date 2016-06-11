@@ -15,7 +15,7 @@ class StudiesController < ApplicationController
     @games_in_progress = @total_games.select { |x| x.game_status <= x.game_length }
     @active_users = User.where(user_status: 'active')
 
-    @games_control = @total_games.select { |x| !x.access_treatement }
+    @games_control = @games_completed.select { |x| !x.access_treatement }
     @projects_control = 0
     @pc_lmtm = 0
     @pc_lmtm_profits = 0
@@ -41,7 +41,7 @@ class StudiesController < ApplicationController
       end
     end
 
-    @games_treatment = @total_games.select(&:access_treatement)
+    @games_treatment = @games_completed.select(&:access_treatement)
     @projects_treatment = 0
     @pt_lmtm = 0
     @pt_lmtm_profits = 0
