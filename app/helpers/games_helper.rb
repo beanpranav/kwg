@@ -9,9 +9,9 @@ module GamesHelper
 
   def generate_team_names(number)
     if number == 1
-      ['Team_Vandeley']
+      ['Team_Vandelay']
     else
-      colors.sample(number).map { |i| i.prepend('Vandeley_') }
+      colors.sample(number).map { |i| i.prepend('Vandelay_') }
     end
   end
 

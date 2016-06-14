@@ -9,7 +9,7 @@
   <div class="content-container">
     <div class="panel-body" style="margin-bottom:30px;">
 
-      <div class="h-primary">Team Vandeley had <%= @players.count %> members and <%= @projects.count %> projects</div>
+      <div class="h-primary">Team Vandelay had <%= @players.count %> members and <%= @projects.count %> projects</div>
       <h3 class="center" style="margin-bottom:30px;">End of game details for each are given below.</h3> 
       
       <div class="panel-group" id="accordion-results" role="tablist" aria-multiselectable="true">
@@ -19,7 +19,7 @@
             <a class="supress-a" data-toggle="collapse" data-parent="#accordion-results" href="#project_summary" aria-expanded="true" aria-controls="collapseOne">
               <div class="panel-secondary" role="tab" >
                 <div class="panel-title">
-                  Team Vandeley Project-wise Performance
+                  Team Vandelay Project-wise Performance
                 </div>
               </div>
             </a>
@@ -55,7 +55,7 @@
             <a class="collapsed supress-a" data-toggle="collapse" data-parent="#accordion-results" href="#player_summary" aria-expanded="true" aria-controls="collapseOne">
               <div class="panel-secondary" role="tab" >
                 <div class="panel-title">
-                  Team Vandeley Member-wise Peformance
+                  Team Vandelay Member-wise Peformance
                   <!-- <i class="fa fa-fw fa-sort pull-right" style="margin: 3px -5px 0 0;"></i> -->
                 </div>
               </div>
@@ -74,7 +74,7 @@
                       <tr class="<%= "active" if player.user == current_user %>">
                         <td><b><%= player.player_screenname %></b></td> 
                         <td><%= number_to_currency(player.salary_total, negative_format: "(%u%n)", precision: 0) %></td>
-                        <td><%= number_to_currency(@player_project_profit[i]+$STARTING_INVESTMENT, negative_format: "(%u%n)", precision: 0) %></td>
+                        <td><%= number_to_currency(@player_project_profit[i]+$STARTING_INVESTMENT*2, negative_format: "(%u%n)", precision: 0) %></td>
                       </tr>
                     <% end %>
                   </tbody>
@@ -88,7 +88,7 @@
             <a class="collapsed supress-a" data-toggle="collapse" data-parent="#accordion-results" href="#player_skills" aria-expanded="true" aria-controls="collapseOne">
               <div class="panel-secondary" role="tab" >
                 <div class="panel-title">
-                  Team Vandeley Member-wise Skills
+                  Team Vandelay Member-wise Skills
                   <!-- <i class="fa fa-fw fa-sort pull-right" style="margin: 3px -5px 0 0;"></i> -->
                 </div>
               </div>
