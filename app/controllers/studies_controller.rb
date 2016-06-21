@@ -66,6 +66,11 @@ class StudiesController < ApplicationController
         end
       end
     end
+
+    respond_to do |format|
+      format.html
+      format.csv { send_data @study.project_csv, filename: "KWG_study_#{@study.title}.csv" }
+    end
   end
 
   def new
