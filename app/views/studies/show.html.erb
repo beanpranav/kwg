@@ -234,4 +234,6 @@
 		</div>
 
 
-<%= link_to 'Edit Study', edit_study_path(@study) %>
+<%= link_to 'Edit Study', edit_study_path(@study) %><br>
+<%= link_to 'Projects CSV', study_path(@study, content: "project", format: "csv") %><br>
+<%= link_to 'Players CSV', study_path(@study, content: "player", format: "csv") %><br>

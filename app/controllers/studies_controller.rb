@@ -68,8 +68,15 @@ class StudiesController < ApplicationController
     end
 
     respond_to do |format|
+      
       format.html
-      format.csv { send_data @study.project_csv, filename: "KWG_study_#{@study.title}.csv" }
+      format.csv {
+        if params[:content] == 'project'
+          send_data @study.project_csv, filename: "KWG_#{@study.title}_projects.csv"
+        else
+          send_data @study.player_csv, filename: "KWG_#{@study.title}_players.csv"
+        end
+      }
     end
   end
 

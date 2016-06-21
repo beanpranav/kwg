@@ -5,4 +5,5 @@ class Team < ActiveRecord::Base
 	has_many :team_memberships
 	has_many :players, through: :team_memberships
 	has_many :projects, dependent: :destroy
+	has_many :measure_lewis
 end
