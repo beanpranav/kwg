@@ -8,14 +8,16 @@ class Study < ActiveRecord::Base
   def project_csv
     CSV.generate(headers: true) do |csv|
       csv << ['Study Title', 'Game Name', 'Game ID', 'Access Treatment',
-              'MTM Variety', 'Team ID', 'Project ID', 'Player IDs', 'Profit', 'Lewis Measures']
+              'MTM Variety', 'Team ID', 'Project ID', 'Player IDs', 'Profit',
+              'Lewis Measures P1', 'Lewis Measures P2', 'Lewis Measures P3']
 
       games.sort_by(&:id).each do |game|
         game.projects.each do |prj|
+          lewis = prj.team.measure_lewis.sort_by(&:id).map { |m| m.responses_specialization.sum + m.responses_credibility.sum + m.responses_coordination.sum }
           csv << [title, game.game_codename, game.id, game.access_treatement,
                   prj.team.projects.count == 1 ? 'High' : 'Low', prj.team_id, prj.id,
                   prj.team.players.map(&:id), prj.profit_total.map { |_r, _e, profit| profit }.sum,
-                  prj.team.measure_lewis.sort_by(&:id).map { |m| m.responses_specialization.sum + m.responses_credibility.sum + m.responses_coordination.sum }]
+                  lewis[0], lewis[1], lewis[2]]
         end
       end
     end
