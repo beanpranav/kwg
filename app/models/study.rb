@@ -26,7 +26,7 @@ class Study < ActiveRecord::Base
             prj.id,
             prj.project_name,
             prj.updated_at.strftime('%Y-%m-%d'),
-            prj.team.players.sort_by(&:id).map(&:id),
+            prj.team.players.sort_by(&:member_no).map(&:id),
             prj_profit.to_f / 1000,
             lewis[0], lewis[1], lewis[2]
           ]
@@ -43,7 +43,7 @@ class Study < ActiveRecord::Base
               'Austin Skill 2 levels', 'Austin Skill 3 levels', 'Austin Skill 4 levels']
 
       games.sort_by(&:id).each do |game|
-        game.players.each do |p|
+        game.players.sort_by(&:member_no).each do |p|
           csv << [
             title,
             game.game_codename,
