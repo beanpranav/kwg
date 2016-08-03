@@ -14,7 +14,11 @@ class Study < ActiveRecord::Base
 
       games.sort_by(&:id).each do |game|
         game.projects.each do |prj|
-          lewis = prj.team.measure_lewis.sort_by(&:id).map { |m| m.responses_specialization.sum + m.responses_credibility.sum + m.responses_coordination.sum }
+          # lewis = prj.team.measure_lewis.sort_by(&:id).map { |m| m.responses_specialization.sum + m.responses_credibility.sum + m.responses_coordination.sum }
+          lewis_specialization = prj.team.measure_lewis.sort_by(&:id).map { |m| m.responses_specialization.sum }
+          lewis_credibility = prj.team.measure_lewis.sort_by(&:id).map { |m| m.responses_credibility.sum }
+          lewis_coordination = prj.team.measure_lewis.sort_by(&:id).map { |m| m.responses_coordination.sum }
+          
           prj_profit = prj.profit_total.map { |_r, _e, profit| profit }.sum
           csv << [
             title,
@@ -28,7 +32,9 @@ class Study < ActiveRecord::Base
             prj.updated_at.strftime('%Y-%m-%d'),
             prj.team.players.sort_by(&:member_no).map(&:id),
             prj_profit.to_f / 1000,
-            lewis[0], lewis[1], lewis[2]
+            [lewis_specialization[0], lewis_credibility[0], lewis_coordination[0]],
+            [lewis_specialization[1], lewis_credibility[1], lewis_coordination[1]],
+            [lewis_specialization[2], lewis_credibility[2], lewis_coordination[2]]
           ]
         end
       end
