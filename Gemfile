@@ -31,7 +31,7 @@ gem 'friendly_id', '~> 5.0.0'
 # handles browser security policy headers - used in application controller
 gem 'secure_headers' 
 
-gem 'pg'
+gem 'pg', '0.20'
 
 group :development, :test do
 	# Use sqlite3 as the database for Active Record

@@ -87,7 +87,7 @@
 				  				<%= hidden_field_tag(:user_id, current_user.id) %>
 
 									<div class="center col-sm-6 col-sm-offset-3 button-padding">
-					          <%= submit_tag "LET'S BEGIN! GO TO CONSENT FORM", class: "btn btn-block btn-green" %>
+					          <%= submit_tag "LET'S BEGIN!", class: "btn btn-block btn-green" %>
 					        </div>
 								<% end %>
 
@@ -107,10 +107,12 @@
 						<div class="content-container">
 				  		<div class="panel-body" style="margin-bottom:30px;">
 
-				  			<div class="h-primary">CONSENT FORM</div>
+				  			<!-- <div class="h-primary">CONSENT FORM</div> -->
+				  			<div class="h-primary">ABOUT YOU</div>
+				  			<br>
 
 								<!-- CONSENT FORM TEXT -->
-					  			<br><p>This online-game is part of a research study conducted by Pranav Gupta at Carnegie Mellon University.</p>
+					  			<!-- <p>This online-game is part of a research study conducted by Pranav Gupta at Carnegie Mellon University.</p>
 					  			<p>The purpose of the research is to investigate how people make decisions when working simultaneously on multiple projects and how this affects performance.</p>
 
 					  			<p>
@@ -160,15 +162,13 @@
 					  				Your participation in this research is voluntary. You may discontinue participation at any time during the research activity.
 					  			</p>
 
-					  			<br><br>
+					  			<br><br> -->
 
 					  		<!-- FORM ITEMS -->
 
 									<%= form_tag("/activate_user", method: :post) do %>
 										
-
-										<div class="row">
-										  
+										<!-- <div class="row">							  
 											<div class="col-xs-12 col-sm-9">
 										    <div class="form-label" style="text-align:left; padding: 10px 0 6px 30px;"><b>I am age 18 or older.</b></div>
 										    <div class="form-label" style="text-align:left; padding: 11px 0 6px 30px;"><b>I have read and understand the information above.</b></div>
@@ -195,29 +195,30 @@
 												  <%= label_tag(:consent_false, "No") %>
 												</p>
 											</div>
-										</div>
+										</div> -->
 
 										<div class="row">
 										  <div class="col-xs-12 col-sm-3">
+										    <div class="form-label" style="text-align:left; padding-left: 30px;"><b>Full Name</b></div>
 										    <div class="form-label" style="text-align:left; padding-left: 30px;"><b>Your Gender</b></div>
 										    <div class="form-label" style="text-align:left; padding-left: 30px;"><b>Your Age</b></div>
-										    <br><br>
-										    <div class="form-label" style="text-align:left; padding-left: 30px;"><b>Sign Full Name</b></div>
 										  </div>
 										  <div class="col-xs-12 col-sm-9">
+												<%= text_field_tag :full_name, nil, placeholder: "full name", class: "form-control" %>
 												<div class="form-control-select">
 									        <%= select_tag :gender, options_for_select(["Male","Female","Other"]), class: "form-control" %>
 									      </div>
 									      <div class="form-control-select">
 									        <%= select_tag :actual_age, options_for_select(18..40), class: "form-control" %>
 									      </div>
-									      <br><br>
-												<%= text_field_tag :full_name, nil, placeholder: "full name", class: "form-control" %>
 											</div>
 										</div><br>
 										<div class="center">Your in-game username is <b><%= current_user.player_screenname %></b></div>
 
 										<%= hidden_field_tag(:user_id, current_user.id) %>
+										<%= hidden_field_tag(:age, true) %>
+										<%= hidden_field_tag(:read, true) %>
+										<%= hidden_field_tag(:consent, true) %>
 
 										<div class="center col-sm-6 col-sm-offset-3 button-padding">
 						          <%= submit_tag "I'M READY TO START TUTORIAL", class: "btn btn-block btn-green" %>

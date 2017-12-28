@@ -161,16 +161,16 @@
             <table class="table table-condensed col-sm-8 col-sm-offset-2" style="width: 70%; margin-top:20px;">
               <thead>
                 <th></th>
-                <th class="center">Workload Scale</th>
-                <th class="center">Austin Scale</th>
+               <!-- <th class="center">Workload Scale</th>
+                <th class="center">Austin Scale</th> -->
                 <th class="center">Lewis Scale</th>
               </thead>
               <tbody>
                 <% @players.sort_by(&:member_no).each do |player| %>
                   <tr>
-                    <td><b><%= player.player_screenname %></b></td>  
-                    <td class="center <%= if player.measure_workload.is_complete then "font-green" else "font-invert" end %>"><i class="fa fa-lg fa-check"></i></td>
-                    <td class="center <%= if player.measure_austin.is_complete then "font-green" else "font-invert" end %>"><i class="fa fa-lg fa-check"></i></td>
+                    <td class="center"><b><%= player.player_screenname %></b></td>  
+                    <!-- <td class="center ... if player.measure_workload.is_complete then "font-green" else "font-invert" end .."><i class="fa fa-lg fa-check"></i></td>
+                    <td class="center ... if player.measure_austin.is_complete then "font-green" else "font-invert" end .."><i class="fa fa-lg fa-check"></i></td> -->
                     <% if player.teams.count > 1 %>
                       <td class="center <%= if player.measure_lewis[0].is_complete and player.measure_lewis[1].is_complete then "font-green" else "font-invert" end %>"><i class="fa fa-lg fa-check"></i></td>
                     <% else %>
@@ -183,15 +183,27 @@
             </table>
 
             <div class="center col-sm-6 col-sm-offset-3 button-padding">
-              <%= link_to "REFRESH", game_path(@game), class: "btn btn-block btn-green" %>
 
               <%= form_tag "/games/#{@game.id}/generate_results" do %>
-                <div class="button-padding">
-                  <%= button_tag(type: 'submit', class: "btn btn-block btn-red") do %>
-                    ALL FORMS SUBMITTED: GENERATE RESULTS
-                  <% end %>
-                </div>
+
+                <% if @forms_completed %>
+                  <%= link_to "REFRESH", game_path(@game), class: "btn btn-block btn-disabled disabled" %>
+                  <div class="button-padding">
+                    <%= button_tag(type: 'submit', class: "btn btn-block btn-green") do %>
+                      ALL FORMS SUBMITTED: GENERATE RESULTS
+                    <% end %>
+                  </div>
+                <% else %>
+                  <%= link_to "REFRESH", game_path(@game), class: "btn btn-block btn-green" %>
+                  <div class="button-padding">
+                    <%= button_tag(type: 'submit', class: "btn btn-block btn-disabled disabled") do %>
+                      ALL FORMS SUBMITTED: GENERATE RESULTS
+                    <% end %>
+                  </div>
+                <% end %>
+
               <% end %>
+              <br>
             </div>
           <% end %>
 
@@ -247,6 +259,46 @@
             </div>
           </div>
         </div>
+
+      <!-- UNASSIGNED ACTIVE PLAYERS -->
+        <% if @active_users.count > 0 %>
+          <div class="content-container">
+            <div class="panel-secondary">
+              <div class="panel-title">
+                Unassigned ACTIVE: <%= pluralize( @active_users.count, 'Player' ) %>
+              </div>
+            </div>
+
+            <div class="panel-body">
+
+              <table class="table table-condensed table-hover">
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Username</th>
+                    <th colspan="1"></th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  <% @active_users.each do |user| %>
+                    <tr>
+                      <td><%= user.player_name %></td>
+                      <td><%= user.player_screenname %></td>
+                      <td>
+                        <%= form_tag("/inactivate_user", method: :post) do %>
+                          <%= hidden_field_tag(:user_id, user.id) %>
+                          <%= submit_tag "DEACTIVATE", class: "btn btn-sm btn-block btn-red" %>
+                        <% end %>
+                      </td>
+                    </tr>
+                  <% end %>
+                </tbody>
+              </table>
+
+            </div>
+          </div>
+        <% end %>
 
     <% elsif @game.game_status >= 0 %>
 

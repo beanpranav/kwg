@@ -84,12 +84,11 @@
           </div>
 
         <!-- PLAYER SKILLS -->
-          <div class="panel panel-default">
+          <!-- <div class="panel panel-default">
             <a class="collapsed supress-a" data-toggle="collapse" data-parent="#accordion-results" href="#player_skills" aria-expanded="true" aria-controls="collapseOne">
               <div class="panel-secondary" role="tab" >
                 <div class="panel-title">
                   Team Vandelay Member-wise Skills
-                  <!-- <i class="fa fa-fw fa-sort pull-right" style="margin: 3px -5px 0 0;"></i> -->
                 </div>
               </div>
             </a>
@@ -129,21 +128,25 @@
                 </table>
               </div>
             </div>
-          </div>
+          </div> -->
 
       </div>
 
 
-      <p class="center" style="margin:10px 30px;">
+<!--       <p class="center" style="margin:10px 30px;">
         <em>Take notice that the best team is comprised of people who can balance and coordinate across both apps.</em>
         <br>
         <em>The team that focuses on getting more users and serving them do better! Also, teams that focus on team R&D over their personal skills get better gains. Personal skills are useless if your app is substandard.</em>
-      </p>
+      </p> -->
 
       <%= form_tag "/players/#{@player.id}/go_offline" do %>
         <div class="center col-sm-6 col-sm-offset-3 button-padding">
-          <%= button_tag(type: 'submit', class: "btn btn-block btn-red") do %>
-            I'M DONE. LOGOUT.
+          <%= button_tag(type: 'submit', class: "btn btn-block btn-green") do %>
+            <% if @player.game.study.survey_link.length > 0 %>
+              TAKE GAME END SURVEY
+            <% else %>
+              LOGOUT
+            <% end %>
           <% end %>
         </div>
       <% end %>

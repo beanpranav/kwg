@@ -4,11 +4,12 @@
 <!-- GAME COMPLETED: ADMINISTER SURVEYS -->
   <% elsif @player.game.game_status == 100 %>
 
-    <% if @player.measure_workload.is_complete == false %>
-      <%= render "players/measure_workload" %>
-    <% elsif @player.measure_austin.is_complete == false %>
-      <%= render "players/measure_austin" %>
-    <% elsif @player.measure_lewis.sort_by(&:id)[0].is_complete == false %>
+  <!--  if @player.measure_workload.is_complete == false
+          render "players/measure_workload"
+        elsif @player.measure_austin.is_complete == false
+          render "players/measure_austin" -->
+
+    <% if @player.measure_lewis.sort_by(&:id)[0].is_complete == false %>
       <%= render "players/measure_lewis", lewis_no: 0 %>
     <% elsif @player.teams.count > 1 and @player.measure_lewis.sort_by(&:id)[1].is_complete == false %>
       <%= render "players/measure_lewis", lewis_no: 1 %>
@@ -28,7 +29,9 @@
               <div class="panel-title">
                 <%= @player.player_screenname %>
                 <!-- CHAT LINK -->
-                  <a target="_blank" href="https://cmukwd.slack.com/messages/general/team/<%= @player.user.first_name %>/" class="btn btn-sm btn-invert pull-right supress-a" style = "margin: -5px -9px 0 0;"><i class="fa fa-lg fa-comments"></i> &nbsp;Chat</a>
+                  <a target="_blank" href="<%= @player.game.study.chat_link %>" class="btn btn-sm btn-invert pull-right supress-a" style = "margin: -5px -9px 0 0;"><i class="fa fa-lg fa-comments"></i> &nbsp;Chat</a>
+
+                  <!-- https://cmukwd.slack.com/messages/general/team/<%= @player.user.first_name %>/ -->
               </div>
             </div>
           </div>
@@ -133,8 +136,6 @@
             </div>
           </div>
 
-          <!-- CHAT LINK -->
-          <!-- <a target="_blank" href="https://cmukwd.slack.com/messages/general/team/<%= @player.user.first_name %>/">Link to Team Chat</a> -->
       </div>
 
     <!-- MAIN CONTAINER: TABS -->

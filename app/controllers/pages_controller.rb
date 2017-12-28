@@ -104,8 +104,8 @@ class PagesController < ApplicationController
     u = User.find(params[:user_id])
     u.user_status = 'inactive'
     u.save
-    flash[:notice] = 'Player inactivated'
-    redirect_to root_path
+    flash[:notice] = 'Player deactivated'
+    redirect_to request.referrer
   end
 
   def go_offline_now

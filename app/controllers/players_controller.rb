@@ -17,22 +17,22 @@ class PlayersController < ApplicationController
       @total_surveys = 2 + @player.teams.count
 
       # Austin
-      if @player.measure_austin.is_complete == false
-        # list all team-members
-        @co_players = []
-        @player.game.players.each do |p|
-          @co_players << [p.id, p.player_screenname]
-        end
-        @measure_austin_options = [['Novice (N)', 1], ['Advanced (A1, A2)', 2], ['Expert (E1, E2, E3)', 4]]
+      # if @player.measure_austin.is_complete == false
+      #   # list all team-members
+      #   @co_players = []
+      #   @player.game.players.each do |p|
+      #     @co_players << [p.id, p.player_screenname]
+      #   end
+      #   @measure_austin_options = [['Novice (N)', 1], ['Advanced (A1, A2)', 2], ['Expert (E1, E2, E3)', 4]]
 
       # Lewis
-      elsif @player.measure_lewis.sort_by(&:id)[0].is_complete == false
+      if @player.measure_lewis.sort_by(&:id)[0].is_complete == false
 
       # Conditional Lewis
       elsif @player.teams.count > 1 && @player.measure_lewis.sort_by(&:id)[1].is_complete == false
 
       # Workload
-      elsif @player.measure_workload.is_complete == false
+      # elsif @player.measure_workload.is_complete == false
 
       # Results
       else
@@ -226,7 +226,13 @@ class PlayersController < ApplicationController
     u.save
     flash[:notice] = 'Thank you for playing!'
     sign_out u
-    redirect_to root_path
+
+    survey = @player.game.study.survey_link
+    if survey.length > 0
+      redirect_to survey
+    else
+      redirect_to root_path
+    end
   end
 
   private

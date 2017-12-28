@@ -38,6 +38,18 @@ class GamesController < ApplicationController
         @project_profits << p.profit_total.map { |_r, _e, profit| profit }.sum
       end
     end
+
+    if @game.game_status == 100
+      @forms_completed = true
+
+      @players.sort_by(&:member_no).each do |player|
+        if player.teams.count == 1
+          @forms_completed &&= player.measure_lewis[0].is_complete
+        else
+          @forms_completed &&= player.measure_lewis[1].is_complete
+        end
+      end
+    end
   end
 
   def new
@@ -354,16 +366,16 @@ class GamesController < ApplicationController
         empty_array << [co_p_id, 1]
       end
 
-      m_austin = MeasureAustin.new(player_id: player.id, skill_1_player_levels: empty_array, skill_2_player_levels: empty_array, skill_3_player_levels: empty_array, skill_4_player_levels: empty_array)
-      m_austin.save
+      # m_austin = MeasureAustin.new(player_id: player.id, skill_1_player_levels: empty_array, skill_2_player_levels: empty_array, skill_3_player_levels: empty_array, skill_4_player_levels: empty_array)
+      # m_austin.save
 
       player.teams.each do |team|
         m_lewis = MeasureLewi.new(player_id: player.id, team_id: team.id)
         m_lewis.save
       end
 
-      m_workload = MeasureWorkload.new(player_id: player.id)
-      m_workload.save
+      # m_workload = MeasureWorkload.new(player_id: player.id)
+      # m_workload.save
     end
 
     # set game status and return

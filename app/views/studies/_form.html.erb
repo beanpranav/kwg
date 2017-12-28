@@ -17,12 +17,20 @@
     <div class="col-xs-12 col-sm-3">
       <div class="form-label">Study Title</div>
       <div class="form-label">Study Complete?</div>
+      <div class="form-label">Chat Link</div>
+      <div class="form-label">Survey Link</div>
+      <!-- <div class="form-label">Show Consent?</div> -->
     </div>
     <div class="col-xs-12 col-sm-9">
       <%= f.text_field :title, placeholder: "title", class: "form-control" %>
       <p class="form-radio">
         <%= f.check_box :completed %> Yes
       </p>
+      <%= f.text_field :chat_link, placeholder: "https://", class: "form-control" %>
+      <%= f.text_field :survey_link, placeholder: "https://", class: "form-control" %>
+<!--       <p class="form-radio">
+        <%= f.check_box :consent %> Yes
+      </p> -->
     </div>
   </div>
 
