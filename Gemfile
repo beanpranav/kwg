@@ -29,7 +29,7 @@ gem "devise", "~> 3.2.2"
 gem 'friendly_id', '~> 5.0.0'
 
 # handles browser security policy headers - used in application controller
-gem 'secure_headers' 
+gem 'secure_headers', '1.2.0'
 
 gem 'pg', '0.20'
 

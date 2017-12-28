@@ -109,8 +109,7 @@ GEM
     sdoc (0.4.2)
       json (~> 1.7, >= 1.7.7)
       rdoc (~> 4.0)
-    secure_headers (5.0.4)
-      useragent (>= 0.15.0)
+    secure_headers (1.2.0)
     spring (1.7.2)
     sprockets (2.12.4)
       hike (~> 1.2)
@@ -141,7 +140,6 @@ GEM
     unicorn-worker-killer (0.4.4)
       get_process_mem (~> 0)
       unicorn (>= 4, < 6)
-    useragent (0.16.8)
     warden (1.2.7)
       rack (>= 1.0)
 
@@ -161,7 +159,7 @@ DEPENDENCIES
   rails_12factor
   sass-rails (~> 4.0.3)
   sdoc
-  secure_headers
+  secure_headers (= 1.2.0)
   spring
   sqlite3
   turbolinks
