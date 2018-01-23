@@ -150,7 +150,10 @@ class PlayersController < ApplicationController
       work_item.skill_use = params[:skill_uses][i]
       work_item.save
     end
-    redirect_to request.referrer
+    respond_to do |format|
+      format.html { redirect_to request.referrer, notice: 'Changes saved.' }
+    end
+    # redirect_to request.referrer
   end
 
   def update_measure_austin

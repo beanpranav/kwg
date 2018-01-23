@@ -15,10 +15,9 @@
 	<!-- RENDER BODY -->
 	<div class="container">	
 		<% flash.each do |name,msg| %>
-			<%= content_tag(:div, msg, class: "alert alert-info") %>
-			<!-- <button type="button" class="close" data-dismiss="alert" style="margin: -57px 20px 0 0;">
-				<span aria-hidden="true">&times;</span>
-				<span class="sr-only">Close</span>
+			<%= content_tag(:div, msg, class: "alert alert-success g-alert") %>
+<!-- 			<button type="button" class="close pull-right" style="margin: -57px 20px 0 0;">
+				<a href="<%= request.referrer %>" class="supress-a">&times;</a>
 			</button> -->
 		<% end %>
 			
@@ -29,3 +28,9 @@
 	<%= render "layouts/footer" %>
 </body>
 </html>
+
+<script type="text/javascript">
+	$(".g-alert").fadeTo(2000, 500).slideUp(500, function(){
+    $(".g-alert").slideUp(500);
+	});
+</script>

@@ -84,6 +84,16 @@ a, a:hover { color: $brand-blue; }
 .table-right-border { border-right-width: 3px !important; }
 .table-top-border { border-top-width: 3px !important; }
 
+.g-alert {
+	position: absolute;
+  z-index: 1;
+  bottom: 0;
+  right: 20px;
+  border-radius: 0;
+  border-color: $brand-primary;
+  background-color: black;
+  color: white;
+}
 
 .content-container {
 	min-height: 74px;
