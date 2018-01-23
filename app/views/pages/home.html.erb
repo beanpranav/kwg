@@ -61,47 +61,13 @@
 		<!-- OFFLINE MODE: CONSENT FORM -->
 			<% if current_user.user_status == "offline" %>
 				
-				<!-- VIDEO 0: OVERVIEW -->
-					<% if current_user.tut0 == false %>
-
-						<div class="secondary-nav secondary-nav-invert">
-							<i class="fa fa-2x fa-rocket content-list-icon-primary pull-left"></i>
-							<h2 class="font-invert"><b>Hi <%= current_user.first_name %>!</b></h2>
-							<h3 class="font-invert">Here is an introduction video to get you started.</h3>
-						</div>
-
-						<div class="content-container">
-							<div class="panel-body" style="margin-bottom:30px;">
-
-				  			<div class="h-primary">INTRODUCTION VIDEO</div>
-				  			<br>
-				  			<div class="row">  
-						  			<div class="videoWrapper">
-						  				<iframe src="https://www.youtube.com/embed/TeEKhxOp_6g" frameborder="0" allowfullscreen></iframe>
-						  			</div>
-					  		</div>
-					  		<div class="center"><br>Please use headphones. <br>Use fullscreen video mode if details are hard to see.</div>
-
-				  			<%= form_tag("/activate_tut0", method: :post) do %>
-
-				  				<%= hidden_field_tag(:user_id, current_user.id) %>
-
-									<div class="center col-sm-6 col-sm-offset-3 button-padding">
-					          <%= submit_tag "LET'S BEGIN!", class: "btn btn-block btn-green" %>
-					        </div>
-								<% end %>
-
-				  		</div>
-
-						</div>
-
 				<!-- CONSENT FORM -->
-					<% elsif current_user.valid_consent == false %>
+					<% if current_user.valid_consent == false %>
 
 						<div class="secondary-nav secondary-nav-invert">
 							<i class="fa fa-2x fa-clipboard content-list-icon-primary pull-left"></i>
 							<h2 class="font-invert"><b>Hi <%= current_user.first_name %>!</b></h2>
-							<h3 class="font-invert">Before we begin, please read carefully and sign the consent form below.</h3>
+							<h3 class="font-invert">Before we begin, please tell us a little about yourself.</h3>
 						</div>
 					
 						<div class="content-container">
@@ -229,6 +195,41 @@
 							</div>
 						</div>
 
+				<!-- VIDEO 0: OVERVIEW -->
+					<% elsif current_user.tut0 == false %>
+
+						<div class="secondary-nav secondary-nav-invert">
+							<i class="fa fa-2x fa-rocket content-list-icon-primary pull-left"></i>
+							<h2 class="font-invert"><b>Hi <%= current_user.first_name %>!</b></h2>
+							<h3 class="font-invert">Here is an introduction video to get you started.</h3>
+						</div>
+
+						<div class="content-container">
+							<div class="panel-body" style="margin-bottom:30px;">
+
+				  			<div class="h-primary">INTRODUCTION VIDEO</div>
+				  			<br>
+				  			<div class="row">  
+						  			<div class="videoWrapper">
+						  				<iframe src="https://www.youtube.com/embed/TeEKhxOp_6g" frameborder="0" allowfullscreen></iframe>
+						  			</div>
+					  		</div>
+					  		<div class="center"><br>Please use headphones. <br>Use fullscreen video mode if details are hard to see.</div>
+
+				  			<%= form_tag("/activate_tut0", method: :post) do %>
+
+				  				<%= hidden_field_tag(:user_id, current_user.id) %>
+
+									<div class="center col-sm-6 col-sm-offset-3 button-padding">
+					          <%= submit_tag "LET'S BEGIN!", class: "btn btn-block btn-green" %>
+					        </div>
+								<% end %>
+
+				  		</div>
+
+						</div>
+
+				
 				<!-- VIDEO 1: GAME GOALS -->
 					<% elsif current_user.tut1 == false %>
 
