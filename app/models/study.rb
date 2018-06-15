@@ -47,7 +47,7 @@ class Study < ActiveRecord::Base
   def player_csv
     CSV.generate(headers: true) do |csv|
       csv << ['Study Title', 'Game Name', 'Game ID', 'Access Treatment',
-              'MTM Variety', 'Player ID', 'Player Name', 'Player Date', 'Gender', 'Age', 'Tut Attempts',
+              'MTM Variety', 'Player ID', 'Player Name', 'Player Username', 'Player Date', 'Gender', 'Age', 'Tut Attempts',
               'Salary', 'Skill levels'
               # , 'Workload Measure', 'Austin Skill 1 levels',
               # 'Austin Skill 2 levels', 'Austin Skill 3 levels', 'Austin Skill 4 levels'
@@ -62,6 +62,7 @@ class Study < ActiveRecord::Base
             game.access_treatement,
             p.teams.count == 1 ? 'Low' : 'High',
             p.id,
+            p.player_name,
             p.player_screenname.gsub("@", ""),
             p.updated_at.strftime('%Y-%m-%d'),
             p.gender,
