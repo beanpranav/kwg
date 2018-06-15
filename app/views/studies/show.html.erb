@@ -90,6 +90,47 @@
 			</div>
 		<% end %>
 
+		<!-- LOGGED IN PLAYERS WHO ARE IN SURVEY STATUS -->
+		<% if @logged_users.count > 0 %>
+			<div class="content-container">
+				<div class="panel-secondary">
+	  		  <div class="panel-title">
+	  			  Logged SURVEY: <%= pluralize( @logged_users.count, 'Player' ) %>
+	  		  </div>
+	  		</div>
+
+	  		<div class="panel-body">
+
+	  			<table class="table table-condensed table-hover">
+	  			  <thead>
+	  			    <tr>
+	  			      <th>Name</th>
+	  			      <th>Username</th>
+	  			      <th colspan="1"></th>
+	  			    </tr>
+	  			  </thead>
+
+	  			  <tbody>
+	  			    <% @logged_users.each do |user| %>
+	  			      <tr>
+	  			        <td><%= user.player_name %></td>
+	  			        <td><%= user.player_screenname %></td>
+	  			        <td>
+	        	  			<%= form_tag("/go_offline_now", method: :post) do %>
+	        	  				<%= hidden_field_tag(:user_id, user.id) %>
+	        	  				<%= hidden_field_tag(:by, 'researcher') %>
+	        		        <%= submit_tag "LOGOUT USER", class: "btn btn-sm btn-block btn-red" %>
+	        					<% end %>
+	  			        </td>
+	  			      </tr>
+	  			    <% end %>
+	  			  </tbody>
+	  			</table>
+
+	  		</div>
+			</div>
+		<% end %>
+
 	<!-- COMPLETED GAMES -->
 		<div class="content-container">
 			<div class="panel-secondary">

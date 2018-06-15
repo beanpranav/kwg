@@ -123,9 +123,14 @@ class PagesController < ApplicationController
     u.tut2 = false
     u.tut3 = false
     u.save
-    flash[:notice] = 'Thank you for playing!'
-    sign_out u
-    redirect_to root_path
+    if (params[:by] == 'researcher')
+      flash[:notice] = 'User logged out!'
+      redirect_to request.referrer
+    else
+      flash[:notice] = 'Thank you for playing!'
+      sign_out u
+      redirect_to root_path
+    end
   end
 
 end
