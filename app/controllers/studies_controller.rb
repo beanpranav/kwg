@@ -16,54 +16,68 @@ class StudiesController < ApplicationController
     @active_users = User.where(user_status: 'active')
     @logged_users = User.where("user_status = 'survey' OR user_status = 'inactive'")
 
-    @games_control = @games_completed.select { |x| !x.access_treatement }
-    @projects_control = 0
-    @pc_lmtm = 0
-    @pc_lmtm_profits = 0
-    @pc_hmtm = 0
-    @pc_hmtm_profits = 0
-    @games_control.each do |game|
-      @projects_control += game.projects.count
-      project_list = game.projects.sort_by(&:id)
-      l_set = 0
-      $GAME_TYPES_LOOKUP[game.game_type][:project_split].each_with_index do |p, i|
-        if p > 1
-          # low MTM project
-          @pc_lmtm += p
-          p.times do |k|
-            @pc_lmtm_profits += project_list[i + l_set * (p - 1) + k].profit_total.map { |_r, _e, profit| profit }.sum
+    # Access Condition Calculations
+    @games_access = []
+    @games_access[0] = @games_completed.select { |x| !x.access_treatement }
+    @games_access[1] = @games_completed.select(&:access_treatement)
+    
+    @projects_access = [0,0]
+    @pa_lmtm = [0,0]
+    @pa_lmtm_profits = [0,0]
+    @pa_hmtm = [0,0]
+    @pa_hmtm_profits = [0,0]
+    @games_access.each_with_index do |condition, condition_index|
+      condition.each do |game|
+        @projects_access[condition_index] += game.projects.count
+        project_list = game.projects.sort_by(&:id)
+        project_index = 0
+        $GAME_TYPES_LOOKUP[game.game_type][:project_split].each_with_index do |p, i|
+          if p > 1
+            # low MTM project
+            @pa_lmtm[condition_index] += p
+            p.times do
+              @pa_lmtm_profits[condition_index] += project_list[project_index].profit_total.map { |_r, _e, profit| profit }.sum
+              project_index += 1
+            end
+          else
+            #  High MTM project
+            @pa_hmtm[condition_index] += p
+            @pa_hmtm_profits[condition_index] += project_list[project_index].profit_total.map { |_r, _e, profit| profit }.sum
+            project_index += 1
           end
-          l_set += 1
-        else
-          #  High MTM project
-          @pc_hmtm += p
-          @pc_hmtm_profits += project_list[i].profit_total.map { |_r, _e, profit| profit }.sum
         end
       end
     end
-
-    @games_treatment = @games_completed.select(&:access_treatement)
-    @projects_treatment = 0
-    @pt_lmtm = 0
-    @pt_lmtm_profits = 0
-    @pt_hmtm = 0
-    @pt_hmtm_profits = 0
-    @games_treatment.each do |game|
-      @projects_treatment += game.projects.count
-      project_list = game.projects.sort_by(&:id)
-      l_set = 0
-      $GAME_TYPES_LOOKUP[game.game_type][:project_split].each_with_index do |p, i|
-        if p > 1
-          # low MTM project
-          @pt_lmtm += p
-          p.times do |k|
-            @pt_lmtm_profits += project_list[i + l_set * (p - 1) + k].profit_total.map { |_r, _e, profit| profit }.sum
+        
+    # Team Composition Calculations
+    @games_composition = []
+    $TEAM_COMPOSITIONS.each_with_index do |tc,i|
+      @games_composition[i] = @games_completed.select { |x| x.team_composition == tc }
+    end 
+    @projects_compostion = Array.new($TEAM_COMPOSITIONS.length, 0)
+    @ptc_lmtm = Array.new($TEAM_COMPOSITIONS.length, 0)
+    @ptc_lmtm_profits = Array.new($TEAM_COMPOSITIONS.length, 0)
+    @ptc_hmtm = Array.new($TEAM_COMPOSITIONS.length, 0)
+    @ptc_hmtm_profits = Array.new($TEAM_COMPOSITIONS.length, 0)
+    @games_composition.each_with_index do |condition, condition_index|
+      condition.each do |game|
+        @projects_compostion[condition_index] += game.projects.count
+        project_list = game.projects.sort_by(&:id)
+        project_index = 0
+        $GAME_TYPES_LOOKUP[game.game_type][:project_split].each_with_index do |p, i|
+          if p > 1
+            # low MTM project
+            @ptc_lmtm[condition_index] += p
+            p.times do
+              @ptc_lmtm_profits[condition_index] += project_list[project_index].profit_total.map { |_r, _e, profit| profit }.sum
+              project_index += 1
+            end
+          else
+            #  High MTM project
+            @ptc_hmtm[condition_index] += p
+            @ptc_hmtm_profits[condition_index] += project_list[project_index].profit_total.map { |_r, _e, profit| profit }.sum
+            project_index += 1
           end
-          l_set += 1
-        else
-          #  High MTM project
-          @pt_hmtm += p
-          @pt_hmtm_profits += project_list[i].profit_total.map { |_r, _e, profit| profit }.sum
         end
       end
     end

@@ -7,6 +7,7 @@
       <th>Game type</th>
       <th>Game length</th>
       <th>Game status</th>
+      <th>Team composition</th>
       <th>Access treatement</th>
       <th colspan="3"></th>
     </tr>
@@ -19,6 +20,7 @@
         <td><%= game.game_type %></td>
         <td><%= game.game_length %></td>
         <td><%= game.game_status %></td>
+        <td><%= game.team_composition %></td>
         <td><%= game.access_treatement %></td>
         <td><%= link_to 'Show', game %></td>
         <td><%= link_to 'Edit', edit_game_path(game) %></td>

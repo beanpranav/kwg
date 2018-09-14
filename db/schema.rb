@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171228184207) do
+ActiveRecord::Schema.define(version: 20180912213104) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -28,6 +28,7 @@ ActiveRecord::Schema.define(version: 20171228184207) do
     t.string   "game_codename"
     t.boolean  "is_paused"
     t.integer  "study_id"
+    t.string   "team_composition",  default: "All Novices"
   end
 
   add_index "games", ["study_id"], name: "index_games_on_study_id", using: :btree
@@ -45,13 +46,15 @@ ActiveRecord::Schema.define(version: 20171228184207) do
 
   create_table "measure_lewis", force: true do |t|
     t.integer  "player_id"
-    t.boolean  "is_complete",              default: false
-    t.integer  "responses_specialization",                 array: true
-    t.integer  "responses_credibility",                    array: true
-    t.integer  "responses_coordination",                   array: true
+    t.boolean  "is_complete",                 default: false
+    t.integer  "responses_specialization",                    array: true
+    t.integer  "responses_credibility",                       array: true
+    t.integer  "responses_coordination",                      array: true
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "team_id"
+    t.integer  "responses_group_attraction",  default: [],    array: true
+    t.integer  "responses_group_integration", default: [],    array: true
   end
 
   create_table "measure_workloads", force: true do |t|

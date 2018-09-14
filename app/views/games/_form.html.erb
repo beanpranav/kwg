@@ -20,6 +20,7 @@
       <div class="form-label">Game Codename</div>
       <div class="form-label">MTM Game Type</div>
       <div class="form-label">Length of Play</div>
+      <div class="form-label">Team Composition</div>
       <div class="form-label">Access Condition</div>
       <div class="form-label">Game Status</div>
     </div>
@@ -29,7 +30,10 @@
       <div class="form-control-select">
         <%= f.select :game_type, $GAME_TYPES, include_blank: "--- choose game type ---", class: "form-control" %>
       </div> 
-      <%= f.number_field :game_length, placeholder: "no. of months (no. of quarters * 3)", class: "form-control" %> 
+      <%= f.number_field :game_length, placeholder: "no. of months (no. of quarters * 3)", class: "form-control" %>
+      <div class="form-control-select">
+        <%= f.select :team_composition, $TEAM_COMPOSITIONS, class: "form-control" %>
+      </div> 
       <p class="form-radio">
         <%= f.radio_button(:access_treatement, true) %>
         <%= label_tag(:access_treatement_true, "Treatment") %> &nbsp; &nbsp;

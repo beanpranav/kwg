@@ -15,13 +15,15 @@ class GamesController < ApplicationController
       @active_users = User.where(user_status: "active")
       @offline_users = User.where(user_status: "offline", tut0: true)
     else
-      @player_project_totals = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+      # @player_project_totals = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+      @player_project_totals = Array.new($GAME_TYPES_LOOKUP[@game.game_type][:n], 0)
     end
 
     @players = @game.players.sort_by(&:id)
 
     if @game.game_status > 1
-      @player_project_profit = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+      # @player_project_profit = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+      @player_project_profit = Array.new($GAME_TYPES_LOOKUP[@game.game_type][:n], 0)
 
       @players.each_with_index do |p, i|
         p.teams.each do |t|
@@ -90,24 +92,33 @@ class GamesController < ApplicationController
   end
 
   def assign_players
+    @game = Game.find_by(id: params[:game_id])
+
     # create players
     active_users = User.where(user_status: "active").order("RANDOM()").limit(params[:n])
-    active_users.each.with_index(1) do |user, index|
+    active_users.each_with_index do |user, index|
+
+      p_skill_points = [1, 1, 1, 1]
+      p_skill_points = $GAME_TYPES_LOOKUP[@game.game_type][:well_composed][index] if @game.team_composition == $TEAM_COMPOSITIONS[1]
+      p_skill_points = $GAME_TYPES_LOOKUP[@game.game_type][:ill_composed][index] if @game.team_composition == $TEAM_COMPOSITIONS[2]
+      p_skill_level = [
+        $SKILL_LEVELS.detect { |points,level| points === p_skill_points[0] }.last,
+        $SKILL_LEVELS.detect { |points,level| points === p_skill_points[1] }.last,
+        $SKILL_LEVELS.detect { |points,level| points === p_skill_points[2] }.last,
+        $SKILL_LEVELS.detect { |points,level| points === p_skill_points[3] }.last,
+      ]
+
+      p = Player.new(user_id: user.id, game_id: @game.id, member_no: index+1, salary_total: 0,
+      skill_level: p_skill_level, skill_total_points: p_skill_points, player_name: user.player_name,
+      player_screenname: user.player_screenname, gender: user.gender, valid_age: user.valid_age,
+      valid_read: user.valid_read, valid_consent: user.valid_consent, age: user.age,
+      failed_attempt_count: user.failed_attempt_count)
+      p.save
+
       user.user_status = "playing"
       user.save
-      p = Player.new(user_id: user.id, game_id: params[:game_id], member_no: index, salary_total: 0,
-                     skill_level: [1, 1, 1, 1], skill_total_points: [1, 1, 1, 1], player_name: user.player_name,
-                     player_screenname: user.player_screenname, gender: user.gender, valid_age: user.valid_age,
-                     valid_read: user.valid_read, valid_consent: user.valid_consent, age: user.age,
-                     failed_attempt_count: user.failed_attempt_count)
-      p.save
     end
     
-    # change game status
-    @game = Game.find_by(id: params[:game_id])
-    @game.game_status = 0
-    @game.save
-
     # create teams
     project_counter = 0
     teams = generate_team_names($GAME_TYPES_LOOKUP[@game.game_type][:teams])
@@ -131,6 +142,10 @@ class GamesController < ApplicationController
         tm.save
       end
     end
+
+    # change game status
+    @game.game_status = 0
+    @game.save
 
     # return
     flash[:notice] = "#{params[:n]} Players are successfully assigned to this game."
@@ -411,6 +426,6 @@ class GamesController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def game_params
-    params.require(:game).permit(:user_id, :study_id, :game_type, :game_length, :game_status, :access_treatement, :session_name, :game_codename, :is_paused)
+    params.require(:game).permit(:user_id, :study_id, :game_type, :game_length, :game_status, :team_composition, :access_treatement, :session_name, :game_codename, :is_paused)
   end
 end

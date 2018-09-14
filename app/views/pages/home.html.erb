@@ -180,7 +180,10 @@
 									      </div>
 											</div>
 										</div><br>
-										<div class="center">Your in-game username is <b><%= current_user.player_screenname %></b></div>
+
+										<% if current_user.player_screenname != '' %>
+											<div class="center">Your in-game username is <b><%= current_user.player_screenname %></b></div>
+										<% end %>
 
 										<%= hidden_field_tag(:user_id, current_user.id) %>
 										<%= hidden_field_tag(:age, true) %>

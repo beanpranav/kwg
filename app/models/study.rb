@@ -10,7 +10,8 @@ class Study < ActiveRecord::Base
       csv << ['Study Title', 'Game Name', 'Game ID', 'Access Treatment',
               'MTM Variety', 'Team ID', 'Project ID', 'Project Name',
               'Project Date', 'Player IDs', 'Profit',
-              'Lewis Specialization', 'Lewis Credibility', 'Lewis Coordination']
+              'Lewis Specialization', 'Lewis Credibility', 'Lewis Coordination',
+              'Group Attraction', 'Group Integration']
 
       games.sort_by(&:id).each do |game|
         game.projects.each do |prj|
@@ -18,6 +19,8 @@ class Study < ActiveRecord::Base
           lewis_specialization = prj.team.measure_lewis.sort_by(&:id).map { |m| m.responses_specialization.sum }
           lewis_credibility = prj.team.measure_lewis.sort_by(&:id).map { |m| m.responses_credibility.sum }
           lewis_coordination = prj.team.measure_lewis.sort_by(&:id).map { |m| m.responses_coordination.sum }
+          group_attraction = prj.team.measure_lewis.sort_by(&:id).map { |m| m.responses_group_attraction.sum }
+          group_integration = prj.team.measure_lewis.sort_by(&:id).map { |m| m.responses_group_integration.sum }
           
           prj_profit = prj.profit_total.map { |_r, _e, profit| profit }.sum
           csv << [
@@ -34,7 +37,9 @@ class Study < ActiveRecord::Base
             prj_profit.to_f / 1000,
             lewis_specialization,
             lewis_credibility,
-            lewis_coordination
+            lewis_coordination,
+            group_attraction,
+            group_integration
             # [lewis_specialization[0], lewis_credibility[0], lewis_coordination[0]],
             # [lewis_specialization[1], lewis_credibility[1], lewis_coordination[1]],
             # [lewis_specialization[2], lewis_credibility[2], lewis_coordination[2]]

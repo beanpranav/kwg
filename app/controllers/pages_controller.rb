@@ -78,6 +78,9 @@ class PagesController < ApplicationController
     user.player_name = params[:full_name]
     user.gender = params[:gender]
     user.age = params[:actual_age]
+    if user.player_screenname == ''
+      user.player_screenname = params[:full_name]
+    end
     user.valid_age = params[:age]
     user.valid_read = params[:read]
     user.valid_consent = params[:consent]

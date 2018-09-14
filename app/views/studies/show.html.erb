@@ -182,31 +182,70 @@
   			<table class="table table-condensed table-hover table-bordered center">
   			  <tbody>
   			    <tr>
-  			      <td class="table-right-border" style="width:25%;"></td>
-  			      <td class="center" style="width:25%;"><b>No Access</b></td>
-  			      <td class="center table-right-border" style="width:25%;"><b>Access</b></td>
+  			      <td class="table-right-border" style="width:20%;"></td>
+  			      <td class="center" style="width:30%;"><b>No Access</b></td>
+  			      <td class="center" style="width:30%;"><b>Access</b></td>
+  			      <td></td>
+  			    </tr>
+
+						<tr>
+							<td class="table-top-border table-right-border"><b>Low MTM variety</b></td>
+							<% 2.times do |i| %>
+								<td class="table-top-border"><%= @pa_lmtm[i] %></td>
+							<% end %>
+							<td class="table-top-border"><%= @pa_lmtm.sum %></td>
+						</tr>
+
+			      <tr>
+			        <td class="table-right-border"><b>High MTM variety</b></td>
+			        <% 2.times do |i| %>
+			        	<td><%= @pa_hmtm[i] %></td>
+							<% end %>
+			        <td><%= @pa_hmtm.sum %></td>
+			      </tr>
+
+			      <tr>
+			      	<td class="table-right-border"></td>
+							<% 2.times do |i| %>
+			        	<td><%= @projects_access[i] %></td>
+							<% end %>
+			      	<td><b><%= @projects_access.sum %></b></td>
+			      </tr>
+  			  </tbody>
+  			</table>
+
+				<table class="table table-condensed table-hover table-bordered center">
+  			  <tbody>
+  			    <tr>
+  			      <td class="table-right-border" style="width:20%;"></td>
+							<% $TEAM_COMPOSITIONS.each do |tc| %>
+			        	<td class="center" style="width:20%;"><b><%= tc %></b></td>
+							<% end %>
   			      <td></td>
   			    </tr>
 
 			      <tr>
 			        <td class="table-top-border table-right-border"><b>Low MTM variety</b></td>
-			        <td class="table-top-border"><%= @pc_lmtm %></td>
-			        <td class="table-top-border table-right-border"><%= @pt_lmtm %></td>
-			        <td class="table-top-border"><%= @pc_lmtm + @pt_lmtm %></td>
+							<% 3.times do |i| %>
+			        	<td class="table-top-border"><%= @ptc_lmtm[i] %></td>
+							<% end %>
+			        <td class="table-top-border"><%= @ptc_lmtm.sum %></td>
 			      </tr>
 
 			      <tr>
 			        <td class="table-right-border"><b>High MTM variety</b></td>
-			        <td><%= @pc_hmtm %></td>
-			        <td class="table-right-border"><%= @pt_hmtm %></td>
-			        <td><%= @pc_hmtm + @pt_hmtm %></td>
+			        <% 3.times do |i| %>
+			        	<td><%= @ptc_hmtm[i] %></td>
+							<% end %>
+			        <td><%= @ptc_hmtm.sum %></td>
 			      </tr>
 
 			      <tr>
-			      	<td class="table-top-border table-right-border"></td>
-			      	<td class="table-top-border"><%= @projects_control %></td>
-			      	<td class="table-top-border table-right-border"><%= @projects_treatment %></td>
-			      	<td class="table-top-border"><b><%= @projects_control + @projects_treatment %></b></td>
+			      	<td class="table-right-border"></td>
+							<% 3.times do |i| %>
+			        	<td><%= @projects_compostion[i] %></td>
+							<% end %>
+			      	<td><b><%= @projects_compostion.sum %></b></td>
 			      </tr>
   			  </tbody>
   			</table>
@@ -224,50 +263,71 @@
   		<div class="panel-body">
   			<table class="table table-condensed table-hover table-bordered center">
   			  <tbody>
+  			   	<tr>
+  			      <td class="table-right-border" style="width:20%;"></td>
+  			      <td class="center" style="width:30%;"><b>No Access</b></td>
+  			      <td class="center" style="width:30%;"><b>Access</b></td>
+  			      <td></td>
+  			    </tr>
+
+						<tr>
+			        <td class="table-top-border table-right-border"><b>Low MTM variety</b></td>
+							<% 2.times do |i| %>
+			        	<td class="table-top-border"><%= @pa_lmtm_profits[i]/@pa_lmtm[i] unless @pa_lmtm[i] == 0 %></td>
+							<% end %>
+			        <td class="table-top-border"><%= @pa_lmtm_profits.sum/@pa_lmtm.sum unless @pa_lmtm.sum == 0 %></td>
+			      </tr>
+
+			      <tr>
+			        <td class="table-right-border"><b>High MTM variety</b></td>
+			        <% 2.times do |i| %>
+			        	<td><%= @pa_hmtm_profits[i]/@pa_hmtm[i] unless @pa_hmtm[i] == 0 %></td>
+							<% end %>
+			        <td><%= @pa_hmtm_profits.sum/@pa_hmtm.sum unless @pa_hmtm.sum == 0 %></td>
+			      </tr>
+
+			      <tr>
+			      	<td class="table-right-border"></td>
+							<% 2.times do |i| %>
+			        	<td><%= (@pa_lmtm_profits[i] + @pa_hmtm_profits[i])/@projects_access[i] unless @projects_access[i] == 0 %></td>
+							<% end %>
+			        <td><b><%= (@pa_lmtm_profits.sum + @pa_hmtm_profits.sum)/@projects_access.sum unless @projects_access.sum == 0 %></b></td>
+			      </tr>
+  			  </tbody>
+  			</table>
+
+				<table class="table table-condensed table-hover table-bordered center">
+  			  <tbody>
   			    <tr>
-  			      <td class="table-right-border" style="width:25%;"></td>
-  			      <td class="center" style="width:25%;"><b>No Access</b></td>
-  			      <td class="center table-right-border" style="width:25%;"><b>Access</b></td>
+  			      <td class="table-right-border" style="width:20%;"></td>
+							<% $TEAM_COMPOSITIONS.each do |tc| %>
+			        	<td class="center" style="width:20%;"><b><%= tc %></b></td>
+							<% end %>
   			      <td></td>
   			    </tr>
 
 			      <tr>
 			        <td class="table-top-border table-right-border"><b>Low MTM variety</b></td>
-			        <td class="table-top-border">
-			        	<%= @pc_lmtm_profits/@pc_lmtm unless @pc_lmtm == 0 %>
-			        </td>
-			        <td class="table-top-border table-right-border">
-			        	<%= @pt_lmtm_profits/@pt_lmtm unless @pt_lmtm == 0 %>
-			        </td>
-			        <td class="table-top-border">
-			        	<%= (@pc_lmtm_profits + @pt_lmtm_profits)/(@pc_lmtm + @pt_lmtm) unless @pc_lmtm + @pt_lmtm == 0 %>
-			        </td>
+							<% 3.times do |i| %>
+			        	<td class="table-top-border"><%= @ptc_lmtm_profits[i]/@ptc_lmtm[i] unless @ptc_lmtm[i] == 0 %></td>
+							<% end %>
+			        <td class="table-top-border"><%= @ptc_lmtm_profits.sum/@ptc_lmtm.sum unless @ptc_lmtm.sum == 0 %></td>
 			      </tr>
 
 			      <tr>
 			        <td class="table-right-border"><b>High MTM variety</b></td>
-			        <td>
-			        	<%= @pc_hmtm_profits/@pc_hmtm unless @pc_hmtm == 0 %>
-			        </td>
-			        <td class="table-right-border">
-			        	<%= @pt_hmtm_profits/@pt_hmtm unless @pt_hmtm == 0 %>
-			        </td>
-			        <td>
-			        	<%= (@pc_hmtm_profits + @pt_hmtm_profits)/(@pc_hmtm + @pt_hmtm) unless @pc_hmtm + @pt_hmtm == 0 %>
-			        </td>
+			        <% 3.times do |i| %>
+			        	<td><%= @ptc_hmtm_profits[i]/@ptc_hmtm[i] unless @ptc_hmtm[i] == 0 %></td>
+							<% end %>
+			        <td><%= @ptc_hmtm_profits.sum/@ptc_hmtm.sum unless @ptc_hmtm.sum == 0 %></td>
 			      </tr>
 
 			      <tr>
-			      	<td class="table-top-border table-right-border"></td>
-			      	<td class="table-top-border">
-			      		<%= (@pc_lmtm_profits + @pc_hmtm_profits)/@projects_control unless @projects_control == 0 %>
-			      	</td>
-			      	<td class="table-top-border table-right-border">
-			      		<%= (@pt_lmtm_profits + @pt_hmtm_profits)/@projects_treatment unless @projects_treatment == 0 %>
-			      	</td>
-			      	<td class="table-top-border">
-			      		<b><%= (@pc_lmtm_profits + @pc_hmtm_profits + @pt_lmtm_profits + @pt_hmtm_profits)/(@projects_control + @projects_treatment) unless @projects_control + @projects_treatment == 0 %></b>
-			      	</td>
+			      	<td class="table-right-border"></td>
+							<% 3.times do |i| %>
+			        	<td><%= (@ptc_lmtm_profits[i] + @ptc_hmtm_profits[i])/@projects_compostion[i] unless @projects_compostion[i] == 0 %></td>
+							<% end %>
+			        <td><b><%= (@ptc_lmtm_profits.sum + @ptc_hmtm_profits.sum)/@projects_compostion.sum unless @projects_compostion.sum == 0 %></b></td>
 			      </tr>
   			  </tbody>
   			</table>

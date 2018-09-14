@@ -21,14 +21,21 @@ module GamesHelper
     [
       'vBooks', 'vMoney', 'vChat', 'vPhotos',
       'vTunes', 'vMaps', 'vGames', 'vWeather',
-      'vChat', 'vPhotos', 'vBooks', 'vMoney'
+      'vChat', 'vPhotos', 'vBooks', 'vMoney',
+      'vTaxi', 'vHotel', 'vNews', 'vInvest',
+      'vFocus', 'vNotes', 'vMail', 'vFiles',
+      'vFit', 'vBrowse', 'vCal', 'vReflect',
+      'vClock', 'vRide', 'vDocs', 'vBank'
     ]
   end
 
   def colors
     [
       'White', 'Blue', 'Green', 'Red',
-      'Purple', 'Black', 'Orange', 'Yellow'
+      'Purple', 'Black', 'Orange', 'Yellow',
+      'Almond', 'Bone', 'Grey', 'Violet',
+      'Capri', 'Cherry', 'Aero', 'Coral',
+      'Indigo', 'Maroon', 'Corn', 'Jet'
     ]
   end
 end

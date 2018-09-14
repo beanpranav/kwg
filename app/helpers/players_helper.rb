@@ -31,23 +31,36 @@ module PlayersHelper
 
   def lewis_scale
     {
+      # Lewis specialization
       1 =>  "6. Each team member has specialized skills for some aspect of our project.", 
       2 =>  "4. I have skills about an aspect of the project that no other team member has.", 
       3 =>  "3. Different team members are responsible for expertise in different areas.", 
       4 =>  "9. The specialized skills of different team members was needed to complete the project.",
       5 =>  "11. I know which team members have expertise in specific areas.",
-    
+      # Lewis credibility
       6 =>  "14. I was comfortable accepting procedural suggestions from other team members.", 
       7 =>  "2. I trusted that other members’ knowledge about the project was credible.", 
       8 =>  "5. I was confident relying on the information that other members brought to the discussion.", 
       9 =>  "13. When other members gave information, I wanted to double-check it for myself.", 
       10 =>  "10. I did not have much faith in other members’ “expertise.”",
-    
+      # Lewis Coordination
       11 =>  "1. Our team worked together in a well-coordinated fashion.", 
       12 =>  "12. Our team had very few misunderstandings about what to do.", 
       13 =>  "7. Our team needed to backtrack and start over a lot.", 
       14 =>  "15. We accomplished the task smoothly and efficiently.",
-      15 =>  "8. There was much confusion about how we would accomplish the task."
+      15 =>  "8. There was much confusion about how we would accomplish the task.",
+
+      # Attraction to Group - Task
+      16 =>  "20. I’m happy with the amount of time I got with my group.",
+      17 =>  "16. I’m happy with my group’s level of desire to do well on the task.",
+      18 =>  "[NA] This group gave me enough opportunities to improve my personal performance.",
+      19 =>  "22. I liked the work style in this group.",
+      # Group integration - Task
+      20 =>  "19. Our team was united in trying to reach its goals.",
+      21 =>  "21. We all took responsibility for poor performance.",
+      22 =>  "17. Our team members had the same goals for our performance.",
+      23 =>  "18. If members on the team had problems, everyone offered help.",
+      24 =>  "23. Our team communicated freely about everyone's responsibilities."
     }
   end
 

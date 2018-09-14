@@ -14,7 +14,7 @@ class PlayersController < ApplicationController
     # Game Completed
     if @player.game.game_status == 100
       # Survery Count = austin + workload + lewis
-      @total_surveys = 2 + @player.teams.count
+      @total_surveys = @player.teams.count
 
       # Austin
       # if @player.measure_austin.is_complete == false
@@ -38,7 +38,8 @@ class PlayersController < ApplicationController
       else
 
         @players = @player.game.players.sort_by(&:id)
-        @player_project_profit = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+        # @player_project_profit = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+        @player_project_profit = Array.new($GAME_TYPES_LOOKUP[@player.game.game_type][:n], 0)
 
         @players.each_with_index do |p, i|
           p.teams.each do |t|
@@ -103,7 +104,6 @@ class PlayersController < ApplicationController
                               ['IMPROVE MY SKILL ---', [['Study App Dev', 11], ['Study Marketing', 12],
                                                         ['Study Support', 13], ['Study R&D', 14]]]
                              ]
-
     end
   end
 
@@ -194,11 +194,13 @@ class PlayersController < ApplicationController
                                6 - params[:lewis_9].to_i, 6 - params[:lewis_10].to_i]
     m.responses_coordination = [params[:lewis_11], params[:lewis_12], 6 - params[:lewis_13].to_i,
                                 params[:lewis_14], 6 - params[:lewis_15].to_i]
-
+    m.responses_group_attraction = [params[:lewis_16], params[:lewis_17], params[:lewis_19]]
+    m.responses_group_integration = [params[:lewis_20], params[:lewis_21], params[:lewis_22],
+                                     params[:lewis_23], params[:lewis_24]]
     m.is_complete = true
     m.save
 
-    flash[:notice] = "Survey #{2 + params[:lewis_no].to_i} saved successfully."
+    flash[:notice] = "Survey #{1 + params[:lewis_no].to_i} saved successfully."
     redirect_to request.referrer
   end
 

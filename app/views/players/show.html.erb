@@ -104,7 +104,8 @@
                     
                     <% 4.times do |i| %>
                       <% level_range = $SKILL_LEVELS.detect { |points,level| level === @player.skill_level[i] }.first %>
-                      <% skill_progress_ratio = (@player.skill_total_points[i]-level_range.begin)*100/(level_range.end-level_range.begin) %>
+                          <!-- [-level_range.begin] for both -->
+                      <% skill_progress_ratio = (@player.skill_total_points[i])*100/(level_range.end) %>
                       <div class="cpi-goal" style=<%= if i == 0 then "margin-top:5px;" else "margin-top:30px;" end %>>  
                         <div class="pull-left" style="margin-left:36px;">
                           <span class="font-secondary">  <%= $SKILL_LEVELS_NAMES[@player.skill_level[i]][:name] %></span>
@@ -115,7 +116,8 @@
                           <!--  Productivity: #{skill_p} /wk Wages: $#{skill_s} /wk -->
                         </div>
                         <div class="pull-right">
-                          <%= @player.skill_total_points[i]-level_range.begin %><span class="font-secondary">/<%= level_range.end-level_range.begin+1 %></span>
+                          <!-- [-level_range.begin] for both -->
+                          <%= @player.skill_total_points[i] %><span class="font-secondary">/<%= level_range.end %></span>
                         </div>
                         <div class="progress-level progress-bar-<%= i+1 %> center"><%= $SKILL_LEVELS_NAMES[@player.skill_level[i]][:icon] %></div>
                         <div class="progress" style="margin-bottom:2px;">

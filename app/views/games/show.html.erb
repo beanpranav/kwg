@@ -24,6 +24,10 @@
         <h2><%= @game.game_length %> Months</h2>
         <br>
 
+        <h3>Team Composition</h3>
+        <h2><%= @game.team_composition %></h2>
+        <br>
+
         <h3>Access Condition</h3>
         <h2><%= if @game.access_treatement then "Treatment" else "Control" end %></h2>
       </div>
@@ -473,49 +477,6 @@
               </div>
             </div>
 
-          <!-- PLAYER SKILLS -->
-            <div class="content-container">
-              <div class="panel-secondary">
-                <div class="panel-title">
-                  Player Skills
-                </div>
-              </div>
-
-              <div class="panel-body">
-                <table class="table table-condensed table-hover" style="margin:10px 0;">
-                  <thead>
-                    <tr>
-                      <th></th>
-                      <% 4.times do |i| %>
-                        <th class="center"><%= $SKILL_NAMES[i] %></th>
-                      <% end %>
-                    </tr>
-                  </thead>
-
-                  <tbody>
-                    <% @players.sort_by(&:member_no).each do |p| %>
-                      <tr>
-                        <td style="padding:15px;">
-                          <b><%= p.player_screenname %></b>
-                        </td>
-                        <% 4.times do |i| %>
-                          <td class="col-md-3" style="padding:9px;">
-                            <% if p.skill_level[i] < 2 %>
-                              <div class="progress-level progress-bar-secondary center" style="line-height: 2.3; margin: 0 auto; width:80%; opacity:0.2"><%= $SKILL_LEVELS_NAMES[p.skill_level[i]][:name] %></div>
-                            <% elsif p.skill_level[i] > 3 %>
-                              <div class="progress-level progress-bar-<%= i+1 %> center" style="line-height: 2.3; margin: 0 auto; width:80%; opacity:1"><%= $SKILL_LEVELS_NAMES[p.skill_level[i]][:name] %></div>
-                            <% else %>
-                              <div class="progress-level progress-bar-<%= i+1 %> center" style="line-height: 2.3; margin: 0 auto; width:80%; opacity:0.4"><%= $SKILL_LEVELS_NAMES[p.skill_level[i]][:name] %></div>
-                            <% end %>
-                           
-                          </td>
-                        <% end %>
-                    <% end %>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-
       <!-- PLAYER LINKS -->
         <% else %>
 
@@ -534,6 +495,49 @@
           </div>
         <% end %>
     
+      <!-- PLAYER SKILLS -->
+        <div class="content-container">
+          <div class="panel-secondary">
+            <div class="panel-title">
+              Player Skills
+            </div>
+          </div>
+
+          <div class="panel-body">
+            <table class="table table-condensed table-hover" style="margin:10px 0;">
+              <thead>
+                <tr>
+                  <th></th>
+                  <% 4.times do |i| %>
+                    <th class="center"><%= $SKILL_NAMES[i] %></th>
+                  <% end %>
+                </tr>
+              </thead>
+
+              <tbody>
+                <% @players.sort_by(&:member_no).each do |p| %>
+                  <tr>
+                    <td style="padding:15px;">
+                      <b><%= p.player_screenname %></b>
+                    </td>
+                    <% 4.times do |i| %>
+                      <td class="col-md-3" style="padding:9px;">
+                        <% if p.skill_level[i] < 2 %>
+                          <div class="progress-level progress-bar-secondary center" style="line-height: 2.3; margin: 0 auto; width:80%; opacity:0.2"><%= $SKILL_LEVELS_NAMES[p.skill_level[i]][:name] %></div>
+                        <% elsif p.skill_level[i] > 3 %>
+                          <div class="progress-level progress-bar-<%= i+1 %> center" style="line-height: 2.3; margin: 0 auto; width:80%; opacity:1"><%= $SKILL_LEVELS_NAMES[p.skill_level[i]][:name] %></div>
+                        <% else %>
+                          <div class="progress-level progress-bar-<%= i+1 %> center" style="line-height: 2.3; margin: 0 auto; width:80%; opacity:0.4"><%= $SKILL_LEVELS_NAMES[p.skill_level[i]][:name] %></div>
+                        <% end %>
+                        
+                      </td>
+                    <% end %>
+                <% end %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        
     <% end %>
 
   </div>
