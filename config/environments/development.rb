@@ -26,7 +26,7 @@ Rails.application.configure do
   # This option may cause significant delays in view rendering with a large
   # number of complex assets.
   config.assets.debug = true
-  config.assets.quiet = true
+  # config.assets.quiet = true
 
   # Adds additional error checking when serving assets at runtime.
   # Checks for improperly declared sprockets dependencies.
@@ -42,17 +42,17 @@ Rails.application.configure do
 
 
   # Force all access to the app over SSL, use Strict-Transport-Security.
-  config.force_ssl = true
+  # config.force_ssl = true
 
   # Set HTTP/S security headers
   config.action_dispatch.default_headers = {
-    'Content-Security-Policy' =>
-      "default-src 'self' https://accounts.google.com; " \
-      "img-src 'self' https://accounts.google.com https://travis-ci.org https://api.travis-ci.org; " \
-      "media-src 'none'; " \
-      "object-src 'none'; " \
-      "script-src 'self' https://accounts.google.com; " \
-      "style-src 'self' https://accounts.google.com https://travis-ci.org; ",
+    # 'Content-Security-Policy' =>
+    #   "default-src 'self' https://accounts.google.com; " \
+    #   "img-src 'self' https://accounts.google.com https://travis-ci.org https://api.travis-ci.org; " \
+    #   "media-src 'none'; " \
+    #   "object-src 'none'; " \
+    #   "script-src 'self' https://accounts.google.com; " \
+    #   "style-src 'self' https://accounts.google.com https://travis-ci.org; ",
     'Referrer-Policy' => 'strict-origin-when-cross-origin',
     'X-Content-Type-Options' => 'nosniff',
     'X-Frame-Options' => 'SAMEORIGIN',

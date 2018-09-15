@@ -102,16 +102,18 @@ Rails.application.configure do
         :domain         => 'heroku.com'
   }
 
+  # Force all access to the app over SSL, use Strict-Transport-Security.
+  # config.force_ssl = true
 
   # Set HTTP/S security headers
   config.action_dispatch.default_headers = {
-    'Content-Security-Policy' =>
-      "default-src 'self' https://accounts.google.com; " \
-      "img-src 'self' https://accounts.google.com https://travis-ci.org https://api.travis-ci.org; " \
-      "media-src 'none'; " \
-      "object-src 'none'; " \
-      "script-src 'self' https://accounts.google.com; " \
-      "style-src 'self' https://accounts.google.com https://travis-ci.org; ",
+    # 'Content-Security-Policy' =>
+    #   "default-src 'self' https://accounts.google.com; " \
+    #   "img-src 'self' https://accounts.google.com https://travis-ci.org https://api.travis-ci.org; " \
+    #   "media-src 'none'; " \
+    #   "object-src 'none'; " \
+    #   "script-src 'self' https://accounts.google.com; " \
+    #   "style-src 'self' https://accounts.google.com https://travis-ci.org; ",
     'Referrer-Policy' => 'strict-origin-when-cross-origin',
     'X-Content-Type-Options' => 'nosniff',
     'X-Frame-Options' => 'SAMEORIGIN',
