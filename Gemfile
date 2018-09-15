@@ -2,13 +2,13 @@ source 'https://rubygems.org'
 ruby '2.5.0'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.1.4'
+gem 'rails', '5.2.1'
 # Use SCSS for stylesheets
-gem 'sass-rails', '~> 4.0.3'
+gem 'sass-rails'
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
 # Use CoffeeScript for .js.coffee assets and views
-gem 'coffee-rails', '~> 4.0.0'
+gem 'coffee-rails'
 # See https://github.com/sstephenson/execjs#readme for more supported runtimes
 # gem 'therubyracer',  platforms: :ruby
 
@@ -23,7 +23,7 @@ gem 'jbuilder', '~> 2.0'
 gem "bootstrap-sass", "~> 3.1.1.0"
 
 # For creating Users
-gem "devise", "~> 3.2.2"
+gem "devise"
 
 # rename ids in urls
 gem 'friendly_id', '~> 5.0.0'
@@ -31,7 +31,7 @@ gem 'friendly_id', '~> 5.0.0'
 # handles browser security policy headers - used in application controller
 gem 'secure_headers', '1.2.0'
 
-gem 'pg', '0.20'
+gem 'pg'
 
 group :development, :test do
 	# Use sqlite3 as the database for Active Record

@@ -14,7 +14,7 @@ development:
   encoding: unicode
   database: kwg_development
   pool: 5
-  username: kwg
+  username: pranav
   password: 00000000
 
 test:

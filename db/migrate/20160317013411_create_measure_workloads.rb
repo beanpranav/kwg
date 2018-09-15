@@ -1,4 +1,4 @@
-class CreateMeasureWorkloads < ActiveRecord::Migration
+class CreateMeasureWorkloads < ActiveRecord::Migration[5.2]
   def change
     create_table :measure_workloads do |t|
       t.integer :player_id

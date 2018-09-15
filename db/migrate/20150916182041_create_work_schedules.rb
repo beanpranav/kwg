@@ -1,4 +1,4 @@
-class CreateWorkSchedules < ActiveRecord::Migration
+class CreateWorkSchedules < ActiveRecord::Migration[5.2]
   def change
     create_table :work_schedules do |t|
       t.integer :player_monthly_report_id

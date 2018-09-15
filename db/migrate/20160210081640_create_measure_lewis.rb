@@ -1,4 +1,4 @@
-class CreateMeasureLewis < ActiveRecord::Migration
+class CreateMeasureLewis < ActiveRecord::Migration[5.2]
   def change
     create_table :measure_lewis do |t|
       t.integer :player_id

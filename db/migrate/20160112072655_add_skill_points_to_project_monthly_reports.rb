@@ -1,4 +1,4 @@
-class AddSkillPointsToProjectMonthlyReports < ActiveRecord::Migration
+class AddSkillPointsToProjectMonthlyReports < ActiveRecord::Migration[5.2]
   def change
     add_column :project_monthly_reports, :expense_generated, :integer, default: 0
     add_column :project_monthly_reports, :skill_1_stats_generated, :integer, default: 0

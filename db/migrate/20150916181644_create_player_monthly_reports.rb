@@ -1,4 +1,4 @@
-class CreatePlayerMonthlyReports < ActiveRecord::Migration
+class CreatePlayerMonthlyReports < ActiveRecord::Migration[5.2]
   def change
     create_table :player_monthly_reports do |t|
       t.integer :player_id

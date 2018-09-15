@@ -93,12 +93,28 @@ Rails.application.configure do
                           :exception_recipients => %w{pranavgu@andrew.cmu.edu}
                       }
 
-   config.action_mailer.smtp_settings = {
+  config.action_mailer.smtp_settings = {
         :address        => 'smtp.sendgrid.net',
         :port           => '587',
         :authentication => :plain,
         :user_name      => ENV['SENDGRID_USERNAME'],
         :password       => ENV['SENDGRID_PASSWORD'],
         :domain         => 'heroku.com'
+  }
+
+
+  # Set HTTP/S security headers
+  config.action_dispatch.default_headers = {
+    'Content-Security-Policy' =>
+      "default-src 'self' https://accounts.google.com; " \
+      "img-src 'self' https://accounts.google.com https://travis-ci.org https://api.travis-ci.org; " \
+      "media-src 'none'; " \
+      "object-src 'none'; " \
+      "script-src 'self' https://accounts.google.com; " \
+      "style-src 'self' https://accounts.google.com https://travis-ci.org; ",
+    'Referrer-Policy' => 'strict-origin-when-cross-origin',
+    'X-Content-Type-Options' => 'nosniff',
+    'X-Frame-Options' => 'SAMEORIGIN',
+    'X-XSS-Protection' => '1; mode=block'
   }
 end

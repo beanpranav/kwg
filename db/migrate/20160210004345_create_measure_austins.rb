@@ -1,4 +1,4 @@
-class CreateMeasureAustins < ActiveRecord::Migration
+class CreateMeasureAustins < ActiveRecord::Migration[5.2]
   def change
     create_table :measure_austins do |t|
       t.integer :player_id
