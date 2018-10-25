@@ -9,6 +9,9 @@ class User < ActiveRecord::Base
   has_many :players
   has_many :games, through: :players
 
+  belongs_to :researcher, class_name: "User"
+  has_many :participants, class_name: "User", foreign_key: "researcher_id"
+
   def first_name
     name.split(" ")[0]
   end

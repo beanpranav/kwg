@@ -12,8 +12,8 @@ class GamesController < ApplicationController
 
   def show
     if @game.game_status == -1
-      @active_users = User.where(user_status: "active")
-      @offline_users = User.where(user_status: "offline", tut0: true)
+      @active_users = current_user.participants.where(user_status: "active")
+      @offline_users = current_user.participants.where(user_status: "offline", tut0: true)
     else
       # @player_project_totals = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
       @player_project_totals = Array.new($GAME_TYPES_LOOKUP[@game.game_type][:n], 0)
@@ -95,7 +95,7 @@ class GamesController < ApplicationController
     @game = Game.find_by(id: params[:game_id])
 
     # create players
-    active_users = User.where(user_status: "active").order("RANDOM()").limit(params[:n])
+    active_users = current_user.participants.where(user_status: "active").order("RANDOM()").limit(params[:n])
     active_users.each_with_index do |user, index|
 
       p_skill_points = [1, 1, 1, 1]

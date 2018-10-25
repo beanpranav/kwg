@@ -13,10 +13,10 @@ class ApplicationController < ActionController::Base
   # for allowing :name as a strong parameter while signup and account update.
   def configure_permitted_parameters
     devise_parameter_sanitizer.permit(:sign_up) do |u|
-      u.permit(:name, :email, :password, :user_type, :user_status)
+      u.permit(:name, :email, :password, :user_type, :user_status, :researcher_id)
     end
     devise_parameter_sanitizer.permit(:account_update) do |u|
-      u.permit(:name, :email, :password, :user_type, :user_status, :current_password)
+      u.permit(:name, :email, :password, :user_type, :user_status, :researcher_id, :current_password)
     end
   end
 

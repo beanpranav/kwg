@@ -13,8 +13,9 @@ class StudiesController < ApplicationController
     @total_games = @study.games
     @games_completed = @total_games.select { |x| x.game_status > x.game_length }
     @games_in_progress = @total_games.select { |x| x.game_status <= x.game_length }
-    @active_users = User.where(user_status: 'active')
-    @logged_users = User.where("user_status = 'survey' OR user_status = 'inactive'")
+    @active_users = current_user.participants.where(user_status: 'active')
+    # User.where(user_status: 'active')
+    @logged_users = current_user.participants.where("user_status = 'survey' OR user_status = 'inactive'")
 
     # Access Condition Calculations
     @games_access = []

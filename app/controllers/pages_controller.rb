@@ -3,7 +3,7 @@ class PagesController < ApplicationController
   def home
     if user_signed_in?
       if current_user.user_type == 'researcher'
-        
+        @participants = current_user.participants.sort_by(&:created_at)
       else
         @current_game_screen = current_user.players.sort_by(&:id).last
         if current_user.user_status == 'playing'
