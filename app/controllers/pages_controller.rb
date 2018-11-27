@@ -88,6 +88,8 @@ class PagesController < ApplicationController
 
     if user.valid_age && user.valid_read && user.valid_consent && user.player_name != ''
       flash[:notice] = 'Let\'s begin the Tutorial'
+    elsif !user.valid_consent
+      flash[:notice] = 'Your data will not be used for research. Let\'s begin the Tutorial'
     else
       user.player_name = ''
       user.gender = ''
