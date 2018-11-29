@@ -444,38 +444,131 @@
 		<!-- ACTIVE MODE: AWAITING GAME ASSIGNMENT -->
 			<% elsif current_user.user_status == "active" %>
 
-				<div class="secondary-nav secondary-nav-invert">
-					<i class="fa fa-2x fa-rocket content-list-icon-primary pull-left"></i>
-					<h2 class="font-invert"><b>Hi <%= current_user.player_screenname %>!</b></h2>
-					<h3 class="font-invert">Your current game status</h3>
-				</div>
+					<% if current_user.valid_read == false %>
+
+						<div class="secondary-nav secondary-nav-invert">
+							<i class="fa fa-2x fa-clipboard content-list-icon-primary pull-left"></i>
+							<h2 class="font-invert"><b>Hi <%= current_user.first_name %>!</b></h2>
+							<h3 class="font-invert">Before we begin, please tell us a little about yourself.</h3>
+						</div>
+					
+						<div class="content-container">
+				  		<div class="panel-body" style="margin-bottom:30px;">
+
+				  			<div class="h-primary">CONSENT FORM</div>
+				  			<!-- <div class="h-primary">ABOUT YOU</div> -->
+				  			<br>
+
+								<!-- CONSENT FORM TEXT -->
+									<!-- <%= render "pages/consent_cmu" %> -->
+									<%= render "pages/consent_purdue" %>
+					  			<br><br>
+
+					  		<!-- FORM ITEMS -->
+
+									<%= form_tag("/activate_user", method: :post) do %>
+										
+										<div class="row">							  
+											<div class="col-xs-12 col-sm-9">
+										    <!-- <div class="form-label" style="text-align:left; padding: 10px 0 6px 30px;"><b>I am age 18 or older.</b></div> -->
+										    <div class="form-label" style="text-align:left; padding: 11px 0 6px 30px;"><b>I have read and understand the information above.</b></div>
+										    <div class="form-label" style="text-align:left; padding: 12px 0 6px 30px;"><b>I want to participate in this research and continue with the game.</b></div>
+										  </div>
+
+										  <div class="col-xs-12 col-sm-3">
+										  	<!-- <p class="form-radio">
+												  <%= radio_button_tag(:age, true) %>
+												  <%= label_tag(:age_true, "Yes") %> &nbsp; &nbsp;
+												  <%= radio_button_tag(:age, false, true) %>
+												  <%= label_tag(:age_false, "No") %>
+												</p> -->
+												<p class="form-radio">
+												  <%= radio_button_tag(:read, true, true) %>
+												  <%= label_tag(:read_true, "Yes") %> &nbsp; &nbsp;
+												  <%= radio_button_tag(:read, false) %>
+												  <%= label_tag(:read_false, "No") %>
+												</p>
+												<p class="form-radio">
+												  <%= radio_button_tag(:consent, true, true) %>
+												  <%= label_tag(:consent_true, "Yes") %> &nbsp; &nbsp;
+												  <%= radio_button_tag(:consent, false) %>
+												  <%= label_tag(:consent_false, "No") %>
+												</p>
+											</div>
+										</div>
+										<br>
+
+										<div class="row">
+										  <div class="col-xs-12 col-sm-3">
+										    <div class="form-label" style="text-align:left; padding-left: 30px;">
+										    	<b>Full Name</b>
+										    	<!-- <b>Unique ID</b> -->
+										    </div>
+										    <div class="form-label" style="text-align:left; padding-left: 30px;"><b>Your Gender</b></div>
+										    <div class="form-label" style="text-align:left; padding-left: 30px;"><b>Your Age</b></div>
+										  </div>
+										  <div class="col-xs-12 col-sm-9">
+												<%= text_field_tag :full_name, nil, placeholder: "full name", class: "form-control" %>
+												<div class="form-control-select">
+									        <%= select_tag :gender, options_for_select(["Male","Female","Other"]), class: "form-control" %>
+									      </div>
+									      <div class="form-control-select">
+									        <%= select_tag :actual_age, options_for_select(18..40), class: "form-control" %>
+									      </div>
+											</div>
+										</div><br>
+
+										<% if current_user.player_screenname != '' %>
+											<div class="center">Your in-game username is <b><%= current_user.player_screenname %></b></div>
+										<% end %>
+
+										<%= hidden_field_tag(:user_id, current_user.id) %>
+										<%= hidden_field_tag(:age, true) %>
+										<!-- <%= hidden_field_tag(:read, true) %> -->
+										<!-- <%= hidden_field_tag(:consent, true) %> -->
+
+										<div class="center col-sm-6 col-sm-offset-3 button-padding">
+						          <%= submit_tag "I'M READY TO START TUTORIAL", class: "btn btn-block btn-green" %>
+						        </div>
+									<% end %>
+
+							</div>
+						</div>
+
+					<% else %>
+						<div class="secondary-nav secondary-nav-invert">
+							<i class="fa fa-2x fa-rocket content-list-icon-primary pull-left"></i>
+							<h2 class="font-invert"><b>Hi <%= current_user.player_screenname %>!</b></h2>
+							<h3 class="font-invert">Your current game status</h3>
+						</div>
 			
-				<div class="content-container">
-		  		<div class="panel-body" style="margin-bottom:30px;">
+						<div class="content-container">
+				  		<div class="panel-body" style="margin-bottom:30px;">
 
-						<div class="h-primary">STAGE 1 COMPLETE</div>
+								<div class="h-primary">STAGE 1 COMPLETE</div>
 
-						<h3 class="center">PLEASE GO TO CHAT AND LET THE RESEARCHER KNOW<br><br>waiting for the computer to assign you a game</h3>	
-						<div class="center col-sm-6 col-sm-offset-3 button-padding">
-		          <button type="button" class="btn btn-block btn-orange active">LOOKING FOR GAME ...</button>
-		          <%= link_to root_path do %>
-								<div class="button-padding">
-				          <button type="button" class="btn btn-block btn-green">REFRESH PAGE</button>
+								<h3 class="center">PLEASE GO TO CHAT AND LET THE RESEARCHER KNOW<br><br>waiting for the computer to assign you a game</h3>	
+								<div class="center col-sm-6 col-sm-offset-3 button-padding">
+				          <button type="button" class="btn btn-block btn-orange active">LOOKING FOR GAME ...</button>
+				          <%= link_to root_path do %>
+										<div class="button-padding">
+						          <button type="button" class="btn btn-block btn-green">REFRESH PAGE</button>
+						        </div>
+						      <% end %>
 				        </div>
-				      <% end %>
-		        </div>
 
-						<!--  <div class="center col-sm-6 col-sm-offset-3 button-padding" style="margin-top:50px;">
-              <a target="_blank" href="https://cmukwd.slack.com/messages/general<%= current_user.first_name %>/" class="btn btn-block btn-green" style = "margin: -5px -9px 0 0;"><i class="fa fa-lg fa-comments"></i> &nbsp;Go to Chat</a>
+								<!--  <div class="center col-sm-6 col-sm-offset-3 button-padding" style="margin-top:50px;">
+		              <a target="_blank" href="https://cmukwd.slack.com/messages/general<%= current_user.first_name %>/" class="btn btn-block btn-green" style = "margin: -5px -9px 0 0;"><i class="fa fa-lg fa-comments"></i> &nbsp;Go to Chat</a>
 
-		        	<br><br><b>Welcome <%= current_user.player_screenname %>!</b><br><br>
-		        	For Chat<br>	
-		        	<b>Login email:</b> <%= current_user.first_name.downcase %>.kwd@gmail.com <br>
-		        	<b>Password:</b> KWD_<%= current_user.first_name.downcase %>
-		      	</div> -->
+				        	<br><br><b>Welcome <%= current_user.player_screenname %>!</b><br><br>
+				        	For Chat<br>	
+				        	<b>Login email:</b> <%= current_user.first_name.downcase %>.kwd@gmail.com <br>
+				        	<b>Password:</b> KWD_<%= current_user.first_name.downcase %>
+				      	</div> -->
 
-					</div>
-		    </div>
+							</div>
+				    </div>
+		      <% end %>
 
 		<!-- INACTIVE MODE: GAME NOT ASSIGNMENT -->
 		  <% elsif current_user.user_status == "inactive" %>
