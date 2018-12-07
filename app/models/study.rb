@@ -7,7 +7,7 @@ class Study < ActiveRecord::Base
 
   def project_csv
     CSV.generate(headers: true) do |csv|
-      csv << ['Study Title', 'Game Name', 'Game ID', 'Access Treatment',
+      csv << ['Study Title', 'Game Name', 'Game ID', 'Access Treatment', 'Team Composition',
               'MTM Variety', 'Team ID', 'Project ID', 'Project Name',
               'Project Date', 'Player IDs', 'Profit',
               'Lewis Specialization', 'Lewis Credibility', 'Lewis Coordination',
@@ -21,13 +21,14 @@ class Study < ActiveRecord::Base
           lewis_coordination = prj.team.measure_lewis.sort_by(&:id).map { |m| m.responses_coordination.sum }
           group_attraction = prj.team.measure_lewis.sort_by(&:id).map { |m| m.responses_group_attraction.sum }
           group_integration = prj.team.measure_lewis.sort_by(&:id).map { |m| m.responses_group_integration.sum }
-          
+
           prj_profit = prj.profit_total.map { |_r, _e, profit| profit }.sum
           csv << [
             title,
             game.game_codename,
             game.id,
             game.access_treatement,
+            game.team_composition,
             prj.team.projects.count == 1 ? 'High' : 'Low',
             prj.team_id,
             prj.id,
@@ -51,7 +52,7 @@ class Study < ActiveRecord::Base
 
   def player_csv
     CSV.generate(headers: true) do |csv|
-      csv << ['Study Title', 'Game Name', 'Game ID', 'Access Treatment',
+      csv << ['Study Title', 'Game Name', 'Game ID', 'Access Treatment', 'Team Composition',
               'MTM Variety', 'Player ID', 'Player Name', 'Player Username', 'Player Date', 'Gender', 'Age', 'Tut Attempts',
               'Salary', 'Skill levels'
               # , 'Workload Measure', 'Austin Skill 1 levels',
@@ -65,6 +66,7 @@ class Study < ActiveRecord::Base
             game.game_codename,
             game.id,
             game.access_treatement,
+            game.team_composition,
             p.teams.count == 1 ? 'Low' : 'High',
             p.id,
             p.player_name,
